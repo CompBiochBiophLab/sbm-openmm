@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<WhamSpec>
+  <General>
+    <Coordinates>
+      <Coordinate name="V"/>
+    </Coordinates>
+    <DefaultCoordinateFileReader returnsTime="false">
+      <ReturnList name="V"/>
+    </DefaultCoordinateFileReader>
+    <Binnings>
+      <Binning name="V">
+        <Interval>0.1</Interval>
+      </Binning>
+    </Binnings>
+  </General>
+  <Trajectories>
+    <Trajectory T="135">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_135_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_136_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="137">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_137_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="138">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_138_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="139">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_139_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="140">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_140_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="141">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_141_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="142">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_142_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="143">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_143_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="144">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_144_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="145">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>iterativeHeatCapacityData/energy_145_time_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+  </Trajectories>
+  <Jobs>
+    <HeatCapacity outFile="pywham_iterative_04.out">
+      <EnergyFunction>V</EnergyFunction>
+      <Temperatures>135,136,137,138,139,140,141,142,143,144,145</Temperatures>
+    </HeatCapacity>
+  </Jobs>
+</WhamSpec>

@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<WhamSpec>
+  <General>
+    <Coordinates>
+      <Coordinate name="V"/>
+    </Coordinates>
+    <DefaultCoordinateFileReader returnsTime="false">
+      <ReturnList name="V"/>
+    </DefaultCoordinateFileReader>
+    <Binnings>
+      <Binning name="V">
+        <Interval>0.1</Interval>
+      </Binning>
+    </Binnings>
+  </General>
+  <Trajectories>
+    <Trajectory T="135">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/135.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/136.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="137">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/137.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="138">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/138.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="139">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/139.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="140">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/140.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="141">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/141.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="142">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/142.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="143">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/143.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="144">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/144.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="145">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/145.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+  </Trajectories>
+  <Jobs>
+    <HeatCapacity outFile="pywham_hc_better_estimate.out">
+      <EnergyFunction>V</EnergyFunction>
+      <Temperatures>135,136,137,138,139,140,141,142,143,144,145</Temperatures>
+    </HeatCapacity>
+  </Jobs>
+</WhamSpec>

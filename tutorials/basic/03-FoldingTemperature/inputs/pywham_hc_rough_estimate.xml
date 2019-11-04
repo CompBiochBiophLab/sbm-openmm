@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+<WhamSpec>
+  <General>
+    <Coordinates>
+      <Coordinate name="V"/>
+    </Coordinates>
+    <DefaultCoordinateFileReader returnsTime="false">
+      <ReturnList name="V"/>
+    </DefaultCoordinateFileReader>
+    <Binnings>
+      <Binning name="V">
+        <Interval>0.1</Interval>
+      </Binning>
+    </Binnings>
+  </General>
+  <Trajectories>
+    <Trajectory T="100">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/100_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="105">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/105_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="110">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/110_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="115">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/115_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="120">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/120_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="125">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/125_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="130">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/130_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="135">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/135_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="140">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/140_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="145">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/145_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="150">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/150_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="155">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/155_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="160">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/160_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="165">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/165_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="170">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/170_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="175">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/175_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="180">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/180_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="185">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/185_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="190">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/190_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="195">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/195_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="200">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>heatCapacityData/200_rough.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+  </Trajectories>
+  <Jobs>
+    <HeatCapacity outFile="pywham_hc_rough_estimate.out">
+      <EnergyFunction>V</EnergyFunction>
+      <Temperatures>100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175,180,185,190,195,200</Temperatures>
+    </HeatCapacity>
+  </Jobs>
+</WhamSpec>
