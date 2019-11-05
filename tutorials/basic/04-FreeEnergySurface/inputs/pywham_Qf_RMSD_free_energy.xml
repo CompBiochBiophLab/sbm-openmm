@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<WhamSpec>
+  <General>
+    <Coordinates>
+      <Coordinate name="Q"/>
+      <Coordinate name="RMSD"/>
+      <Coordinate name="V"/>
+    </Coordinates>
+    <DefaultCoordinateFileReader returnsTime="false">
+      <ReturnList name="Q"/>
+      <ReturnList name="RMSD"/>
+      <ReturnList name="V"/>
+    </DefaultCoordinateFileReader>
+    <Binnings>
+      <Binning name="Q">
+        <Interval>0.05</Interval>
+      </Binning>
+      <Binning name="RMSD">
+        <Interval>0.45</Interval>
+      </Binning>
+      <Binning name="V">
+        <Interval>0.1</Interval>
+      </Binning>
+    </Binnings>
+  </General>
+  <Trajectories>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_00.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_01.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_02.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_03.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_05.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_06.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_07.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_08.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="136">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_RMSD_09.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+  </Trajectories>
+  <Jobs>
+    <FreeEnergy outFilePrefix="pywham_Qf_RMSD_free_energy_">
+      <Coordinates>
+        <Coordinate name="Q"/>
+        <Coordinate name="RMSD"/>
+      </Coordinates>
+      <EnergyFunction>V</EnergyFunction>
+      <Temperatures>136</Temperatures>
+      <Parameters>
+        <Parameter name="in_kT">true</Parameter>
+      </Parameters>
+    </FreeEnergy>
+  </Jobs>
+</WhamSpec>
