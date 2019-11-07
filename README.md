@@ -16,8 +16,8 @@ The library offers methods to tailor forcefield parameter for each force term. C
 
 The library was written and tested with python 3.6 and has only two other python dependencies:
 
-#### [openmm>=7.0](http://openmm.org/)
-#### [numpy>=1.15](https://numpy.org/)
+- [openmm>=7.0](http://openmm.org/)
+- [numpy>=1.15](https://numpy.org/)
 
 ### From Source code
 
