@@ -165,7 +165,7 @@ class models:
         Creates an all atom SBM system class object with default initialized
         parameters.
     getCAModel(pdb_file, contact_file, kwarg**)
-        Creates an carbon-alpha only sbmOpenMM system class object with default 
+        Creates an alpha-carbon only sbmOpenMM system class object with default 
         initialized parameters.
     """
     
@@ -686,7 +686,7 @@ class models:
 class system:
     """
     A class containing methods and parameters for generating Structure Based
-    Models (SBM) systems to be simulated using OpenMM interface. It offers 
+    Models (SBM) systems to be simulated using the OpenMM interface. It offers 
     flexibility to create default and custom SBM systems and to easily 
     modify their parameters.
 
@@ -695,59 +695,60 @@ class system:
     pdb_path : string
         Path to the pdb input file
     pdb : simtk.openmm.app.pdbfile.PDBFile
-        Object that holds the information OpenMM parsed from the PDB file.
+        Object that holds the information of OpenMM PDB parsing method.
     topology : simtk.openmm.app.topology.Topology
         OpenMM topology of the model.
     positions : simtk.unit.quantity.Quantity
         Atomic positions of the model.
     particles_mass : float or list
-        Mass of each particle. If float uniform masses. If list per-particle 
-        masses. 
+        Mass of each particle. If float then uniform masses are given to all 
+        particles. If list per-particle masses are assigned.
     model_type : string
         String representing the model type: All-atom (AA), alpha-carbon (CA)
-        and multi-basin variants (AA-MB, CA-MB).
+        or multi-basin variants (AA-MB, CA-MB).
     atoms : list
-        A list of the current atoms in the model.
+        A list of the current atoms in the model. The items are simtk.openmm.app.topology.Atom
+        initialised classes.
     n_atoms : int
-        Numer of atoms in the model.
+        Total numer of atoms in the model.
     bonds : collections.OrderedDict
-        A dict that uses bonds (tuple of atoms) present in the model as keys
-        and their forcefield properties as values.
+        A dict that uses bonds (2-tuple of simtk.openmm.app.topology.Atom objects) 
+        present in the model as keys and their forcefield properties as values.
     n_bonds : int
-        Numer of bonds in the model.
+        Total numer of bonds in the model.
     angles : collections.OrderedDict
-        A dict that uses angles (tuple of atoms) present in the model as keys
-        and their forcefield properties as values.
+        A dict that uses angles (3-tuple of simtk.openmm.app.topology.Atom objects)
+        present in the model as keys and their forcefield properties as values.
     n_angles : int
-        Numer of angles in the model.
+        Total numer of angles in the model.
     torsions : collections.OrderedDict
-        A dict that uses proper torsions (tuple of atoms) present in the 
-        model as keys and their forcefield properties as values.
+        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects) 
+        present in the model as keys and their forcefield properties as values.
     n_torsions : int
-        Numer of proper torsions in the model.
+        Total numer of proper torsions in the model.
     impropers : collections.OrderedDict
-        A dict that uses improper torsions (tuple of atoms) present in the 
-        model as keys and their forcefield properties as values.
-    n_torsions : int
-        Numer of improper torsions in the model.
+        A dict that uses improper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+        present in the model as keys and their forcefield properties as values.
+    n_impropers : int
+        Total numer of improper torsions in the model.
     planars : collections.OrderedDict
-        A dict that uses planar torsions (tuple of atoms) present in the 
-        model as keys and their forcefield properties as values.
+        A dict that uses planar torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+        present in the model as keys and their forcefield properties as values.
     n_planars : int
-        Numer of planar torsions in the model.
+        Total numer of planar torsions in the model.
     contacts : collections.OrderedDict
-        A dict that uses native contacts (tuple of atoms) present in the 
-        model as keys and their forcefield properties as values.
+        A dict that uses native contacts (2-tuple of simtk.openmm.app.topology.Atom objects
+        present in the model as keys and their forcefield properties as values.
     n_contacts : int
-        Numer of native contacts in the model.
+        Total numer of native contacts in the model.
     torsions_group : dict
-        A dict that uses proper torsions (tuple of atoms) present in the 
-        model as keys and the number of torsions that share the same middle 
+        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+        present in the model as keys and the number of torsions (int) that share the same middle 
         bond atoms as values.
     torsions_type : dict
-        A dict that uses proper torsions (tuple of atoms) present in the 
-        model as keys and as values a string representing wheter the torsion 
-        is classified as 'backbone' or 'sidechain'.
+        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+        present in the model as keys and, a string representing wheter the torsion 
+        is classified as 'backbone' or 'sidechain' as values.
     energy_constant : dict
         A dict that holds the value for the different energy terms parameters
         used by different SBM models and forces.
@@ -790,7 +791,7 @@ class system:
         to non-bonded interactions between native contact pairs. Implements 
         a lennard-jones potential with exponents 12 and 10 for the repulsive
         and attractive components, respectively, and an additional 6-exponent 
-        term to model a “desolvation penalty” for forming/breaking the contact.
+        term to model a “desolvation penalty” for forming/breaking contacts.
     singleGaussianContactForce : simtk.openmm.openmm.CustomNonbondedForce
         Stores the OpenMM CustomBondForce initialised-class to be applied
         to non-bonded interactions between native contact pairs with single
@@ -814,61 +815,67 @@ class system:
     system : simtk.openmm.openmm.System
         Stores the OpenMM System initialised class. It stores all the forcefield
         information for the SBM model.
+    rf_epsilon : float
+        Epsilon parameter used in the repulsion force object.
+    rf_sigma : float
+        Sigma parameter used in the repulsion force object.
+    rf_cutoff : float
+        Cutoff value used for repulsion force interactions.
+    exclusions : list
+        List of added exclusions for the repuslion non-bonded term.
     
     Methods
     -------
     removeHydrogens()
         Remove hydrogens from the input pdb by using a regexpression pattern.
-        Used specially for creating All Atom models.
+        Used specially for creating all atom (AA) models.
     getCAlphaOnly()
-        Filter in only Alpha Carbon atoms from the input pdb and updates 
-        the topology object to add new bonds between them.
-        Used specially for creating C-alpha corse-grained models.
+        Filter in only alpha carbon atoms from the input pdb and updates 
+        the topology object to add new bonds between them. Used specially for 
+        creating alpha-carbon (CA) corse-grained models.
     getAtoms()
-        Reads atoms from topology, add them to the main class and sort them 
+        Reads atoms from topology, adds them to the main class and sorts them 
         into a dictionary to store their forcefield properties.
     getBonds()
-        Reads bonds from topology, add them to the main class and sort them 
+        Reads bonds from topology, adds them to the main class and sorts them 
         into a dictionary to store their forcefield properties.
     getAngles()
         Reads bonds from topology and creates a list of all possible angles,
-        add them to the main class and sort them into a dictionary to store 
+        adds them to the main class and sorts them into a dictionary to store 
         their forcefield properties.
     getProperTorsions()
-        Using the created angles by getAngles() creates a list of all possible 
-        proper torsion dihedral angles, filtering out torsions based on 
-        residue-specific rules (only all-atom model). The torsions are then 
-        added to the main class and sorted into a dictionary to store their
-        forcefield properties.
+        Using the created angles, usually by the getAngles() method, creates 
+        a list of all possible proper torsion dihedral angles, filtering out 
+        torsions based on residue-specific rules (only for the all-atom model).
+        The torsions are then added to the main class and sorted into a dictionary 
+        to store their forcefield properties.
     getImpropers()
         Create improper torsions based on backbone and sidechain residue-specific 
-        rules, add them to the main class and sort them into a dictionary 
-        to store their forcefield properties. Used specially for simulating
-        All Atom systems.
+        rules (all-atom model only), adds them to the main class and sorts them 
+        into a dictionary to store their forcefield properties.
     getPlanars()
         Create planar torsions based on backbone and sidechain residue-specific 
-        rules, add them to the main class and sort them into a dictionary 
-        to store their forcefield properties. Used specially for simulating
-        All Atom systems.
+        rules (all-atom model only), adds them to the main class and sorts them 
+        into a dictionary to store their forcefield properties.
     readContactFile()
-        Reads a file containing native contact information and adds them 
-        into the main class. The file can be smog-style (4 columns) or given 
-        as 2 columns, which will be automatically detected.
+        Reads a file containing native contact information and adds it into the 
+        main class. The file can be smog-style (4 columns) or given as 2 columns.
+        The format will be automatically detected. 
     setBondParameters()
-        Allows to change the forcefield parameters for bonded terms.
+        Change the forcefield parameters for bonded terms.
     setAngleParameters()
-        Allows to change the forcefield parameters for angle terms.
+        Change the forcefield parameters for angle terms.
     setProperTorsionParameters()
-        Allows to change the forcefield parameters for proper torsion terms.
+        Change the forcefield parameters for proper torsion terms.
     setImproperParameters()
-        Allows to change the forcefield parameters for improper torsion 
+        Change the forcefield parameters for improper torsion 
         terms.
     setPlanarParameters()
-        Allows to change the forcefield parameters for planar torsion terms.
+        Change the forcefield parameters for planar torsion terms.
     setNativeContactParameters()
-        Allows to change the forcefield parameters for native contact terms.
+        Change the forcefield parameters for native contact terms.
     setParticlesMasses()
-        Allows to change the mass parameter for each atom in the system.
+        Change the mass parameter for each atom in the system.
     addHarmonicBondForces()
         Creates an harmonic bonded force term for each bond in the main
         class using their defined forcefield parameters.
@@ -876,15 +883,15 @@ class system:
         Creates an harmonic angle force term for each angle in the main
         class using their defined forcefield parameters.
     addPeriodicTorsionForces()
-        Creates an periodic torsion force term for each proper torsion in 
+        Creates a periodic torsion force term for each proper torsion in 
         the main class using their defined forcefield parameters.
-    addGeneralPeriodicTorsionForces()
-        Creates an periodic torsion force term for each proper torsion in 
+    addGenericPeriodicTorsionForces()
+        Creates a periodic torsion force term for each proper torsion in 
         the main class using their defined forcefield parameters.
     addHarmonicImproperForces()
         Creates an harmonic torsion force term for each improper torsion 
         in the main class using their defined forcefield parameters. Used 
-        specially for simulating All Atom systems. 
+        specially for simulating All Atom systems.
     addHarmonicPlanarForces()
         Creates an harmonic torsion force term for each planar torsion in
         the main class using their defined forcefield parameters. Used specially
@@ -896,38 +903,44 @@ class system:
     addLJ12_10ContactForces()
         Creates a 12-10 Lennard-Jones bond potential for each native contact
         in the main class using their defined forcefield parameters. Used 
-        specially for simulating Coarse grained Carbon-Alpha systems.
+        specially for simulating coarse-grained alpha-carbon systems.
     addGaussianContactForces()
         Creates a gaussian single and double basin bond potential for each 
         native contact in the main class using their defined forcefield 
         parameters. The contacts are recognized according two the number 
-        of parameters given as values in the attribute system.contacts.
+        of parameters given as values in the attribute system. 3-parameters for
+        single-basin potential and 4-paramters for dual-basin potentials.
     addLJRepulsionForces()
         Creates a repulsive-only 12 Lennard-Jones non-bonded potential specifying 
         a exclusion list for bond, angle, torsion, and native contact terms. 
     groupTorsionsbyBBAndSC()
-        Groups proper torsions by backbone and sidechain torsions. Used 
-        exclusively for simulating All Atom systems.
+        Groups proper torsions by backbone and sidechain torsions. Used exclusively
+        for simulating all-atom SBM.
     getAATorsionParameters()
-        Generate default periodic torsion forcefield parameters, for proper
+        Generates default periodic torsion forcefield parameters, for proper
         torsions, using pre-defined assignment schemes. Used exclusively for 
-        simulating All Atom systems.
+        simulating all-atom SBM.
     getAANativeContactParameters()
-        Generate default bonded contact forcefield parameters, for native 
+        Generates default bonded contact forcefield parameters, for native 
         contacts, using pre-defined assignment schemes. Used exclusively for 
-        simulating All Atom systems.
+        simulating all-atom SBM.
     createSystemObject()
-        Create OpenMM system object adding particles, masses and forces. 
-        It also groups the added forces into Force-Groups.
+        Creates OpenMM system object adding particles, masses and forces. 
+        It also groups the added forces into Force-Groups for the sbmReporter
+        class.
     addParticles()
-        Add particles to the main class OpenMM system instance.
+        Add particles to the system OpenMM class instance.
     addSystemForces()
-        Add forces to the main class OpenMM system instance. It also save
-        names of the added forces to include in the reporter class.
+        Add forces to the system OpenMM class instance. It also save
+        names for the added forces to include them in the reporter class.
     dumpPdb()
-        Writes a pdb file of the system in its current state.
+        Writes a PDB file of the system in its current state.
     dumpForceFieldData()
         Writes to a file the parameters of the SBM forcefield.
+    loadForcefieldFromFile()
+        Loads forcefield parameters from a sbmOpenMM force field file written with
+        the dumpForceFieldData() method.
+    
     """
     
     def __init__(self, pdb_path, particles_mass=1.0):
@@ -946,7 +959,7 @@ class system:
         None
         """
         
-        #Define structure object variables
+        #Define structure object attributes
         self.pdb_path = pdb_path
         self.pdb = PDBFile(pdb_path)
         self.topology = self.pdb.topology
@@ -954,7 +967,7 @@ class system:
         self.particles_mass = particles_mass
         self.model_type = None
         
-        #Define geometric variables
+        #Define geometric attributes
         self.atoms = []
         self.n_atoms = None
         self.bonds = OrderedDict()
@@ -970,12 +983,12 @@ class system:
         self.contacts = OrderedDict()
         self.n_contacts = None
         
-        #Define forcefield variables
+        #Define force field attributes
         self.torsions_group = {}
         self.torsions_type = {}
         self.energy_constant = {}
         
-        #Define force variables
+        #Define force attributes
         self.harmonicBondForce = None
         self.harmonicAngleForce = None
         self.periodicTorsionForce = None
@@ -995,12 +1008,12 @@ class system:
         
         self.forceGroups = OrderedDict()
         
-        #initialise system
+        #Initialise an OpenMM system class instance
         self.system = openmm.System()
         
     def removeHydrogens(self):
         """
-        Remove all hydrogens atoms in the topology from the SBM system.
+        Removes all hydrogen atoms in the topology from the SBM system.
         
         Parameters
         ----------
@@ -1027,7 +1040,7 @@ class system:
         
     def getCAlphaOnly(self):
         """
-        Keeps in the SBM system only the alpha carbon atoms in the topology.
+        Keeps in the SBM system only the alpha carbon atoms from the OpenMM topology.
         
         Parameters
         ----------
@@ -1069,7 +1082,7 @@ class system:
             
     def getAtoms(self):
         """
-        Add atoms in the topology object to the SBM system.
+        Adds atoms in the OpenMM topology instance to the sbmOpenMM system class.
         
         Parameters
         ----------
@@ -1096,7 +1109,7 @@ class system:
             
     def getBonds(self):
         """
-        Add bonds in the topology object to the SBM system.
+        Adds bonds in the OpenMM topology instance to the sbmOpenMM system class.
         
         Parameters
         ----------
@@ -1137,8 +1150,8 @@ class system:
             
     def getAngles(self):
         """
-        Adds angles to the SBM system based on the bonds in the topology 
-        object. 
+        Adds angles to the sbmOpenMM system class based on the bondings in the topology 
+        object.
         
         Parameters
         ----------
@@ -1180,8 +1193,8 @@ class system:
         
     def getProperTorsions(self):
         """
-        Adds proper torsions to the SBM system based on the bonded angles
-        in it. Excludes sepcific torsions for rings and backbone. 
+        Adds proper torsions to the sbmOpenMM system class based on the bonded angles
+        in it. Excludes special torsions for rings and backbones.
         
         Parameters
         ----------
@@ -1273,7 +1286,8 @@ class system:
             
     def getImpropers(self):
         """
-        Adds improper torsions to the SBM system to mantain backbone chiralities. 
+        Adds improper torsions to the sbmOpenMM system class to maintain backbone 
+        chiralities.
         
         Parameters
         ----------
@@ -1310,7 +1324,7 @@ class system:
             
     def getPlanars(self):
         """
-        Adds planar torsions to the SBM system to mantain side chain and 
+        Adds planar torsions to the sbmOpenMM system class to mantain side chain and 
         backbone planar arrangements.
         
         Parameters
@@ -1438,9 +1452,9 @@ class system:
     
     def readContactFile(self, contact_file, shift=1):
         """
-        Reads a file to add native contact information to the SBM system.
-        The file format can be 'smog'-like (i.e. 4 columns) or '2column'-like
-        (i.e. one column for each atom.). This is auto-dected by the method.
+        Reads a file to add native contact information to the sbmOpenMM system class.
+        The file format can be 'smog' like (i.e. 4 columns) or '2column' like
+        (i.e. one column for each atom). This is auto-dected by the method.
         
         Parameters
         ----------
@@ -1481,7 +1495,7 @@ class system:
         """
         Set the harmonic bond constant force parameters. The input can be 
         a float, to set the same parameter for all force interactions, or 
-        a list, to define a unique parameter for each force interaction. 
+        a list, to define a unique parameter for each force interaction.
         
         Parameters
         ----------
@@ -1600,7 +1614,7 @@ class system:
         Parameters
         ----------
         particles_mass : float or list
-            Mass(es) vlaues to set up for the particles in the SBM system.
+            Mass(es) values to add for the particles in the sbmOpenMM system class.
             
         Returns
         -------
@@ -1614,15 +1628,15 @@ class system:
     def addHarmonicBondForces(self):
         """
         Creates an openmm.HarmonicBondForce() object with the bonds and 
-        parameters setted up in the "bonds" attribute. The force object 
+        parameters setted up in the "bonds" dictionary attribute. The force object 
         is stored at the "harmonicBondForce" attribute.
         
         The force parameters must be contained in self.bonds as follows:
-        self.bonds is an ordered dictionary:
-            - The keys are tuples for the two atoms in self.topology.atoms().
-            - The values are a tuple of parameters in the following order:
-                first  -> bond0
-                second -> k
+        self.bonds is a dictionary:
+            - The keys are 2-tuples for two atom items in self.topology.atoms attribute.
+            - The values are a 2-tuple of parameters in the following order:
+                first  -> bond0 (quantity)
+                second -> k (float)
         
         Parameters
         ----------
@@ -1647,11 +1661,11 @@ class system:
         is stored at the "harmonicAngleForce" attribute.
         
         The force parameters must be contained in self.angles as follows:
-        self.angles is an ordered dictionary:
-            - The keys are tuples for the three atoms in self.topology.atoms().
-            - The values are a tuple of parameters in the following order:
-                first  -> angle0
-                second -> k
+        self.angles is dictionary:
+            - The keys are 3-tuples for three atoms in self.topology.atoms attribute.
+            - The values are a 2-tuple of parameters in the following order:
+                first  -> angle0 (quantity)
+                second -> k (float)
         
         Parameters
         ----------
@@ -1681,11 +1695,11 @@ class system:
         The force object is stored at the "periodicTorsionForce" attribute.
         
         The force parameters must be contained in self.torsions as follows:
-        self.torsions is an ordered dictionary:
-            - The keys are tuples for the four atoms in self.topology.atoms().
+        self.torsions is a dictionary:
+            - The keys are tuples for four atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> theta0
-                second -> k
+                first  -> theta0 (quantity)
+                second -> k (float)
         
         Parameters
         ----------
@@ -1719,13 +1733,13 @@ class system:
         The force object is stored at the "generalPeriodicTorsionForce" attribute.
         
         The force parameters must be contained in self.torsions as follows:
-        self.torsions is an ordered dictionary:
-            - The keys are tuples for the four atoms in self.topology.atoms().
+        self.torsions is a dictionary:
+            - The keys are tuples for four atoms in self.topology.atoms attribute.
             - The values are a list with the parameters as items:
               Each item is a tuple containing:
-                first  -> theta0
-                second -> k
-                third -> n (periodicity)
+                first  -> theta0 (quantity)
+                second -> k (float)
+                third -> n (int)
         
         Parameters
         ----------
@@ -1767,11 +1781,11 @@ class system:
         The force object is stored at the "harmonicImproperForce" attribute.
         
         The force parameters must be contained in self.torsions as follows:
-        self.torsions is an ordered dictionary:
-            - The keys are tuples for the four atoms in self.topology.atoms().
+        self.torsions is a dictionary:
+            - The keys are tuples for four atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> theta0
-                second -> k
+                first  -> theta0 (quantity)
+                second -> k (float)
         
         Parameters
         ----------
@@ -1812,11 +1826,11 @@ class system:
         The force object is stored at the "harmonicPlanarForce" attribute.
         
         The force parameters must be contained in self.torsions as follows:
-        self.torsions is an ordered dictionary:
-            - The keys are tuples for the four atoms in self.topology.atoms().
+        self.torsions is a dictionary:
+            - The keys are tuples for four atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> theta0
-                second -> k
+                first  -> theta0 (quantity)
+                second -> k (float)
         
         Parameters
         ----------
@@ -1854,11 +1868,11 @@ class system:
         The force object is stored at the "lj12_6contactForce" attribute.
         
         The force parameters must be contained in self.contacts as follows:
-        self.contacts is an ordered dictionary:
-            - The keys are tuples for the two atoms in self.topology.atoms().
+        self.contacts is a dictionary:
+            - The keys are tuples for two atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> sigma
-                second -> epsilon
+                first  -> sigma (quantity)
+                second -> epsilon (float)
         
         Parameters
         ----------
@@ -1896,11 +1910,11 @@ class system:
         The force object is stored at the "lj12_10contactForce" attribute.
         
         The force parameters must be contained in self.contacts as follows:
-        self.contacts is an ordered dictionary:
-            - The keys are tuples for the two atoms in self.topology.atoms().
+        self.contacts is a dictionary:
+            - The keys are tuples for two atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> sigma
-                second -> epsilon
+                first  -> sigma (quantity)
+                second -> epsilon (float)
         
         Parameters
         ----------
@@ -1939,10 +1953,10 @@ class system:
         
         The force parameters must be contained in self.contacts as follows:
         self.contacts is an ordered dictionary:
-            - The keys are tuples for the two atoms in self.topology.atoms().
+            - The keys are tuples for two atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> sigma
-                second -> epsilon
+                first  -> sigma (quantity)
+                second -> epsilon (float)
         
         Parameters
         ----------
@@ -1983,12 +1997,12 @@ class system:
         The force object is stored at the "singleGaussianContactForce" attribute.
         
         The force parameters must be contained in self.contacts as follows:
-        self.contacts is an ordered dictionary:
-            - The keys are tuples for the two atoms in self.topology.atoms().
+        self.contacts is a dictionary:
+            - The keys are tuples for tww atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> rex
-                second -> r0
-                third -> epsilon
+                first  -> rex (float)
+                second -> r0 (quantity)
+                third -> epsilon (float)
         
         If four parameters are given the custom bond force is initilized 
         with the formula:
@@ -1999,13 +2013,13 @@ class system:
         The force object is stored at the "doubleGaussianContactForce" attribute.
         
         The force parameters must be contained in self.contacts as follows:
-        self.contacts is an ordered dictionary:
-            - The keys are tuples for the two atoms in self.topology.atoms().
+        self.contacts is a dictionary:
+            - The keys are tuples for two atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> rex
-                second -> r0
-                second -> r1
-                third -> epsilon
+                first  -> rex (float)
+                second -> r0 (quantity)
+                second -> r1 (quantity)
+                third -> epsilon (float)
         
         Parameters
         ----------
@@ -2055,7 +2069,7 @@ class system:
                                                             self.contacts[contact][3]))
 
             
-    def addLJRepulsionForces(self, epsilon=None, sigma=None, cutoff=None, bonded_exclusions_index=4):
+    def addLJRepulsionForces(self, epsilon=None, sigma=None, cutoff=None, bonded_exclusions_index=3):
         """
         Creates an openmm.CustomNonbondedForce() object with the parameters 
         sigma and epsilon given to this method. The custom non-bonded force
@@ -2063,8 +2077,8 @@ class system:
         
         energy = 'epsilon*(sigma/r)^12; sigma=0.5*(sigma1+sigma2)'
         
-        The method adds exclusions for bonded atoms up until 3 bond orders 
-        and also for all the pairs defined in the 'contacts' attribute. 
+        The method adds exclusions for bonded atoms up until 'bonded_exclusions_index' 
+        bond orders (default 3) and also for all the pairs defined in the 'contacts' attribute. 
         The force object is stored at the "ljRepulsionForce" attribute.
         
         Parameters
@@ -2072,9 +2086,13 @@ class system:
         epsilon : float
             Value of the epsilon constant in the energy function. 
         sigma : float or list 
-            Value of the sigma constant in the energy function. If float the
+            Value of the sigma constant (in nm) in the energy function. If float the
             same sigma value is used for every particle. If list a unique 
-            parameter is given for each particle. 
+            parameter is given for each particle.
+        cutoff : float
+            The cutoff distance (in nm) being used for the nonbonded interactions.
+        bonded_exclusions_index : int
+            Specified number of bonds to consider when adding non-bonded exclusions.
             
         Returns
         -------
@@ -2136,8 +2154,8 @@ class system:
         
     def groupTorsionsbyBBAndSC(self):
         """
-        classify the torsions whether they are backbone or sidechain, based 
-        on the atoms present in the torsion. 
+        Classifies the torsions into backbone or sidechain, based on the atoms 
+        present in each torsion definition.
         
         The classification is stored in the 'torsions_type' attribute.
         
@@ -2193,7 +2211,7 @@ class system:
         
         The energy partioned values are stored in the 'energy_constant' 
         attribute. It contains the entries 'torsion' for the equally partitioned
-        energy, or 'BB' and 'SC' for grouped-partioned energy.
+        torsion energies, or 'BB' and 'SC' for group-partioned torsion energies.
         
         Parameters
         ----------
@@ -2215,7 +2233,7 @@ class system:
             self.energy_constant['torsion'] =  self.n_atoms/3.0/(self.n_torsions)
             self.energy_constant['SC'] = self.energy_constant['torsion']/3.0
             self.energy_constant['BB'] = 2.0*self.energy_constant['torsion']/3.0
-
+            
             torsion_parameters = []
             for torsion in self.torsions:
                 middle_bond = (torsion[1],torsion[2])
@@ -2253,13 +2271,13 @@ class system:
     
     ## Functions for creating OpenMM system object ##
     
-    def createSystemObject(self, minimise=False, check_bond_distances=True, force_threshold=10, bond_threshold=0.22):
+    def createSystemObject(self, check_bond_distances=True, minimise=False, force_threshold=10, bond_threshold=0.22):
         """
         Creates an openmm.System() object using the force field parameters
         given to the SBM 'system' class. It adds particles, forces and 
         creates a force group for each. Optionally the method can check for
         large bond distances (default) and minimise the atomic positions
-        if large forces in any atom are found.
+        if large forces in any atom are found (default False).
         
         Parameters
         ----------
