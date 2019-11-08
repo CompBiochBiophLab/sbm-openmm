@@ -24,12 +24,8 @@ import time
 
 class geometry:
     """
-    A class to hold functions for calculating geometrical values between
+    A class to hold functions for calculating geometrical values given sets of
     atom coordinates.
-
-    Attributes
-    ----------
-    No attributes for this class
 
     Methods
     -------
@@ -51,10 +47,10 @@ class geometry:
         Parameters
         ----------
         position : simtk.unit.quantity.Quantity
-            Array containing quantity objects [e.g. (x,y,z) array returned.
+            Array containing quantity objects [e.g. (x,y,z) array returned
             from positions].
         output_unit : simtk.unit.unit.Unit
-            Unit in which to return the items of the array
+            Unit in which to return the items of the array.
 
         Returns
         -------
@@ -70,14 +66,14 @@ class geometry:
         Parameters
         ----------
         coord1 : simtk.unit.quantity.Quantity array
-            Vector for the first coordinate
+            Vector for the first coordinate.
         coord2 : simtk.unit.quantity.Quantity array
-            Vector for the second coordinate
+            Vector for the second coordinate.
 
         Returns
         -------
-        np.float
-            Value of the distance length
+        simtk.unit.quantity.Quantity
+            Quantity (value and unit) of the distance length in nanometers.
         """
         coord1 = geometry.position2Array(coord1, unit.nanometer)
         
@@ -93,15 +89,16 @@ class geometry:
         Parameters
         ----------
         coord1 : simtk.unit.quantity.Quantity array
-            Vector for the first coordinate
+            Vector for the first coordinate.
         coord2 : simtk.unit.quantity.Quantity array
-            Vector for the second coordinate
+            Vector for the second coordinate.
         coord3 : simtk.unit.quantity.Quantity array
-            Vector for the third coordinate
+            Vector for the third coordinate.
+            
         Returns
         -------
-        np.float
-            Value of the angle length
+        simtk.unit.quantity.Quantity
+            Quantity (value and unit) of the angle length in radians.
         """
         
         coord1 = geometry.position2Array(coord1, unit.nanometer)
@@ -122,17 +119,18 @@ class geometry:
         Parameters
         ----------
         coord1 : simtk.unit.quantity.Quantity array
-            Vector for the first coordinate
+            Vector for the first coordinate.
         coord2 : simtk.unit.quantity.Quantity array
-            Vector for the second coordinate
+            Vector for the second coordinate.
         coord3 : simtk.unit.quantity.Quantity array
-            Vector for the third coordinate
+            Vector for the third coordinate.
         coord4 : simtk.unit.quantity.Quantity array
-            Vector for the fourth coordinate
+            Vector for the fourth coordinate.
+            
         Returns
         -------
-        np.float
-            Value of the torsion length
+        simtk.unit.quantity.Quantity
+            Quantity (value and unit) of the torsion length in radians.
         """
         
         coord1 = geometry.position2Array(coord1, unit.nanometer)
@@ -159,20 +157,16 @@ class geometry:
 
 class models:
     """
-    A class to hold functions for for generating default SBM models.
-
-    Attributes
-    ----------
-    No attributes for this class
+    A class to hold functions for the automated generating of default SBM models.
 
     Methods
     -------
     getAllAtomModel(pdb_file, contact_file, kwarg**)
-        Creates an All Atom SBM system class object with default initialized
+        Creates an all atom SBM system class object with default initialized
         parameters.
     getCAModel(pdb_file, contact_file, kwarg**)
-        Creates an Carbon-Alpha only SBM system class object with default 
-        initialized parameters. 
+        Creates an carbon-alpha only sbmOpenMM system class object with default 
+        initialized parameters.
     """
     
     def getAllAtomModel(pdb_file, contact_file, 
@@ -182,30 +176,44 @@ class models:
                         create_system=True,
                         minimise=False):
         """
-        Initialises a Full Atom SBM OpenMM system class from a PDB coordinates
-        file and a contact file defining the native contacts for the model.
+        Initialises a default full-heavy-atom sbmOpenMM system class from a PDB file and a contact
+        file defining the native contacts for the model. The system creation steps are:
+        
+        1) Add the geometrical parameters for the model.
+        2) Add the default force field parameters for the model.
+        3) Create the default force objects.
+        4) Create the OpenMM system class.
+        
+        The method can be used to generate an initialized sbmOpenMM system class, that only 
+        contains the geometrical parameters, by passing the option default_parameters as False.
+        This is useful to store the geometrical values of bonds, angles, dihedrals, etc. in 
+        order to add custom parameters and forces.
+        
+        The method can also be created without the initialisation of the forces classes by 
+        setting default_forces to False. This allows to load the default forcefield parameters 
+        and to modified them before creating the OpenMM force objects.
+        
+        Finally, the method can be stopped before creating the OpenMM system class using create_system=False.
         
         Parameters
         ----------
         pdb_file : string
-            Name of the input PDB file
-        contact_file : float
-            Name of the input native contact file. The file can be an output 
-            from the SMOG program or a two column file defining the atoms 
-            to be paired.
+            Path to the input PDB file.
+        contact_file : string
+            Path to the input native contact file. The file can be an output 
+            from the SMOG program (4 column contact file) or a two column file 
+            defining the atoms to be paired.
         default_parameters : boolean (True)
-            Wheter to initilize the system with the default parameters for 
-            the All Atom model SBM forcefield.
+            Whether to add default SBM All Atom forcefield parameters to the model.
         default_forces : boolean (True)
-            Whether to add default SBM All Atom forcefield parameters to 
-            the model. Set to False if the parameters which to be majoritarily 
-            different from the default. 
+            Whether to initilize default SBM All Atom force objects. Set to False if
+            the parameters will be different from the default ones.
         group_by_bb_and_sc : boolean (True)
-            Wether to classify the torsions into backbone and side-chain 
-            to partition the torsional energy for each torsion in the system.
+            Wether to classify the torsions into backbone and side-chain to partition 
+            the torsional energy for each torsion in the system.
         create_system : boolean (True)
             If True the function will call the createSystemObject() method
-            to create the system openmm object. If modifications to the default 
+            to create an OpenMM system object. If modifications to the default 
             forcefield are necessary this option should be given False.
         minimise : boolean (False)
             Whether to minimise the system (with default options) if large
@@ -213,7 +221,7 @@ class models:
         
         Returns
         -------
-        sbm : sbmOpenMm.system
+        sbm : sbmOpenMM.system
             Initializes a sbmOpenMM.system class with default options for 
             defining an All Atom SBM force field.
         """
@@ -240,10 +248,9 @@ class models:
         print('Added '+str(sbm.n_impropers)+' impropers')
         sbm.getPlanars()
         print('Added '+str(sbm.n_planars)+' planars')
-        if contact_file != None:
-            print('Reading contacts from contact file: '+contact_file)
-            sbm.readContactFile(contact_file)
-            print('Added '+str(sbm.n_contacts)+' native contacts')
+        print('Reading contacts from contact file: '+contact_file)
+        sbm.readContactFile(contact_file)
+        print('Added '+str(sbm.n_contacts)+' native contacts')
         print('')
         
         #Add default parameters to each interaction term
@@ -271,7 +278,7 @@ class models:
             print('')
 
         #Create default system force objects
-        if default_forces:
+        if default_parameters and default_forces:
             print('Adding Forces:')
             print('_____________')
             print('Adding Harmonic Bond Forces')
@@ -291,7 +298,7 @@ class models:
             print('')
 
         #Generate the system object and add previously generated forces
-        if create_system:
+        if default_parameters and default_forces and create_system:
             print('Creating System Object:')
             print('______________________')
             print('')
@@ -305,36 +312,53 @@ class models:
                    create_system=True,
                    contact_force='12-10'):
         """
-        Initialises a Coarse grained carbon alpha-only (CA) system class 
-        from a PDB coordinates file and a contact file defining the native 
-        contacts for the coarse grained model.
+        Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
+        from a PDB file and a contact file defining the native contacts for the 
+        coarse grained model.
+        
+        The system creation steps are:
+        
+        1) Add the geometrical parameters for the model.
+        2) Add the default force field parameters for the model.
+        3) Create the default force objects.
+        4) Create the OpenMM system class.
+        
+        The method can be used to generate an initialized sbmOpenMM system class, that only 
+        contains the geometrical parameters, by passing the option default_parameters as False.
+        This is useful to store the geometrical values of bonds, angles, dihedrals, etc. in 
+        order to add custom parameters and forces.
+        
+        The method can also be created without the initialisation of the forces classes by 
+        setting default_forces to False. This allows to load the default forcefield parameters 
+        and to modified them before creating the OpenMM force objects.
+        
+        Finally, the method can be stopped before creating the OpenMM system class using create_system=False.
         
         Parameters
         ----------
         pdb_file : string
-            Name of the input PDB file
-        contact_file : float
-            Name of the input native contact file. The file can be an output 
-            from the SMOG program or a two column file defining the atoms 
-            to be paired.
+            Path to the input PDB file.
+        contact_file : string
+            Path to the input native contact file. The file can be an output 
+            from the SMOG program (4 column contact file) or a two column file 
+            defining the atoms to be paired.
         default_parameters : boolean (True)
-            Wheter to initilize the system with the default parameters for 
-            the CA model SBM forcefield.
+            Whether to add default SBM CA forcefield parameters to the model.
         default_forces : boolean (True)
-            Whether to add default SBM CA forcefield parameters to the model. 
-            Set to False if the parameters which to be majoritarily different 
-            from the default.
+            Whether to initilize default SBM CA force objects. Set to False if
+            the parameters will be different from the default ones.
         create_system : boolean (True)
             If True the function will call the createSystemObject() method
-            to create the system openmm object. If modifications to the default 
+            to create an OpenMM system object. If modifications to the default 
             forcefield are necessary this option should be given False.
         
         Returns
         -------
-        sbm : sbmOpenMm.system
-            Initializes a sbmOpenMM.system class with default options for 
-            defining an All Atom SBM force field.
+        sbm : sbmOpenMM.system
+            Initialized sbmOpenMM.system class with default options for defining 
+            a coarse-grained CA SBM force field.
         """
+        
         print('Generating CA SBM for PDB file '+pdb_file)
         print('')
         #Set up geometric parameters of the model
@@ -410,6 +434,54 @@ class models:
                                        excluded_volume_radius=None,
                                        use_lennard_jones=True,
                                        create_system=True):
+        """
+        Generate a multibasin model from two sbmOpenMM initialized system classes.
+        It currently supports only two configurations.
+        
+        The two configurations (main and alternate) are compared at the level of 
+        native contacts to define common and unique contacts. If any common contact
+        is defined to have equilibrium distances significantly different between the 
+        configurations, a multi basin Gaussian potential is added to explicitely consider 
+        both equilibrium distances in the non-bonded energy function. Unique contacts 
+        from the alternate configuration are added to the main configuration. All other
+        bonded parameters are maintained from the main configuration.
+        
+        Optionally, an excluded volume term can be given, with the excluded_volume_radius
+        option, to control separately the sphere radius from the equilibrium contact distances.
+        
+        The set of single-basin (or unique) contacts are added, by default, as Lennard-Jones
+        potentials (use_lennard_jones=True) or can be added as Gaussian terms (use_lennard_jones=False)
+        with separate control of the excluded volume term.
+        
+        Finally, the method can be stopped before creating the OpenMM system class using
+        create_system=False.
+        
+        Parameters
+        ----------
+        main_model : sbmOpenMM.system
+            Configuration upon which the multi basin forces should be added.
+        alternate_configuration : sbmOpenMM.system
+            Second configuration to define as a new minima in the native contact force
+            object.
+        double_minima_threshold : float
+            The minimum equilibrium distance difference to consider a native contact having 
+            two different equilibrium distances. If shared contacts between the configurations 
+            have equilibrium distances that do not differ more than this value, only the main 
+            configuration equilibrium distance will be  kept.
+        excluded_volume_radius : float
+            Radius of the excluded volume term in the Gaussian native-contact energy function.
+        use_lennard_jones : boolean (True)
+            Whether to use or not Lennard-Jones potential for the single-basin native contact
+            set. If False a Gaussian function with separate control of the excluded volume term.
+        create_system : boolean (True)
+            If True the function will call the createSystemObject() method
+            to create an OpenMM system object.
+            
+        Returns
+        -------
+        sbm : sbmOpenMM.system
+            Initialized sbmOpenMM.system class with added multi basin contact potential.
+        """
                 
         if alternate_configuration == None:
             raise ValueError('alternate_configuration = None; getMultiBasinModel() needs a second configuration!')

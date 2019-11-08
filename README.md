@@ -25,7 +25,7 @@ The source code can be obtained from [GitHub]("https://github.com/CompBiochBioph
 
 https://github.com/CompBiochBiophLab/sbm-openmm/archive/master.zip
 
-After unziping the source code folder and changing to it as the working directory, execute:
+After unziping the source code file and changing to the source directory, execute:
 
 python setup.py install
 
@@ -33,7 +33,7 @@ This should build and install sbmOpenMM into your python environment.
 
 ### Using pip
 
-Using the correct python 3.6 (or higher) environment use:
+Using the correct python 3.6 (or higher) environment, execute:
 
 pip install sbmOpenMM
 
