@@ -2271,13 +2271,13 @@ class system:
     
     ## Functions for creating OpenMM system object ##
     
-    def createSystemObject(self, check_bond_distances=True, minimise=False, force_threshold=10, bond_threshold=0.22):
+    def createSystemObject(self, check_bond_distances=True, minimise=False, force_threshold=10, bond_threshold=0.24):
         """
         Creates an openmm.System() object using the force field parameters
         given to the SBM 'system' class. It adds particles, forces and 
-        creates a force group for each. Optionally the method can check for
-        large bond distances (default) and minimise the atomic positions
-        if large forces in any atom are found (default False).
+        creates a force group for each force object. Optionally the method 
+        can check for large bond distances (default) and minimise the atomic 
+        positions if large forces are found in any atom (default False).
         
         Parameters
         ----------
@@ -2315,7 +2315,7 @@ class system:
     def checkBondDistances(self, threshold=0.24):
         """
         Searches for large bond distances for the atom pairs defined in 
-        the 'bonds' attribute.
+        the 'bonds' attribute. It raises an error when large bonds are found.
         
         Parameters
         ----------
@@ -2338,15 +2338,17 @@ class system:
     def checkLargeForces(self, threshold=1, minimise=False):
         """
         Prints the SBM system energies of the input configuration of the 
-        system. It optionally checks for forces larger than a threshold 
-        value acting upon all particles in the SBM system and minimise the
-        system configuration until no forces larger than the threshold 
-        are found. 
+        system. It optionally checks for large forces acting upon all 
+        particles in the SBM system and iteratively minimises the system
+        configuration until no forces larger than a threshold are found.
         
         Parameters
         ----------
         threshold : float
             Treshold to check for large forces.
+        minimise : float
+            Whether to iteratively minimise the system until all forces are lower or equal to 
+            the thresshold value.
             
         Returns
         -------
@@ -2415,9 +2417,9 @@ class system:
                 
     def addParticles(self):
         """
-        Add a particle to the 'system' attribute object for each atom in
-        the 'atoms' attribute. The mass of each particle is set up with 
-        the values in the 'particles_mass' attribute.
+        Add a particle to the sbmOpenMM system for each atom in it. The mass 
+        of each particle is set up with the values in the 'particles_mass' 
+        attribute.
         
         Parameters
         ----------
@@ -2441,8 +2443,8 @@ class system:
     
     def addSystemForces(self):
         """
-        Add already generated forces to the 'system' attribute object, also
-        adding a force group to the 'forceGroups' attribute dictionary.
+        Adds generated forces to the sbmOpenMM system, also adding 
+        a force group to the 'forceGroups' attribute dictionary.
         
         Parameters
         ----------
@@ -2503,7 +2505,7 @@ class system:
     
     def dumpPdb(self, output_file):
         """
-        Writes a PDB file containing the currently defined SBM system atoms.
+        Writes a PDB file containing the currently defined abmOpenMM system atoms.
         
         Parameters
         ----------
@@ -2520,7 +2522,7 @@ class system:
     def dumpForceFieldData(self, output_file):
         """
         Writes a file containing the current forcefield parameters in the 
-        SBM system.
+        sbmOpenMM system.
         
         Parameters
         ----------
@@ -2704,6 +2706,19 @@ class system:
                                                                           atom2.name+'_'+res2.name+'_'+str(res2.index+1)))
             
     def loadForcefieldFromFile(self, forcefield_file):
+        """
+        Loads force field parameters from a force field file written by the 
+        dumpForceFieldData() method into the sbmOpenMM system.
+        
+        Parameters
+        ----------
+        forcefield_file : string
+            path to the force field file.
+            
+        Returns
+        -------
+        None
+        """
         
         #Open forcefield file
         with open(forcefield_file, 'r') as ff:
@@ -2847,6 +2862,18 @@ class system:
         print('')
     
     def setCAMassPerResidueType(self):
+        """
+        Sets the masses of the alpha carbon atoms to the average mass
+        of its amino acid residue. 
+        
+        Parameters
+        ----------
+        None
+            
+        Returns
+        -------
+        None
+        """
         
         aa_masses = {'ALA':  71.0, 'ARG': 157.0, 'ASN': 114.0,
                      'ASP': 114.0, 'CYS': 103.0, 'GLU': 128.0,
@@ -2870,15 +2897,16 @@ class system:
     
     def _setParameters(term, parameters):
         """
-        General function to set up or change forcefield parameters.
+        General function to set up or change force field parameters.
         
         Parameters
         ----------
         term : dict
-            Attribute dict object containing the set of degrees of freedom
-            (DOF) to set up attributes to (e.g. bonds)
+            Dictionary object containing the set of degrees of freedom
+            (DOF) to set up attributes to (e.g. bonds attribute)
+            
         parameters : integer or float or list
-            Value(s) for the specific forcefield parameters. If integer 
+            Value(s) for the specific forcefield parameters. If integer
             or float, sets up the same value for all the DOF in terms. If 
             list, sets a unique parameter for each DOF. 
             
@@ -2926,7 +2954,6 @@ class system:
                 return '2column'
             else:
                 return False
-            
 
 
 # In[ ]:
@@ -2939,13 +2966,49 @@ from simtk.openmm.app.statedatareporter import StateDataReporter
 
 
 class sbmReporter(StateDataReporter):
+    """
+    A special case of the StateDataReporter class that outputs information about a simulation, 
+    such as energy and temperature, etc. to a file. This method specially outputs the sbmOpenMM 
+    force group energies inside the passed sbmOpenMM system object.
+    
+    It is used in the same way as the OpenMM StateDataReporter class, but it takes as additional
+    input an instance of the sbmOpenMM object with the option 'sbmObject'.
+    """
     
     def __init__(self, file, reportInterval, sbmObject=None, **kwargs):
+        """
+        Initialises the SBM OpenMM system class.
         
+        Parameters
+        ----------
+        reportInterval : int
+            The interval (in time steps) at which to write frames
+        sbmObject : sbmOpenMM.system
+            The sbmOpenMM system instance to read force groups from.
+        **kwargs : openMM StateDataReporter arguments
+            
+        Returns
+        -------
+        initialized StateDataReporter class.
+        
+        """
         super(sbmReporter, self).__init__(file, reportInterval, **kwargs)
         self._sbmObject = sbmObject
         
     def _constructHeaders(self):
+        """
+        Build headers for the StateDataReporter class. It builds the headers
+        for the force groups contained in the sbmOpenMM system instance. 
+        
+        Parameters
+        ----------
+        None
+            
+        Returns
+        -------
+        headers : list
+            List with strings representing the headers to be written to the report file.
+        """
         
         headers = super()._constructHeaders()
         if isinstance(self._sbmObject, system):
@@ -2955,6 +3018,18 @@ class sbmReporter(StateDataReporter):
         return headers
     
     def _constructReportValues(self, simulation, state):
+        """
+        Calculates the energies for the force groups in the sbmOpenMM system instance.
+        
+        Parameters
+        ----------
+        None
+            
+        Returns
+        -------
+        values : list
+            List with floats representing the values to be written to the report file.
+        """
         
         values = super()._constructReportValues(simulation, state)
         
