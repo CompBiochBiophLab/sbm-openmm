@@ -12,7 +12,7 @@ from collections import OrderedDict
 import numpy as np
 import re
 
-from geometry import geometry
+from .geometry import geometry
 
 
 # In[ ]:

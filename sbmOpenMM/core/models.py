@@ -11,7 +11,7 @@ from simtk import unit
 from collections import OrderedDict
 import numpy as np
 
-from system import system
+from .system import system
 
 
 # In[ ]:
