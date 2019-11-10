@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Martin Floor, Kengjie Li",
     author_email="martinfloor@gmail.com",
-    description="An OpenMM package for Structure Based Model",
+    description="An OpenMM package for simulating protein Structure Based Models.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/CompBiochBiophLab/sbm-openmm",
@@ -20,7 +20,6 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
     install_requires=[
-    'openmm>=7.0',
     'numpy>=1.15',
     ],
 )

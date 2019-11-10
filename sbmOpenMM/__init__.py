@@ -1,7 +1,7 @@
 #Import three main classes
-from .app import geometry
-from .app import system
-from .app import models
+from .core.geometry import geometry
+from .core.system import system
+from .core.models import models
 
 #Import special reporter
-from .app import sbmReporter
+from .reporter.sbm_reporter import sbmReporter
