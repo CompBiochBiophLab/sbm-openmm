@@ -12,6 +12,8 @@ from collections import OrderedDict
 import numpy as np
 import re
 
+import geometry
+
 
 # In[ ]:
 

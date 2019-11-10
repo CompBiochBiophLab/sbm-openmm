@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 from simtk.openmm.app import *
@@ -10,6 +10,8 @@ from simtk import unit
 
 from collections import OrderedDict
 import numpy as np
+
+import system
 
 
 # In[ ]:
