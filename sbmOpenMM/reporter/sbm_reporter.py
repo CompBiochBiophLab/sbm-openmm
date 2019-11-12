@@ -6,7 +6,7 @@
 
 from simtk.openmm.app.statedatareporter import StateDataReporter
 from simtk import unit
-from ..core import system
+from core import system
 
 
 # In[ ]:
@@ -15,8 +15,8 @@ from ..core import system
 class sbmReporter(StateDataReporter):
     """
     A special case of the StateDataReporter class that outputs information about a simulation, 
-    such as energy and temperature, etc. to a file. This method specially outputs the sbmOpenMM 
-    force group energies inside the passed sbmOpenMM system object.
+    such as energy and temperature, etc. to a file. This special reporter outputs the sbmOpenMM 
+    force group energies inside the sbmOpenMM system object.
     
     It is used in the same way as the OpenMM StateDataReporter class, but it takes as additional
     input an instance of the sbmOpenMM object with the option 'sbmObject'.
