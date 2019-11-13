@@ -35,129 +35,222 @@
 </div>
 <div class="section" id="core-classes">
 <h2>Core classes<a class="headerlink" href="#core-classes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sbmopenmm-geometry">
+<h3>sbmOpenMM.geometry<a class="headerlink" href="#sbmopenmm-geometry" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="core.geometry.geometry">
+<em class="property">class </em><code class="descname">geometry</code><a class="reference internal" href="_modules/core/geometry.html#geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to hold methods for calculating geometrical values 
+given sets of atom coordinates.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#core.geometry" title="core.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.geometry</span></code></a></td>
-<td>A class to hold methods for calculating geometrical values  given sets of atom coordinates.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">angle</span></code>(coord1,&nbsp;coord2,&nbsp;coord3)</td>
+<td>Calculate the angle length between three (x,y,z) quantity coordinates.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#core.models" title="core.models"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.models</span></code></a></td>
-<td>A class to hold functions for the automated generation of default SBM models.</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">bond</span></code>(coord1,&nbsp;coord2)</td>
+<td>Calculate the distance length between two (x,y,z) quantity coordinates.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#core.system" title="core.system"><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.system</span></code></a>(pdb_path[,&nbsp;particles_mass])</td>
-<td>A class containing methods and parameters for generating Structure Based Models (SBM) systems to be simulated using the OpenMM interface.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">position2Array</span></code>(position,&nbsp;output_unit)</td>
+<td>Converts an OpenMM position object quantity into a numpy array.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">torsion</span></code>(coord1,&nbsp;coord2,&nbsp;coord3,&nbsp;coord4)</td>
+<td>Calculate the torsion angle length between four (x,y,z) quantity  coordinates.</td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
 <span class="target" id="module-core"></span><dl class="class">
 <dt id="core.geometry">
-<em class="property">class </em><code class="descclassname">core.</code><code class="descname">geometry</code><a class="reference internal" href="_modules/core/geometry.html#geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">geometry</code><a class="reference internal" href="_modules/core/geometry.html#geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class to hold methods for calculating geometrical values 
 given sets of atom coordinates.</p>
-<dl class="docutils">
-<dt>position2Array(quantity)</dt>
-<dd>Converts quantity arrays into numpy arrays for ease up calculations.</dd>
-<dt>bond(coord1, coord2)</dt>
-<dd>Calculate the bond length between two atoms.</dd>
-<dt>angle(coord1, coord2, coord3)</dt>
-<dd>Calculate the angle length between three atoms.</dd>
-<dt>torsion(coord1, coord2, coord3, coord4)</dt>
-<dd>Calculate the torsion angle length between four atoms.</dd>
-</dl>
 <dl class="method">
 <dt id="core.geometry.angle">
-<code class="descname">angle</code><span class="sig-paren">(</span><em>coord2</em>, <em>coord3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/geometry.html#geometry.angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.angle" title="Permalink to this definition">¶</a></dt>
+<code class="descname">angle</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>coord3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/geometry.html#geometry.angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the angle length between three (x,y,z) quantity coordinates.</p>
-<dl class="docutils">
-<dt>coord1 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the first coordinate.</dd>
-<dt>coord2 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the second coordinate.</dd>
-<dt>coord3 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the third coordinate.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>coord1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the first coordinate.</p>
+</dd>
+<dt><strong>coord2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the second coordinate.</p>
+</dd>
+<dt><strong>coord3</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the third coordinate.</p>
+</dd>
 </dl>
-<dl class="docutils">
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt>simtk.unit.quantity.Quantity</dt>
-<dd>Quantity (value and unit) of the angle length in radians.</dd>
+<dd><p class="first last">Quantity (value and unit) of the angle length in radians.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.geometry.bond">
-<code class="descname">bond</code><span class="sig-paren">(</span><em>coord2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/geometry.html#geometry.bond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.bond" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bond</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/geometry.html#geometry.bond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.bond" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the distance length between two (x,y,z) quantity coordinates.</p>
-<dl class="docutils">
-<dt>coord1 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the first coordinate.</dd>
-<dt>coord2 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the second coordinate.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>coord1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the first coordinate.</p>
+</dd>
+<dt><strong>coord2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the second coordinate.</p>
+</dd>
 </dl>
-<dl class="docutils">
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt>simtk.unit.quantity.Quantity</dt>
-<dd>Quantity (value and unit) of the distance length in nanometers.</dd>
+<dd><p class="first last">Quantity (value and unit) of the distance length in nanometers.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.geometry.position2Array">
-<code class="descname">position2Array</code><span class="sig-paren">(</span><em>output_unit</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/geometry.html#geometry.position2Array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.position2Array" title="Permalink to this definition">¶</a></dt>
+<code class="descname">position2Array</code><span class="sig-paren">(</span><em>position</em>, <em>output_unit</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/geometry.html#geometry.position2Array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.position2Array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts an OpenMM position object quantity into a numpy array.</p>
-<dl class="docutils">
-<dt>position <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity</span></dt>
-<dd>Array containing quantity objects [e.g. (x,y,z) array returned
-from positions].</dd>
-<dt>output_unit <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.unit.Unit</span></dt>
-<dd>Unit in which to return the items of the array.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>position</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity</span></dt>
+<dd><p class="first last">Array containing quantity objects [e.g. (x,y,z) array returned
+from positions].</p>
+</dd>
+<dt><strong>output_unit</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.unit.Unit</span></dt>
+<dd><p class="first last">Unit in which to return the items of the array.</p>
+</dd>
 </dl>
-<dl class="docutils">
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt>numpy.ndarray</dt>
-<dd>A numpy array containing the quantity values converted to floats.</dd>
+<dd><p class="first last">A numpy array containing the quantity values converted to floats.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.geometry.torsion">
-<code class="descname">torsion</code><span class="sig-paren">(</span><em>coord2</em>, <em>coord3</em>, <em>coord4</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/geometry.html#geometry.torsion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.torsion" title="Permalink to this definition">¶</a></dt>
+<code class="descname">torsion</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>coord3</em>, <em>coord4</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/geometry.html#geometry.torsion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.torsion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the torsion angle length between four (x,y,z) quantity 
 coordinates.</p>
-<dl class="docutils">
-<dt>coord1 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the first coordinate.</dd>
-<dt>coord2 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the second coordinate.</dd>
-<dt>coord3 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the third coordinate.</dd>
-<dt>coord4 <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
-<dd>Vector for the fourth coordinate.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>coord1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the first coordinate.</p>
+</dd>
+<dt><strong>coord2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the second coordinate.</p>
+</dd>
+<dt><strong>coord3</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the third coordinate.</p>
+</dd>
+<dt><strong>coord4</strong> <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity array</span></dt>
+<dd><p class="first last">Vector for the fourth coordinate.</p>
+</dd>
 </dl>
-<dl class="docutils">
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt>simtk.unit.quantity.Quantity</dt>
-<dd>Quantity (value and unit) of the torsion length in radians.</dd>
+<dd><p class="first last">Quantity (value and unit) of the torsion length in radians.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
+</dd></dl>
+
+</div>
+<div class="section" id="sbmopenmm-models">
+<h3>sbmOpenMM.models<a class="headerlink" href="#sbmopenmm-models" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="core.models.models">
+<em class="property">class </em><code class="descname">models</code><a class="reference internal" href="_modules/core/models.html#models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.models" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to hold functions for the automated generation of default SBM models.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>getAllAtomModel(pdb_file, contact_file, kwarg</strong>)**</td>
+<td>Creates an all atom SBM system class object with default initialized parameters.</td>
+</tr>
+<tr class="row-even"><td><strong>getCAModel(pdb_file, contact_file, kwarg</strong>)**</td>
+<td>Creates an alpha-carbon only sbmOpenMM system class object with default initialized parameters.</td>
+</tr>
+<tr class="row-odd"><td><strong>getMultiBasinModel(main_model, alternate_configuration, kwarg</strong>)**</td>
+<td>Creates a multi basin model from two sbmOpenMM.system class instances.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <span class="target" id="module-core"></span><dl class="class">
 <dt id="core.models">
-<em class="property">class </em><code class="descclassname">core.</code><code class="descname">models</code><a class="reference internal" href="_modules/core/models.html#models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">models</code><a class="reference internal" href="_modules/core/models.html#models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class to hold functions for the automated generation of default SBM models.</p>
-<dl class="docutils">
-<dt>getAllAtomModel(pdb_file, contact_file, kwarg**)</dt>
-<dd>Creates an all atom SBM system class object with default initialized
-parameters.</dd>
-<dt>getCAModel(pdb_file, contact_file, kwarg**)</dt>
-<dd>Creates an alpha-carbon only sbmOpenMM system class object with default 
-initialized parameters.</dd>
-<dt>getMultiBasinModel(main_model, alternate_configuration, kwarg**)</dt>
-<dd>Creates a multi basin model from two sbmOpenMM.system class instances.</dd>
-</dl>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>getAllAtomModel(pdb_file, contact_file, kwarg</strong>)**</td>
+<td>Creates an all atom SBM system class object with default initialized parameters.</td>
+</tr>
+<tr class="row-even"><td><strong>getCAModel(pdb_file, contact_file, kwarg</strong>)**</td>
+<td>Creates an alpha-carbon only sbmOpenMM system class object with default initialized parameters.</td>
+</tr>
+<tr class="row-odd"><td><strong>getMultiBasinModel(main_model, alternate_configuration, kwarg</strong>)**</td>
+<td>Creates a multi basin model from two sbmOpenMM.system class instances.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="core.models.getAllAtomModel">
-<code class="descname">getAllAtomModel</code><span class="sig-paren">(</span><em>contact_file</em>, <em>default_parameters=True</em>, <em>default_forces=True</em>, <em>group_by_bb_and_sc=True</em>, <em>create_system=True</em>, <em>minimise=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getAllAtomModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getAllAtomModel" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAllAtomModel</code><span class="sig-paren">(</span><em>pdb_file</em>, <em>contact_file</em>, <em>default_parameters=True</em>, <em>default_forces=True</em>, <em>group_by_bb_and_sc=True</em>, <em>create_system=True</em>, <em>minimise=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getAllAtomModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getAllAtomModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialises a default full-heavy-atom sbmOpenMM system class from a PDB file and a contact
 file defining the native contacts for the model. The system creation steps are:</p>
 <ol class="arabic simple">
@@ -174,39 +267,57 @@ order to add custom parameters and forces.</p>
 setting default_forces to False. This allows to load the default forcefield parameters 
 and to modified them before creating the OpenMM force objects.</p>
 <p>Finally, the method can be stopped before creating the OpenMM system class using create_system=False.</p>
-<dl class="docutils">
-<dt>pdb_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>Path to the input PDB file.</dd>
-<dt>contact_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>Path to the input native contact file. The file can be an output 
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>pdb_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Path to the input PDB file.</p>
+</dd>
+<dt><strong>contact_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Path to the input native contact file. The file can be an output 
 from the SMOG program (4 column contact file) or a two column file 
-defining the atoms to be paired.</dd>
-<dt>default_parameters <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>Whether to add default SBM All Atom forcefield parameters to the model.</dd>
-<dt>default_forces <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>Whether to initilize default SBM All Atom force objects. Set to False if
-the parameters will be different from the default ones.</dd>
-<dt>group_by_bb_and_sc <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>Wether to classify the torsions into backbone and side-chain to partition 
-the torsional energy for each torsion in the system.</dd>
-<dt>create_system <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>If True the function will call the createSystemObject() method
+defining the atoms to be paired.</p>
+</dd>
+<dt><strong>default_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">Whether to add default SBM All Atom forcefield parameters to the model.</p>
+</dd>
+<dt><strong>default_forces</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">Whether to initilize default SBM All Atom force objects. Set to False if
+the parameters will be different from the default ones.</p>
+</dd>
+<dt><strong>group_by_bb_and_sc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">Wether to classify the torsions into backbone and side-chain to partition 
+the torsional energy for each torsion in the system.</p>
+</dd>
+<dt><strong>create_system</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">If True the function will call the createSystemObject() method
 to create an OpenMM system object. If modifications to the default 
-forcefield are necessary this option should be given False.</dd>
-<dt>minimise <span class="classifier-delimiter">:</span> <span class="classifier">boolean (False)</span></dt>
-<dd>Whether to minimise the system (with default options) if large
-forces are found.</dd>
+forcefield are necessary this option should be given False.</p>
+</dd>
+<dt><strong>minimise</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (False)</span></dt>
+<dd><p class="first last">Whether to minimise the system (with default options) if large
+forces are found.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>sbm <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
-<dd>Initializes a sbmOpenMM.system class with default options for 
-defining an All Atom SBM force field.</dd>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>sbm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
+<dd><p class="first last">Initializes a sbmOpenMM.system class with default options for 
+defining an All Atom SBM force field.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.models.getCAModel">
-<code class="descname">getCAModel</code><span class="sig-paren">(</span><em>contact_file</em>, <em>default_parameters=True</em>, <em>default_forces=True</em>, <em>create_system=True</em>, <em>contact_force='12-10'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getCAModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getCAModel" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getCAModel</code><span class="sig-paren">(</span><em>pdb_file</em>, <em>contact_file</em>, <em>default_parameters=True</em>, <em>default_forces=True</em>, <em>create_system=True</em>, <em>contact_force='12-10'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getCAModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getCAModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
 from a PDB file and a contact file defining the native contacts for the 
 coarse grained model.</p>
@@ -225,33 +336,49 @@ order to add custom parameters and forces.</p>
 setting default_forces to False. This allows to load the default forcefield parameters 
 and to modified them before creating the OpenMM force objects.</p>
 <p>Finally, the method can be stopped before creating the OpenMM system class using create_system=False.</p>
-<dl class="docutils">
-<dt>pdb_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>Path to the input PDB file.</dd>
-<dt>contact_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>Path to the input native contact file. The file can be an output 
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>pdb_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Path to the input PDB file.</p>
+</dd>
+<dt><strong>contact_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Path to the input native contact file. The file can be an output 
 from the SMOG program (4 column contact file) or a two column file 
-defining the atoms to be paired.</dd>
-<dt>default_parameters <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>Whether to add default SBM CA forcefield parameters to the model.</dd>
-<dt>default_forces <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>Whether to initilize default SBM CA force objects. Set to False if
-the parameters will be different from the default ones.</dd>
-<dt>create_system <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>If True the function will call the createSystemObject() method
+defining the atoms to be paired.</p>
+</dd>
+<dt><strong>default_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">Whether to add default SBM CA forcefield parameters to the model.</p>
+</dd>
+<dt><strong>default_forces</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">Whether to initilize default SBM CA force objects. Set to False if
+the parameters will be different from the default ones.</p>
+</dd>
+<dt><strong>create_system</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">If True the function will call the createSystemObject() method
 to create an OpenMM system object. If modifications to the default 
-forcefield are necessary this option should be given False.</dd>
+forcefield are necessary this option should be given False.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>sbm <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
-<dd>Initialized sbmOpenMM.system class with default options for defining 
-a coarse-grained CA SBM force field.</dd>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>sbm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
+<dd><p class="first last">Initialized sbmOpenMM.system class with default options for defining 
+a coarse-grained CA SBM force field.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.models.getMultiBasinModel">
-<code class="descname">getMultiBasinModel</code><span class="sig-paren">(</span><em>alternate_configuration</em>, <em>double_minima_threshold=0.05</em>, <em>excluded_volume_radius=None</em>, <em>use_lennard_jones=True</em>, <em>create_system=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getMultiBasinModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getMultiBasinModel" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getMultiBasinModel</code><span class="sig-paren">(</span><em>main_model</em>, <em>alternate_configuration</em>, <em>double_minima_threshold=0.05</em>, <em>excluded_volume_radius=None</em>, <em>use_lennard_jones=True</em>, <em>create_system=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getMultiBasinModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getMultiBasinModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a multibasin model from two sbmOpenMM initialized system classes.
 It currently supports only two configurations.</p>
 <p>The two configurations (main and alternate) are compared at the level of 
@@ -268,293 +395,665 @@ potentials (use_lennard_jones=True) or can be added as Gaussian terms (use_lenna
 with separate control of the excluded volume term.</p>
 <p>Finally, the method can be stopped before creating the OpenMM system class using
 create_system=False.</p>
-<dl class="docutils">
-<dt>main_model <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
-<dd>Configuration upon which the multi basin forces should be added.</dd>
-<dt>alternate_configuration <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
-<dd>Second configuration to define as a new minima in the native contact force
-object.</dd>
-<dt>double_minima_threshold <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>The minimum equilibrium distance difference to consider a native contact having 
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>main_model</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
+<dd><p class="first last">Configuration upon which the multi basin forces should be added.</p>
+</dd>
+<dt><strong>alternate_configuration</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
+<dd><p class="first last">Second configuration to define as a new minima in the native contact force
+object.</p>
+</dd>
+<dt><strong>double_minima_threshold</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The minimum equilibrium distance difference to consider a native contact having 
 two different equilibrium distances. If shared contacts between the configurations 
 have equilibrium distances that do not differ more than this value, only the main 
-configuration equilibrium distance will be  kept.</dd>
-<dt>excluded_volume_radius <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Radius of the excluded volume term in the Gaussian native-contact energy function.</dd>
-<dt>use_lennard_jones <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>Whether to use or not Lennard-Jones potential for the single-basin native contact
-set. If False a Gaussian function with separate control of the excluded volume term.</dd>
-<dt>create_system <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
-<dd>If True the function will call the createSystemObject() method
-to create an OpenMM system object.</dd>
+configuration equilibrium distance will be  kept.</p>
+</dd>
+<dt><strong>excluded_volume_radius</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Radius of the excluded volume term in the Gaussian native-contact energy function.</p>
+</dd>
+<dt><strong>use_lennard_jones</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">Whether to use or not Lennard-Jones potential for the single-basin native contact
+set. If False a Gaussian function with separate control of the excluded volume term.</p>
+</dd>
+<dt><strong>create_system</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean (True)</span></dt>
+<dd><p class="first last">If True the function will call the createSystemObject() method
+to create an OpenMM system object.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>sbm <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
-<dd>Initialized sbmOpenMM.system class with added multi basin contact potential.</dd>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>sbm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sbmOpenMM.system</span></dt>
+<dd><p class="first last">Initialized sbmOpenMM.system class with added multi basin contact potential.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
 
-<span class="target" id="module-core"></span><dl class="class">
-<dt id="core.system">
-<em class="property">class </em><code class="descclassname">core.</code><code class="descname">system</code><span class="sig-paren">(</span><em>pdb_path</em>, <em>particles_mass=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system" title="Permalink to this definition">¶</a></dt>
+</div>
+<div class="section" id="sbmopenmm-system">
+<h3>sbmOpenMM.system<a class="headerlink" href="#sbmopenmm-system" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="core.models.system">
+<em class="property">class </em><code class="descname">system</code><span class="sig-paren">(</span><em>pdb_path</em>, <em>particles_mass=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.system" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class containing methods and parameters for generating Structure Based
 Models (SBM) systems to be simulated using the OpenMM interface. It offers 
 flexibility to create default and custom SBM systems and to easily 
 modify their parameters.</p>
-<dl class="docutils">
-<dt>pdb_path <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>Path to the pdb input file</dd>
-<dt>pdb <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.app.pdbfile.PDBFile</span></dt>
-<dd>Object that holds the information of OpenMM PDB parsing method.</dd>
-<dt>topology <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.app.topology.Topology</span></dt>
-<dd>OpenMM topology of the model.</dd>
-<dt>positions <span class="classifier-delimiter">:</span> <span class="classifier">simtk.unit.quantity.Quantity</span></dt>
-<dd>Atomic positions of the model.</dd>
-<dt>particles_mass <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
-<dd>Mass of each particle. If float then uniform masses are given to all 
-particles. If list per-particle masses are assigned.</dd>
-<dt>model_type <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>String representing the model type: All-atom (AA), alpha-carbon (CA)
-or multi-basin variants (AA-MB, CA-MB).</dd>
-<dt>atoms <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd>A list of the current atoms in the model. The items are simtk.openmm.app.topology.Atom
-initialised classes.</dd>
-<dt>n_atoms <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Total numer of atoms in the model.</dd>
-<dt>bonds <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
-<dd>A dict that uses bonds (2-tuple of simtk.openmm.app.topology.Atom objects) 
-present in the model as keys and their forcefield properties as values.</dd>
-<dt>n_bonds <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Total numer of bonds in the model.</dd>
-<dt>angles <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
-<dd>A dict that uses angles (3-tuple of simtk.openmm.app.topology.Atom objects)
-present in the model as keys and their forcefield properties as values.</dd>
-<dt>n_angles <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Total numer of angles in the model.</dd>
-<dt>torsions <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
-<dd>A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects) 
-present in the model as keys and their forcefield properties as values.</dd>
-<dt>n_torsions <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Total numer of proper torsions in the model.</dd>
-<dt>impropers <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
-<dd>A dict that uses improper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
-present in the model as keys and their forcefield properties as values.</dd>
-<dt>n_impropers <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Total numer of improper torsions in the model.</dd>
-<dt>planars <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
-<dd>A dict that uses planar torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
-present in the model as keys and their forcefield properties as values.</dd>
-<dt>n_planars <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Total numer of planar torsions in the model.</dd>
-<dt>contacts <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
-<dd>A dict that uses native contacts (2-tuple of simtk.openmm.app.topology.Atom objects
-present in the model as keys and their forcefield properties as values.</dd>
-<dt>n_contacts <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Total numer of native contacts in the model.</dd>
-<dt>torsions_group <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>pdb_path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Path to the pdb input file</p>
+</dd>
+<dt><strong>pdb</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.app.pdbfile.PDBFile</span></dt>
+<dd><p class="first last">Object that holds the information of OpenMM PDB parsing method.</p>
+</dd>
+<dt><strong>topology</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.app.topology.Topology</span></dt>
+<dd><p class="first last">OpenMM topology of the model.</p>
+</dd>
+<dt><strong>positions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">unit.quantity.Quantity</span></dt>
+<dd><p class="first last">Atomic positions of the model.</p>
+</dd>
+<dt><strong>particles_mass</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Mass of each particle. If float then uniform masses are given to all 
+particles. If list per-particle masses are assigned.</p>
+</dd>
+<dt><strong>model_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">String representing the model type: All-atom (AA), alpha-carbon (CA)
+or multi-basin variants (AA-MB, CA-MB).</p>
+</dd>
+<dt><strong>atoms</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">A list of the current atoms in the model. The items are simtk.openmm.app.topology.Atom
+initialised classes.</p>
+</dd>
+<dt><strong>n_atoms</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of atoms in the model.</p>
+</dd>
+<dt><strong>bonds</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses bonds (2-tuple of simtk.openmm.app.topology.Atom objects) 
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_bonds</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of bonds in the model.</p>
+</dd>
+<dt><strong>angles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses angles (3-tuple of simtk.openmm.app.topology.Atom objects)
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_angles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of angles in the model.</p>
+</dd>
+<dt><strong>torsions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects) 
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_torsions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of proper torsions in the model.</p>
+</dd>
+<dt><strong>impropers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses improper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_impropers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of improper torsions in the model.</p>
+</dd>
+<dt><strong>planars</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses planar torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_planars</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of planar torsions in the model.</p>
+</dd>
+<dt><strong>contacts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses native contacts (2-tuple of simtk.openmm.app.topology.Atom objects
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_contacts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of native contacts in the model.</p>
+</dd>
+<dt><strong>torsions_group</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
 present in the model as keys and the number of torsions (int) that share the same middle 
-bond atoms as values.</dd>
-<dt>torsions_type <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+bond atoms as values.</p>
+</dd>
+<dt><strong>torsions_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
 present in the model as keys and, a string representing wheter the torsion 
-is classified as ‘backbone’ or ‘sidechain’ as values.</dd>
-<dt>energy_constant <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>A dict that holds the value for the different energy terms parameters
-used by different SBM models and forces.</dd>
-<dt>harmonicBondForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.HarmonicBondForce</span></dt>
-<dd>Stores the OpenMM HarmonicBondForce initialised-class. Implements
+is classified as ‘backbone’ or ‘sidechain’ as values.</p>
+</dd>
+<dt><strong>energy_constant</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dict that holds the value for the different energy terms parameters
+used by different SBM models and forces.</p>
+</dd>
+<dt><strong>harmonicBondForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.HarmonicBondForce</span></dt>
+<dd><p class="first last">Stores the OpenMM HarmonicBondForce initialised-class. Implements
 an harmonic bond potential between pairs of particles, that depends
-quadratically on their distance.</dd>
-<dt>harmonicAngleForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.HarmonicAngleForce</span></dt>
-<dd>Stores the OpenMM HarmonicAngleForce initialised-class. Implements
+quadratically on their distance.</p>
+</dd>
+<dt><strong>harmonicAngleForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.HarmonicAngleForce</span></dt>
+<dd><p class="first last">Stores the OpenMM HarmonicAngleForce initialised-class. Implements
 an harmonic angle potential between trios of particles, that depends
-quadratically on their angle length.</dd>
-<dt>periodicTorsionForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.CustomTorsionForce</span></dt>
-<dd>Stores the OpenMM CustomTorsionForce initialised-class. Implements 
+quadratically on their angle length.</p>
+</dd>
+<dt><strong>periodicTorsionForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomTorsionForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomTorsionForce initialised-class. Implements 
 a force potential that varies periodically with the value of the 
-proper torsion angle.</dd>
-<dt>generalPeriodicTorsionForce: simtk.openmm.openmm.CustomTorsionForce</dt>
-<dd>Stores the OpenMM CustomTorsionForce initialised-class. Implements 
+proper torsion angle.</p>
+</dd>
+<dt><strong>generalPeriodicTorsionForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomTorsionForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomTorsionForce initialised-class. Implements 
 a general force potential that varies periodically with the value of the 
-proper torsion angle.</dd>
-<dt>harmonicImproperForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.CustomTorsionForce</span></dt>
-<dd>Stores the OpenMM CustomTorsionForce initialised-class. Implements 
+proper torsion angle.</p>
+</dd>
+<dt><strong>harmonicImproperForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomTorsionForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomTorsionForce initialised-class. Implements 
 a force potential that varies quadratically with the value of the  
-improper torsion angle.</dd>
-<dt>harmonicPlanarForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.CustomTorsionForce</span></dt>
-<dd>Stores the OpenMM CustomTorsionForce initialised-class. Implements 
+improper torsion angle.</p>
+</dd>
+<dt><strong>harmonicPlanarForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomTorsionForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomTorsionForce initialised-class. Implements 
 a force potential that varies quadratically with the value of the  
-planar torsion angle.</dd>
-<dt>lj12_6contactForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.CustomBondForce</span></dt>
-<dd>Stores the OpenMM CustomBondForce initialised-class to be applied
+planar torsion angle.</p>
+</dd>
+<dt><strong>lj12_6contactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomBondForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
 to non-bonded interactions between native contact pairs. Implements 
 a lennard-jones potential with exponents 12 and 6 for the repulsive
-and attractive componenets, respectively.</dd>
-<dt>lj12_10contactForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.CustomBondForce</span></dt>
-<dd>Stores the OpenMM CustomBondForce initialised-class to be applied
+and attractive componenets, respectively.</p>
+</dd>
+<dt><strong>lj12_10contactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomBondForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
 to non-bonded interactions between native contact pairs. Implements 
 a lennard-jones potential with exponents 12 and 10 for the repulsive
-and attractive components, respectively.</dd>
-<dt>lj12_10_6contactForce</dt>
-<dd>Stores the OpenMM CustomBondForce initialised-class to be applied
+and attractive components, respectively.</p>
+</dd>
+<dt><strong>lj12_10_6contactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomBondForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
 to non-bonded interactions between native contact pairs. Implements 
 a lennard-jones potential with exponents 12 and 10 for the repulsive
 and attractive components, respectively, and an additional 6-exponent 
-term to model a “desolvation penalty” for forming/breaking contacts.</dd>
-<dt>singleGaussianContactForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.CustomNonbondedForce</span></dt>
-<dd>Stores the OpenMM CustomBondForce initialised-class to be applied
+term to model a “desolvation penalty” for forming/breaking contacts.</p>
+</dd>
+<dt><strong>singleGaussianContactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomNonbondedForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
 to non-bonded interactions between native contact pairs with single
 minimum. Implements a mixed lennard-jones (repulsive) and gaussian
 potential (attractive) with separate control of equilibrium distance
-and excluded volume.</dd>
-<dt>doubleGaussianContactForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.CustomNonbondedForce</span></dt>
-<dd>Stores the OpenMM CustomBondForce initialised-class to be applied
+and excluded volume.</p>
+</dd>
+<dt><strong>doubleGaussianContactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomNonbondedForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
 to non-bonded interactions between native contact pairs with two 
 minima. Implements a mixed lennard-jones (repulsive) and gaussian
 potential (attractive) with separate control of the equilibrium 
-distances and excluded volume.</dd>
-<dt>ljRepulsionForce <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.CustomNonbondedForce</span></dt>
-<dd>Stores the OpenMM CustomBondForce initialised-class to be applied
+distances and excluded volume.</p>
+</dd>
+<dt><strong>ljRepulsionForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomNonbondedForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
 to the non-bonded interactions between non-native contact pairs. 
 Implements only a repulsive lennard-jones potential with exponent 
-12.</dd>
-<dt>forceGroups <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
-<dd>A dict that uses force names as keys and their corresponding force
-as values.</dd>
-<dt>system <span class="classifier-delimiter">:</span> <span class="classifier">simtk.openmm.openmm.System</span></dt>
-<dd>Stores the OpenMM System initialised class. It stores all the forcefield
-information for the SBM model.</dd>
-<dt>rf_epsilon <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Epsilon parameter used in the repulsion force object.</dd>
-<dt>rf_sigma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Sigma parameter used in the repulsion force object.</dd>
-<dt>rf_cutoff <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Cutoff value used for repulsion force interactions.</dd>
-<dt>exclusions <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd>List of added exclusions for the repuslion non-bonded term.</dd>
+12.</p>
+</dd>
+<dt><strong>forceGroups</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses force names as keys and their corresponding force
+as values.</p>
+</dd>
+<dt><strong>system</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.System</span></dt>
+<dd><p class="first last">Stores the OpenMM System initialised class. It stores all the forcefield
+information for the SBM model.</p>
+</dd>
+<dt><strong>rf_epsilon</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Epsilon parameter used in the repulsion force object.</p>
+</dd>
+<dt><strong>rf_sigma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Sigma parameter used in the repulsion force object.</p>
+</dd>
+<dt><strong>rf_cutoff</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Cutoff value used for repulsion force interactions.</p>
+</dd>
+<dt><strong>exclusions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of added exclusions for the repuslion non-bonded term.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>removeHydrogens()</dt>
-<dd>Remove hydrogens from the input pdb by using a regexpression pattern.
-Used specially for creating all atom (AA) models.</dd>
-<dt>getCAlphaOnly()</dt>
-<dd>Filter in only alpha carbon atoms from the input pdb and updates 
-the topology object to add new bonds between them. Used specially for 
-creating alpha-carbon (CA) corse-grained models.</dd>
-<dt>getAtoms()</dt>
-<dd>Reads atoms from topology, adds them to the main class and sorts them 
-into a dictionary to store their forcefield properties.</dd>
-<dt>getBonds()</dt>
-<dd>Reads bonds from topology, adds them to the main class and sorts them 
-into a dictionary to store their forcefield properties.</dd>
-<dt>getAngles()</dt>
-<dd>Reads bonds from topology and creates a list of all possible angles,
-adds them to the main class and sorts them into a dictionary to store 
-their forcefield properties.</dd>
-<dt>getProperTorsions()</dt>
-<dd>Using the created angles, usually by the getAngles() method, creates 
-a list of all possible proper torsion dihedral angles, filtering out 
-torsions based on residue-specific rules (only for the all-atom model).
-The torsions are then added to the main class and sorted into a dictionary 
-to store their forcefield properties.</dd>
-<dt>getImpropers()</dt>
-<dd>Create improper torsions based on backbone and sidechain residue-specific 
-rules (all-atom model only), adds them to the main class and sorts them 
-into a dictionary to store their forcefield properties.</dd>
-<dt>getPlanars()</dt>
-<dd>Create planar torsions based on backbone and sidechain residue-specific 
-rules (all-atom model only), adds them to the main class and sorts them 
-into a dictionary to store their forcefield properties.</dd>
-<dt>readContactFile()</dt>
-<dd>Reads a file containing native contact information and adds it into the 
-main class. The file can be smog-style (4 columns) or given as 2 columns.
-The format will be automatically detected.</dd>
-<dt>setBondParameters()</dt>
-<dd>Change the forcefield parameters for bonded terms.</dd>
-<dt>setAngleParameters()</dt>
-<dd>Change the forcefield parameters for angle terms.</dd>
-<dt>setProperTorsionParameters()</dt>
-<dd>Change the forcefield parameters for proper torsion terms.</dd>
-<dt>setImproperParameters()</dt>
-<dd>Change the forcefield parameters for improper torsion 
-terms.</dd>
-<dt>setPlanarParameters()</dt>
-<dd>Change the forcefield parameters for planar torsion terms.</dd>
-<dt>setNativeContactParameters()</dt>
-<dd>Change the forcefield parameters for native contact terms.</dd>
-<dt>setParticlesMasses()</dt>
-<dd>Change the mass parameter for each atom in the system.</dd>
-<dt>addHarmonicBondForces()</dt>
-<dd>Creates an harmonic bonded force term for each bond in the main
-class using their defined forcefield parameters.</dd>
-<dt>addHarmonicAngleForces()</dt>
-<dd>Creates an harmonic angle force term for each angle in the main
-class using their defined forcefield parameters.</dd>
-<dt>addPeriodicTorsionForces()</dt>
-<dd>Creates a periodic torsion force term for each proper torsion in 
-the main class using their defined forcefield parameters.</dd>
-<dt>addGenericPeriodicTorsionForces()</dt>
-<dd>Creates a periodic torsion force term for each proper torsion in 
-the main class using their defined forcefield parameters.</dd>
-<dt>addHarmonicImproperForces()</dt>
-<dd>Creates an harmonic torsion force term for each improper torsion 
-in the main class using their defined forcefield parameters. Used 
-specially for simulating All Atom systems.</dd>
-<dt>addHarmonicPlanarForces()</dt>
-<dd>Creates an harmonic torsion force term for each planar torsion in
-the main class using their defined forcefield parameters. Used specially
-for simulating All Atom systems.</dd>
-<dt>addLJ12_6ContactForces()</dt>
-<dd>Creates a 12-6 Lennard-Jones bond potential for each native contact
-in the main class using their defined forcefield parameters. Used 
-specially for simulating All Atom systems.</dd>
-<dt>addLJ12_10ContactForces()</dt>
-<dd>Creates a 12-10 Lennard-Jones bond potential for each native contact
-in the main class using their defined forcefield parameters. Used 
-specially for simulating coarse-grained alpha-carbon systems.</dd>
-<dt>addGaussianContactForces()</dt>
-<dd>Creates a gaussian single and double basin bond potential for each 
-native contact in the main class using their defined forcefield 
-parameters. The contacts are recognized according two the number 
-of parameters given as values in the attribute system. 3-parameters for
-single-basin potential and 4-paramters for dual-basin potentials.</dd>
-<dt>addLJRepulsionForces()</dt>
-<dd>Creates a repulsive-only 12 Lennard-Jones non-bonded potential specifying 
-a exclusion list for bond, angle, torsion, and native contact terms.</dd>
-<dt>groupTorsionsbyBBAndSC()</dt>
-<dd>Groups proper torsions by backbone and sidechain torsions. Used exclusively
-for simulating all-atom SBM.</dd>
-<dt>getAATorsionParameters()</dt>
-<dd>Generates default periodic torsion forcefield parameters, for proper
-torsions, using pre-defined assignment schemes. Used exclusively for 
-simulating all-atom SBM.</dd>
-<dt>getAANativeContactParameters()</dt>
-<dd>Generates default bonded contact forcefield parameters, for native 
-contacts, using pre-defined assignment schemes. Used exclusively for 
-simulating all-atom SBM.</dd>
-<dt>createSystemObject()</dt>
-<dd>Creates OpenMM system object adding particles, masses and forces. 
-It also groups the added forces into Force-Groups for the sbmReporter
-class.</dd>
-<dt>addParticles()</dt>
-<dd>Add particles to the system OpenMM class instance.</dd>
-<dt>addSystemForces()</dt>
-<dd>Add forces to the system OpenMM class instance. It also save
-names for the added forces to include them in the reporter class.</dd>
-<dt>dumpPdb()</dt>
-<dd>Writes a PDB file of the system in its current state.</dd>
-<dt>dumpForceFieldData()</dt>
-<dd>Writes to a file the parameters of the SBM forcefield.</dd>
-<dt>loadForcefieldFromFile()</dt>
-<dd>Loads forcefield parameters from a sbmOpenMM force field file written with
-the dumpForceFieldData() method.</dd>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>removeHydrogens()</strong></td>
+<td>Remove hydrogens from the input pdb by using a regexpression pattern. Used specially for creating all atom (AA) models.</td>
+</tr>
+<tr class="row-even"><td><strong>getCAlphaOnly()</strong></td>
+<td>Filter in only alpha carbon atoms from the input pdb and updates the topology object to add new bonds between them. Used specially for creating alpha-carbon (CA) corse-grained models.</td>
+</tr>
+<tr class="row-odd"><td><strong>getAtoms()</strong></td>
+<td>Reads atoms from topology, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-even"><td><strong>getBonds()</strong></td>
+<td>Reads bonds from topology, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-odd"><td><strong>getAngles()</strong></td>
+<td>Reads bonds from topology and creates a list of all possible angles, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-even"><td><strong>getProperTorsions()</strong></td>
+<td>Using the created angles, usually by the getAngles() method, creates a list of all possible proper torsion dihedral angles, filtering out torsions based on residue-specific rules (only for the all-atom model). The torsions are then added to the main class and sorted into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-odd"><td><strong>getImpropers()</strong></td>
+<td>Create improper torsions based on backbone and sidechain residue-specific rules (all-atom model only), adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-even"><td><strong>getPlanars()</strong></td>
+<td>Create planar torsions based on backbone and sidechain residue-specific rules (all-atom model only), adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-odd"><td><strong>readContactFile()</strong></td>
+<td>Reads a file containing native contact information and adds it into the main class. The file can be smog-style (4 columns) or given as 2 columns. The format will be automatically detected.</td>
+</tr>
+<tr class="row-even"><td><strong>setBondParameters()</strong></td>
+<td>Change the forcefield parameters for bonded terms.</td>
+</tr>
+<tr class="row-odd"><td><strong>setAngleParameters()</strong></td>
+<td>Change the forcefield parameters for angle terms.</td>
+</tr>
+<tr class="row-even"><td><strong>setProperTorsionParameters()</strong></td>
+<td>Change the forcefield parameters for proper torsion terms.</td>
+</tr>
+<tr class="row-odd"><td><strong>setImproperParameters()</strong></td>
+<td>Change the forcefield parameters for improper torsion terms.</td>
+</tr>
+<tr class="row-even"><td><strong>setPlanarParameters()</strong></td>
+<td>Change the forcefield parameters for planar torsion terms.</td>
+</tr>
+<tr class="row-odd"><td><strong>setNativeContactParameters()</strong></td>
+<td>Change the forcefield parameters for native contact terms.</td>
+</tr>
+<tr class="row-even"><td><strong>setParticlesMasses()</strong></td>
+<td>Change the mass parameter for each atom in the system.</td>
+</tr>
+<tr class="row-odd"><td><strong>addHarmonicBondForces()</strong></td>
+<td>Creates an harmonic bonded force term for each bond in the main class using their defined forcefield parameters.</td>
+</tr>
+<tr class="row-even"><td><strong>addHarmonicAngleForces()</strong></td>
+<td>Creates an harmonic angle force term for each angle in the main class using their defined forcefield parameters.</td>
+</tr>
+<tr class="row-odd"><td><strong>addPeriodicTorsionForces()</strong></td>
+<td>Creates a periodic torsion force term for each proper torsion in the main class using their defined forcefield parameters.</td>
+</tr>
+<tr class="row-even"><td><strong>addGenericPeriodicTorsionForces()</strong></td>
+<td>Creates a periodic torsion force term for each proper torsion in the main class using their defined forcefield parameters.</td>
+</tr>
+<tr class="row-odd"><td><strong>addHarmonicImproperForces()</strong></td>
+<td>Creates an harmonic torsion force term for each improper torsion in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</td>
+</tr>
+<tr class="row-even"><td><strong>addHarmonicPlanarForces()</strong></td>
+<td>Creates an harmonic torsion force term for each planar torsion in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</td>
+</tr>
+<tr class="row-odd"><td><strong>addLJ12_6ContactForces()</strong></td>
+<td>Creates a 12-6 Lennard-Jones bond potential for each native contact in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</td>
+</tr>
+<tr class="row-even"><td><strong>addLJ12_10ContactForces()</strong></td>
+<td>Creates a 12-10 Lennard-Jones bond potential for each native contact in the main class using their defined forcefield parameters. Used specially for simulating coarse-grained alpha-carbon systems.</td>
+</tr>
+<tr class="row-odd"><td><strong>addGaussianContactForces()</strong></td>
+<td>Creates a gaussian single and double basin bond potential for each native contact in the main class using their defined forcefield parameters. The contacts are recognized according two the number of parameters given as values in the attribute system. 3-parameters for single-basin potential and 4-paramters for dual-basin potentials.</td>
+</tr>
+<tr class="row-even"><td><strong>addLJRepulsionForces()</strong></td>
+<td>Creates a repulsive-only 12 Lennard-Jones non-bonded potential specifying a exclusion list for bond, angle, torsion, and native contact terms.</td>
+</tr>
+<tr class="row-odd"><td><strong>groupTorsionsbyBBAndSC()</strong></td>
+<td>Groups proper torsions by backbone and sidechain torsions. Used exclusively for simulating all-atom SBM.</td>
+</tr>
+<tr class="row-even"><td><strong>getAATorsionParameters()</strong></td>
+<td>Generates default periodic torsion forcefield parameters, for proper torsions, using pre-defined assignment schemes. Used exclusively for simulating all-atom SBM.</td>
+</tr>
+<tr class="row-odd"><td><strong>getAANativeContactParameters()</strong></td>
+<td>Generates default bonded contact forcefield parameters, for native contacts, using pre-defined assignment schemes. Used exclusively for simulating all-atom SBM.</td>
+</tr>
+<tr class="row-even"><td><strong>createSystemObject()</strong></td>
+<td>Creates OpenMM system object adding particles, masses and forces. It also groups the added forces into Force-Groups for the sbmReporter class.</td>
+</tr>
+<tr class="row-odd"><td><strong>addParticles()</strong></td>
+<td>Add particles to the system OpenMM class instance.</td>
+</tr>
+<tr class="row-even"><td><strong>addSystemForces()</strong></td>
+<td>Add forces to the system OpenMM class instance. It also save names for the added forces to include them in the reporter class.</td>
+</tr>
+<tr class="row-odd"><td><strong>dumpPdb()</strong></td>
+<td>Writes a PDB file of the system in its current state.</td>
+</tr>
+<tr class="row-even"><td><strong>dumpForceFieldData()</strong></td>
+<td>Writes to a file the parameters of the SBM forcefield.</td>
+</tr>
+<tr class="row-odd"><td><strong>loadForcefieldFromFile()</strong></td>
+<td>Loads forcefield parameters from a sbmOpenMM force field file written with the dumpForceFieldData() method.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-core"></span><dl class="class">
+<dt id="core.system">
+<em class="property">class </em><code class="descname">system</code><span class="sig-paren">(</span><em>pdb_path</em>, <em>particles_mass=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class containing methods and parameters for generating Structure Based
+Models (SBM) systems to be simulated using the OpenMM interface. It offers 
+flexibility to create default and custom SBM systems and to easily 
+modify their parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>pdb_path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Path to the pdb input file</p>
+</dd>
+<dt><strong>pdb</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.app.pdbfile.PDBFile</span></dt>
+<dd><p class="first last">Object that holds the information of OpenMM PDB parsing method.</p>
+</dd>
+<dt><strong>topology</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.app.topology.Topology</span></dt>
+<dd><p class="first last">OpenMM topology of the model.</p>
+</dd>
+<dt><strong>positions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">unit.quantity.Quantity</span></dt>
+<dd><p class="first last">Atomic positions of the model.</p>
+</dd>
+<dt><strong>particles_mass</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Mass of each particle. If float then uniform masses are given to all 
+particles. If list per-particle masses are assigned.</p>
+</dd>
+<dt><strong>model_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">String representing the model type: All-atom (AA), alpha-carbon (CA)
+or multi-basin variants (AA-MB, CA-MB).</p>
+</dd>
+<dt><strong>atoms</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">A list of the current atoms in the model. The items are simtk.openmm.app.topology.Atom
+initialised classes.</p>
+</dd>
+<dt><strong>n_atoms</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of atoms in the model.</p>
+</dd>
+<dt><strong>bonds</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses bonds (2-tuple of simtk.openmm.app.topology.Atom objects) 
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_bonds</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of bonds in the model.</p>
+</dd>
+<dt><strong>angles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses angles (3-tuple of simtk.openmm.app.topology.Atom objects)
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_angles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of angles in the model.</p>
+</dd>
+<dt><strong>torsions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects) 
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_torsions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of proper torsions in the model.</p>
+</dd>
+<dt><strong>impropers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses improper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_impropers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of improper torsions in the model.</p>
+</dd>
+<dt><strong>planars</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses planar torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_planars</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of planar torsions in the model.</p>
+</dd>
+<dt><strong>contacts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses native contacts (2-tuple of simtk.openmm.app.topology.Atom objects
+present in the model as keys and their forcefield properties as values.</p>
+</dd>
+<dt><strong>n_contacts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Total numer of native contacts in the model.</p>
+</dd>
+<dt><strong>torsions_group</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+present in the model as keys and the number of torsions (int) that share the same middle 
+bond atoms as values.</p>
+</dd>
+<dt><strong>torsions_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+present in the model as keys and, a string representing wheter the torsion 
+is classified as ‘backbone’ or ‘sidechain’ as values.</p>
+</dd>
+<dt><strong>energy_constant</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dict that holds the value for the different energy terms parameters
+used by different SBM models and forces.</p>
+</dd>
+<dt><strong>harmonicBondForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.HarmonicBondForce</span></dt>
+<dd><p class="first last">Stores the OpenMM HarmonicBondForce initialised-class. Implements
+an harmonic bond potential between pairs of particles, that depends
+quadratically on their distance.</p>
+</dd>
+<dt><strong>harmonicAngleForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.HarmonicAngleForce</span></dt>
+<dd><p class="first last">Stores the OpenMM HarmonicAngleForce initialised-class. Implements
+an harmonic angle potential between trios of particles, that depends
+quadratically on their angle length.</p>
+</dd>
+<dt><strong>periodicTorsionForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomTorsionForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomTorsionForce initialised-class. Implements 
+a force potential that varies periodically with the value of the 
+proper torsion angle.</p>
+</dd>
+<dt><strong>generalPeriodicTorsionForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomTorsionForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomTorsionForce initialised-class. Implements 
+a general force potential that varies periodically with the value of the 
+proper torsion angle.</p>
+</dd>
+<dt><strong>harmonicImproperForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomTorsionForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomTorsionForce initialised-class. Implements 
+a force potential that varies quadratically with the value of the  
+improper torsion angle.</p>
+</dd>
+<dt><strong>harmonicPlanarForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomTorsionForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomTorsionForce initialised-class. Implements 
+a force potential that varies quadratically with the value of the  
+planar torsion angle.</p>
+</dd>
+<dt><strong>lj12_6contactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomBondForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
+to non-bonded interactions between native contact pairs. Implements 
+a lennard-jones potential with exponents 12 and 6 for the repulsive
+and attractive componenets, respectively.</p>
+</dd>
+<dt><strong>lj12_10contactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomBondForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
+to non-bonded interactions between native contact pairs. Implements 
+a lennard-jones potential with exponents 12 and 10 for the repulsive
+and attractive components, respectively.</p>
+</dd>
+<dt><strong>lj12_10_6contactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomBondForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
+to non-bonded interactions between native contact pairs. Implements 
+a lennard-jones potential with exponents 12 and 10 for the repulsive
+and attractive components, respectively, and an additional 6-exponent 
+term to model a “desolvation penalty” for forming/breaking contacts.</p>
+</dd>
+<dt><strong>singleGaussianContactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomNonbondedForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
+to non-bonded interactions between native contact pairs with single
+minimum. Implements a mixed lennard-jones (repulsive) and gaussian
+potential (attractive) with separate control of equilibrium distance
+and excluded volume.</p>
+</dd>
+<dt><strong>doubleGaussianContactForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomNonbondedForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
+to non-bonded interactions between native contact pairs with two 
+minima. Implements a mixed lennard-jones (repulsive) and gaussian
+potential (attractive) with separate control of the equilibrium 
+distances and excluded volume.</p>
+</dd>
+<dt><strong>ljRepulsionForce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.CustomNonbondedForce</span></dt>
+<dd><p class="first last">Stores the OpenMM CustomBondForce initialised-class to be applied
+to the non-bonded interactions between non-native contact pairs. 
+Implements only a repulsive lennard-jones potential with exponent 
+12.</p>
+</dd>
+<dt><strong>forceGroups</strong> <span class="classifier-delimiter">:</span> <span class="classifier">collections.OrderedDict</span></dt>
+<dd><p class="first last">A dict that uses force names as keys and their corresponding force
+as values.</p>
+</dd>
+<dt><strong>system</strong> <span class="classifier-delimiter">:</span> <span class="classifier">openmm.System</span></dt>
+<dd><p class="first last">Stores the OpenMM System initialised class. It stores all the forcefield
+information for the SBM model.</p>
+</dd>
+<dt><strong>rf_epsilon</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Epsilon parameter used in the repulsion force object.</p>
+</dd>
+<dt><strong>rf_sigma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Sigma parameter used in the repulsion force object.</p>
+</dd>
+<dt><strong>rf_cutoff</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Cutoff value used for repulsion force interactions.</p>
+</dd>
+<dt><strong>exclusions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of added exclusions for the repuslion non-bonded term.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>removeHydrogens()</strong></td>
+<td>Remove hydrogens from the input pdb by using a regexpression pattern. Used specially for creating all atom (AA) models.</td>
+</tr>
+<tr class="row-even"><td><strong>getCAlphaOnly()</strong></td>
+<td>Filter in only alpha carbon atoms from the input pdb and updates the topology object to add new bonds between them. Used specially for creating alpha-carbon (CA) corse-grained models.</td>
+</tr>
+<tr class="row-odd"><td><strong>getAtoms()</strong></td>
+<td>Reads atoms from topology, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-even"><td><strong>getBonds()</strong></td>
+<td>Reads bonds from topology, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-odd"><td><strong>getAngles()</strong></td>
+<td>Reads bonds from topology and creates a list of all possible angles, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-even"><td><strong>getProperTorsions()</strong></td>
+<td>Using the created angles, usually by the getAngles() method, creates a list of all possible proper torsion dihedral angles, filtering out torsions based on residue-specific rules (only for the all-atom model). The torsions are then added to the main class and sorted into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-odd"><td><strong>getImpropers()</strong></td>
+<td>Create improper torsions based on backbone and sidechain residue-specific rules (all-atom model only), adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-even"><td><strong>getPlanars()</strong></td>
+<td>Create planar torsions based on backbone and sidechain residue-specific rules (all-atom model only), adds them to the main class and sorts them into a dictionary to store their forcefield properties.</td>
+</tr>
+<tr class="row-odd"><td><strong>readContactFile()</strong></td>
+<td>Reads a file containing native contact information and adds it into the main class. The file can be smog-style (4 columns) or given as 2 columns. The format will be automatically detected.</td>
+</tr>
+<tr class="row-even"><td><strong>setBondParameters()</strong></td>
+<td>Change the forcefield parameters for bonded terms.</td>
+</tr>
+<tr class="row-odd"><td><strong>setAngleParameters()</strong></td>
+<td>Change the forcefield parameters for angle terms.</td>
+</tr>
+<tr class="row-even"><td><strong>setProperTorsionParameters()</strong></td>
+<td>Change the forcefield parameters for proper torsion terms.</td>
+</tr>
+<tr class="row-odd"><td><strong>setImproperParameters()</strong></td>
+<td>Change the forcefield parameters for improper torsion terms.</td>
+</tr>
+<tr class="row-even"><td><strong>setPlanarParameters()</strong></td>
+<td>Change the forcefield parameters for planar torsion terms.</td>
+</tr>
+<tr class="row-odd"><td><strong>setNativeContactParameters()</strong></td>
+<td>Change the forcefield parameters for native contact terms.</td>
+</tr>
+<tr class="row-even"><td><strong>setParticlesMasses()</strong></td>
+<td>Change the mass parameter for each atom in the system.</td>
+</tr>
+<tr class="row-odd"><td><strong>addHarmonicBondForces()</strong></td>
+<td>Creates an harmonic bonded force term for each bond in the main class using their defined forcefield parameters.</td>
+</tr>
+<tr class="row-even"><td><strong>addHarmonicAngleForces()</strong></td>
+<td>Creates an harmonic angle force term for each angle in the main class using their defined forcefield parameters.</td>
+</tr>
+<tr class="row-odd"><td><strong>addPeriodicTorsionForces()</strong></td>
+<td>Creates a periodic torsion force term for each proper torsion in the main class using their defined forcefield parameters.</td>
+</tr>
+<tr class="row-even"><td><strong>addGenericPeriodicTorsionForces()</strong></td>
+<td>Creates a periodic torsion force term for each proper torsion in the main class using their defined forcefield parameters.</td>
+</tr>
+<tr class="row-odd"><td><strong>addHarmonicImproperForces()</strong></td>
+<td>Creates an harmonic torsion force term for each improper torsion in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</td>
+</tr>
+<tr class="row-even"><td><strong>addHarmonicPlanarForces()</strong></td>
+<td>Creates an harmonic torsion force term for each planar torsion in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</td>
+</tr>
+<tr class="row-odd"><td><strong>addLJ12_6ContactForces()</strong></td>
+<td>Creates a 12-6 Lennard-Jones bond potential for each native contact in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</td>
+</tr>
+<tr class="row-even"><td><strong>addLJ12_10ContactForces()</strong></td>
+<td>Creates a 12-10 Lennard-Jones bond potential for each native contact in the main class using their defined forcefield parameters. Used specially for simulating coarse-grained alpha-carbon systems.</td>
+</tr>
+<tr class="row-odd"><td><strong>addGaussianContactForces()</strong></td>
+<td>Creates a gaussian single and double basin bond potential for each native contact in the main class using their defined forcefield parameters. The contacts are recognized according two the number of parameters given as values in the attribute system. 3-parameters for single-basin potential and 4-paramters for dual-basin potentials.</td>
+</tr>
+<tr class="row-even"><td><strong>addLJRepulsionForces()</strong></td>
+<td>Creates a repulsive-only 12 Lennard-Jones non-bonded potential specifying a exclusion list for bond, angle, torsion, and native contact terms.</td>
+</tr>
+<tr class="row-odd"><td><strong>groupTorsionsbyBBAndSC()</strong></td>
+<td>Groups proper torsions by backbone and sidechain torsions. Used exclusively for simulating all-atom SBM.</td>
+</tr>
+<tr class="row-even"><td><strong>getAATorsionParameters()</strong></td>
+<td>Generates default periodic torsion forcefield parameters, for proper torsions, using pre-defined assignment schemes. Used exclusively for simulating all-atom SBM.</td>
+</tr>
+<tr class="row-odd"><td><strong>getAANativeContactParameters()</strong></td>
+<td>Generates default bonded contact forcefield parameters, for native contacts, using pre-defined assignment schemes. Used exclusively for simulating all-atom SBM.</td>
+</tr>
+<tr class="row-even"><td><strong>createSystemObject()</strong></td>
+<td>Creates OpenMM system object adding particles, masses and forces. It also groups the added forces into Force-Groups for the sbmReporter class.</td>
+</tr>
+<tr class="row-odd"><td><strong>addParticles()</strong></td>
+<td>Add particles to the system OpenMM class instance.</td>
+</tr>
+<tr class="row-even"><td><strong>addSystemForces()</strong></td>
+<td>Add forces to the system OpenMM class instance. It also save names for the added forces to include them in the reporter class.</td>
+</tr>
+<tr class="row-odd"><td><strong>dumpPdb()</strong></td>
+<td>Writes a PDB file of the system in its current state.</td>
+</tr>
+<tr class="row-even"><td><strong>dumpForceFieldData()</strong></td>
+<td>Writes to a file the parameters of the SBM forcefield.</td>
+</tr>
+<tr class="row-odd"><td><strong>loadForcefieldFromFile()</strong></td>
+<td>Loads forcefield parameters from a sbmOpenMM force field file written with the dumpForceFieldData() method.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="core.system.addGaussianContactForces">
-<code class="descname">addGaussianContactForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addGaussianContactForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addGaussianContactForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addGaussianContactForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addGaussianContactForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addGaussianContactForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomBondForce() object with the equilibrium 
 distances and parameters setted up in the “contacts” attribute. 
 Two forces are created according to the number of parameters given:</p>
@@ -598,13 +1097,29 @@ third -&gt; epsilon (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addGeneralPeriodicTorsionForces">
-<code class="descname">addGeneralPeriodicTorsionForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addGeneralPeriodicTorsionForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addGeneralPeriodicTorsionForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addGeneralPeriodicTorsionForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addGeneralPeriodicTorsionForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addGeneralPeriodicTorsionForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomTorsionForce() object with the torsions 
 and parameters setted up in the “torsions” attribute. The custom 
 torsion force is initilized with the formula:</p>
@@ -626,13 +1141,29 @@ third -&gt; n (int)</p>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addHarmonicAngleForces">
-<code class="descname">addHarmonicAngleForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addHarmonicAngleForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addHarmonicAngleForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addHarmonicAngleForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addHarmonicAngleForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addHarmonicAngleForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.HarmonicAngleForce() object with the angles and 
 parameters setted up in the “angles” attribute. The force object 
 is stored at the “harmonicAngleForce” attribute.</p>
@@ -649,13 +1180,29 @@ second -&gt; k (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addHarmonicBondForces">
-<code class="descname">addHarmonicBondForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addHarmonicBondForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addHarmonicBondForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addHarmonicBondForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addHarmonicBondForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addHarmonicBondForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.HarmonicBondForce() object with the bonds and 
 parameters setted up in the “bonds” dictionary attribute. The force object 
 is stored at the “harmonicBondForce” attribute.</p>
@@ -672,13 +1219,29 @@ second -&gt; k (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addHarmonicImproperForces">
-<code class="descname">addHarmonicImproperForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addHarmonicImproperForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addHarmonicImproperForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addHarmonicImproperForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addHarmonicImproperForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addHarmonicImproperForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomTorsionForce() object with the torsions 
 and parameters setted up in the “impropers” attribute. The custom 
 torsion force is initilized with the formula:</p>
@@ -700,13 +1263,29 @@ second -&gt; k (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addHarmonicPlanarForces">
-<code class="descname">addHarmonicPlanarForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addHarmonicPlanarForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addHarmonicPlanarForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addHarmonicPlanarForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addHarmonicPlanarForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addHarmonicPlanarForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomTorsionForce() object with the torsions 
 and parameters setted up in the “planars” attribute. The custom 
 torsion force is initilized with the formula:</p>
@@ -728,13 +1307,29 @@ second -&gt; k (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addLJ12_10ContactForces">
-<code class="descname">addLJ12_10ContactForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJ12_10ContactForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJ12_10ContactForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addLJ12_10ContactForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJ12_10ContactForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJ12_10ContactForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomBondForce() object with the bonds and 
 parameters setted up in the “contacts” attribute. The custom 
 bond force is initilized with the formula:</p>
@@ -753,13 +1348,29 @@ second -&gt; epsilon (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addLJ12_10_6ContactForces">
-<code class="descname">addLJ12_10_6ContactForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJ12_10_6ContactForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJ12_10_6ContactForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addLJ12_10_6ContactForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJ12_10_6ContactForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJ12_10_6ContactForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomBondForce() object with the bonds and 
 parameters setted up in the “contacts” attribute. The custom 
 bond force is initilized with the formula:</p>
@@ -778,13 +1389,29 @@ second -&gt; epsilon (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addLJ12_6ContactForces">
-<code class="descname">addLJ12_6ContactForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJ12_6ContactForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJ12_6ContactForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addLJ12_6ContactForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJ12_6ContactForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJ12_6ContactForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomBondForce() object with the bonds and 
 parameters setted up in the “contacts” attribute. The custom 
 bond force is initilized with the formula:</p>
@@ -803,13 +1430,29 @@ second -&gt; epsilon (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addLJRepulsionForces">
-<code class="descname">addLJRepulsionForces</code><span class="sig-paren">(</span><em>epsilon=None</em>, <em>sigma=None</em>, <em>cutoff=None</em>, <em>bonded_exclusions_index=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJRepulsionForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJRepulsionForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addLJRepulsionForces</code><span class="sig-paren">(</span><em>self</em>, <em>epsilon=None</em>, <em>sigma=None</em>, <em>cutoff=None</em>, <em>bonded_exclusions_index=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJRepulsionForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJRepulsionForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomNonbondedForce() object with the parameters 
 sigma and epsilon given to this method. The custom non-bonded force
 is initilized with the formula:</p>
@@ -817,34 +1460,67 @@ is initilized with the formula:</p>
 <p>The method adds exclusions for bonded atoms up until ‘bonded_exclusions_index’ 
 bond orders (default 3) and also for all the pairs defined in the ‘contacts’ attribute. 
 The force object is stored at the “ljRepulsionForce” attribute.</p>
-<dl class="docutils">
-<dt>epsilon <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Value of the epsilon constant in the energy function.</dd>
-<dt>sigma <span class="classifier-delimiter">:</span> <span class="classifier">float or list </span></dt>
-<dd>Value of the sigma constant (in nm) in the energy function. If float the
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>epsilon</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Value of the epsilon constant in the energy function.</p>
+</dd>
+<dt><strong>sigma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Value of the sigma constant (in nm) in the energy function. If float the
 same sigma value is used for every particle. If list a unique 
-parameter is given for each particle.</dd>
-<dt>cutoff <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>The cutoff distance (in nm) being used for the nonbonded interactions.</dd>
-<dt>bonded_exclusions_index <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Specified number of bonds to consider when adding non-bonded exclusions.</dd>
+parameter is given for each particle.</p>
+</dd>
+<dt><strong>cutoff</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The cutoff distance (in nm) being used for the nonbonded interactions.</p>
+</dd>
+<dt><strong>bonded_exclusions_index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Specified number of bonds to consider when adding non-bonded exclusions.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addParticles">
-<code class="descname">addParticles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addParticles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addParticles" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addParticles</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addParticles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addParticles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a particle to the sbmOpenMM system for each atom in it. The mass 
 of each particle is set up with the values in the ‘particles_mass’ 
 attribute.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addPeriodicTorsionForces">
-<code class="descname">addPeriodicTorsionForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addPeriodicTorsionForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addPeriodicTorsionForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addPeriodicTorsionForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addPeriodicTorsionForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addPeriodicTorsionForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomTorsionForce() object with the torsions 
 and parameters setted up in the “torsions” attribute. The custom 
 torsion force is initilized with the formula:</p>
@@ -863,110 +1539,230 @@ second -&gt; k (float)</dd>
 </li>
 </ul>
 </div></blockquote>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.addSystemForces">
-<code class="descname">addSystemForces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addSystemForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addSystemForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addSystemForces</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addSystemForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addSystemForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds generated forces to the sbmOpenMM system, also adding 
 a force group to the ‘forceGroups’ attribute dictionary.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.checkBondDistances">
-<code class="descname">checkBondDistances</code><span class="sig-paren">(</span><em>threshold=0.24</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.checkBondDistances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.checkBondDistances" title="Permalink to this definition">¶</a></dt>
+<code class="descname">checkBondDistances</code><span class="sig-paren">(</span><em>self</em>, <em>threshold=0.24</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.checkBondDistances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.checkBondDistances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Searches for large bond distances for the atom pairs defined in 
 the ‘bonds’ attribute. It raises an error when large bonds are found.</p>
-<dl class="docutils">
-<dt>threshold <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Treshold to check for large bond distances.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>threshold</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Treshold to check for large bond distances.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.checkLargeForces">
-<code class="descname">checkLargeForces</code><span class="sig-paren">(</span><em>threshold=1</em>, <em>minimise=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.checkLargeForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.checkLargeForces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">checkLargeForces</code><span class="sig-paren">(</span><em>self</em>, <em>threshold=1</em>, <em>minimise=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.checkLargeForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.checkLargeForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints the SBM system energies of the input configuration of the 
 system. It optionally checks for large forces acting upon all 
 particles in the SBM system and iteratively minimises the system
 configuration until no forces larger than a threshold are found.</p>
-<dl class="docutils">
-<dt>threshold <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Treshold to check for large forces.</dd>
-<dt>minimise <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Whether to iteratively minimise the system until all forces are lower or equal to 
-the thresshold value.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>threshold</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Treshold to check for large forces.</p>
+</dd>
+<dt><strong>minimise</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Whether to iteratively minimise the system until all forces are lower or equal to 
+the thresshold value.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.createSystemObject">
-<code class="descname">createSystemObject</code><span class="sig-paren">(</span><em>check_bond_distances=True</em>, <em>minimise=False</em>, <em>force_threshold=10</em>, <em>bond_threshold=0.24</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.createSystemObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.createSystemObject" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createSystemObject</code><span class="sig-paren">(</span><em>self</em>, <em>check_bond_distances=True</em>, <em>minimise=False</em>, <em>force_threshold=10</em>, <em>bond_threshold=0.24</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.createSystemObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.createSystemObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.System() object using the force field parameters
 given to the SBM ‘system’ class. It adds particles, forces and 
 creates a force group for each force object. Optionally the method 
 can check for large bond distances (default) and minimise the atomic 
 positions if large forces are found in any atom (default False).</p>
-<dl class="docutils">
-<dt>minimise <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>Wheter to minimise the system if large forces are found.</dd>
-<dt>check_bond_distances <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>Wheter to check for large bond distances.</dd>
-<dt>force_threshold <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Treshold to check for large forces.</dd>
-<dt>bond_threshold <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Treshold to check for large bond distances.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>minimise</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><p class="first last">Wheter to minimise the system if large forces are found.</p>
+</dd>
+<dt><strong>check_bond_distances</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><p class="first last">Wheter to check for large bond distances.</p>
+</dd>
+<dt><strong>force_threshold</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Treshold to check for large forces.</p>
+</dd>
+<dt><strong>bond_threshold</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Treshold to check for large bond distances.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.dumpForceFieldData">
-<code class="descname">dumpForceFieldData</code><span class="sig-paren">(</span><em>output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.dumpForceFieldData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.dumpForceFieldData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dumpForceFieldData</code><span class="sig-paren">(</span><em>self</em>, <em>output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.dumpForceFieldData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.dumpForceFieldData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes a file containing the current forcefield parameters in the 
 sbmOpenMM system.</p>
-<dl class="docutils">
-<dt>output_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>name of the output file.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>output_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">name of the output file.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.dumpPdb">
-<code class="descname">dumpPdb</code><span class="sig-paren">(</span><em>output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.dumpPdb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.dumpPdb" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dumpPdb</code><span class="sig-paren">(</span><em>self</em>, <em>output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.dumpPdb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.dumpPdb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes a PDB file containing the currently defined abmOpenMM system atoms.</p>
-<dl class="docutils">
-<dt>output_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>name of the PDB output file.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>output_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">name of the PDB output file.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getAANativeContactParameters">
-<code class="descname">getAANativeContactParameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getAANativeContactParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getAANativeContactParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAANativeContactParameters</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getAANativeContactParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getAANativeContactParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the contact force field parameters by distributing the 
 total native contact energy equally among all the contacts.</p>
 <p>The energy values are stored in the ‘energy_constant’ attribute, 
 which contains the entry ‘C’ for the partitioned energy values.</p>
-<p>None</p>
-<dl class="docutils">
-<dt>contact_parameters <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd>List of the native-contact force constant parameters for each 
-native contact in the SBM system.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
 </dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>contact_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of the native-contact force constant parameters for each 
+native contact in the SBM system.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getAATorsionParameters">
-<code class="descname">getAATorsionParameters</code><span class="sig-paren">(</span><em>group_by_bb_and_sc=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getAATorsionParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getAATorsionParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAATorsionParameters</code><span class="sig-paren">(</span><em>self</em>, <em>group_by_bb_and_sc=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getAATorsionParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getAATorsionParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the torsion force field parameters by distributing the 
 total torsional energy equally among all the torsions. Optionally,
 uses torsional classifications, in backbone or side-chain torsions,
@@ -975,243 +1771,560 @@ torsion energies are twice the value of sidechain torsion energies.</p>
 <p>The energy partioned values are stored in the ‘energy_constant’ 
 attribute. It contains the entries ‘torsion’ for the equally partitioned
 torsion energies, or ‘BB’ and ‘SC’ for group-partioned torsion energies.</p>
-<dl class="docutils">
-<dt>group_by_bb_and_sc <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>Wheter to partion the torsional energy in backbone and side-chain 
-groups.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>group_by_bb_and_sc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><p class="first last">Wheter to partion the torsional energy in backbone and side-chain 
+groups.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>torsion_parameters <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd>List of the torsion force constant parameters for each torsion
-in the SBM system.</dd>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>torsion_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of the torsion force constant parameters for each torsion
+in the SBM system.</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getAngles">
-<code class="descname">getAngles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getAngles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getAngles" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAngles</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getAngles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getAngles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds angles to the sbmOpenMM system class based on the bondings in the topology 
 object.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getAtoms">
-<code class="descname">getAtoms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getAtoms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getAtoms" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAtoms</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getAtoms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getAtoms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds atoms in the OpenMM topology instance to the sbmOpenMM system class.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getBonds">
-<code class="descname">getBonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getBonds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getBonds" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getBonds</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getBonds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getBonds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds bonds in the OpenMM topology instance to the sbmOpenMM system class.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getCAlphaOnly">
-<code class="descname">getCAlphaOnly</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getCAlphaOnly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getCAlphaOnly" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getCAlphaOnly</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getCAlphaOnly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getCAlphaOnly" title="Permalink to this definition">¶</a></dt>
 <dd><p>Keeps in the SBM system only the alpha carbon atoms from the OpenMM topology.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getImpropers">
-<code class="descname">getImpropers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getImpropers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getImpropers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getImpropers</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getImpropers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getImpropers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds improper torsions to the sbmOpenMM system class to maintain backbone 
 chiralities.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getPlanars">
-<code class="descname">getPlanars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getPlanars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getPlanars" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getPlanars</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getPlanars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getPlanars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds planar torsions to the sbmOpenMM system class to mantain side chain and 
 backbone planar arrangements.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.getProperTorsions">
-<code class="descname">getProperTorsions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getProperTorsions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getProperTorsions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getProperTorsions</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.getProperTorsions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.getProperTorsions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds proper torsions to the sbmOpenMM system class based on the bonded angles
 in it. Excludes special torsions for rings and backbones.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.groupTorsionsbyBBAndSC">
-<code class="descname">groupTorsionsbyBBAndSC</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.groupTorsionsbyBBAndSC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.groupTorsionsbyBBAndSC" title="Permalink to this definition">¶</a></dt>
+<code class="descname">groupTorsionsbyBBAndSC</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.groupTorsionsbyBBAndSC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.groupTorsionsbyBBAndSC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Classifies the torsions into backbone or sidechain, based on the atoms 
 present in each torsion definition.</p>
 <p>The classification is stored in the ‘torsions_type’ attribute.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.loadForcefieldFromFile">
-<code class="descname">loadForcefieldFromFile</code><span class="sig-paren">(</span><em>forcefield_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.loadForcefieldFromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.loadForcefieldFromFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">loadForcefieldFromFile</code><span class="sig-paren">(</span><em>self</em>, <em>forcefield_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.loadForcefieldFromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.loadForcefieldFromFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads force field parameters from a force field file written by the 
 dumpForceFieldData() method into the sbmOpenMM system.</p>
-<dl class="docutils">
-<dt>forcefield_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>path to the force field file.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>forcefield_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">path to the force field file.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.readContactFile">
-<code class="descname">readContactFile</code><span class="sig-paren">(</span><em>contact_file</em>, <em>shift=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.readContactFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.readContactFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">readContactFile</code><span class="sig-paren">(</span><em>self</em>, <em>contact_file</em>, <em>shift=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.readContactFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.readContactFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads a file to add native contact information to the sbmOpenMM system class.
 The file format can be ‘smog’ like (i.e. 4 columns) or ‘2column’ like
 (i.e. one column for each atom). This is auto-dected by the method.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.removeHydrogens">
-<code class="descname">removeHydrogens</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.removeHydrogens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.removeHydrogens" title="Permalink to this definition">¶</a></dt>
+<code class="descname">removeHydrogens</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.removeHydrogens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.removeHydrogens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes all hydrogen atoms in the topology from the SBM system.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.setAngleParameters">
-<code class="descname">setAngleParameters</code><span class="sig-paren">(</span><em>angle_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setAngleParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setAngleParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setAngleParameters</code><span class="sig-paren">(</span><em>self</em>, <em>angle_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setAngleParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setAngleParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the harmonic angle constant force parameters. The input can 
 be a float, to set the same parameter for all force interactions, 
 or a list, to define a unique parameter for each force interaction.</p>
-<dl class="docutils">
-<dt>angle_parameters <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
-<dd>Parameter(s) to set up for the harmonic angle forces.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>angle_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Parameter(s) to set up for the harmonic angle forces.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.setBondParameters">
-<code class="descname">setBondParameters</code><span class="sig-paren">(</span><em>bond_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setBondParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setBondParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setBondParameters</code><span class="sig-paren">(</span><em>self</em>, <em>bond_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setBondParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setBondParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the harmonic bond constant force parameters. The input can be 
 a float, to set the same parameter for all force interactions, or 
 a list, to define a unique parameter for each force interaction.</p>
-<dl class="docutils">
-<dt>bond_parameters <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
-<dd>Parameter(s) to set up for the harmonic bond forces.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>bond_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Parameter(s) to set up for the harmonic bond forces.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.setCAMassPerResidueType">
-<code class="descname">setCAMassPerResidueType</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setCAMassPerResidueType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setCAMassPerResidueType" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setCAMassPerResidueType</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setCAMassPerResidueType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setCAMassPerResidueType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the masses of the alpha carbon atoms to the average mass
 of its amino acid residue.</p>
-<p>None</p>
-<p>None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>None</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.setImproperParameters">
-<code class="descname">setImproperParameters</code><span class="sig-paren">(</span><em>improper_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setImproperParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setImproperParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setImproperParameters</code><span class="sig-paren">(</span><em>self</em>, <em>improper_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setImproperParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setImproperParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the harmonic torsion constant force parameters for impropers. 
 The input can be a float, to set the same parameter for all force 
 interactions, or a list, to define a unique paremater for each force 
 interaction.</p>
-<dl class="docutils">
-<dt>improper_parameters <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
-<dd>Parameter(s) to set up for the harmonic torsion force parameters 
-for impropers.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>improper_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Parameter(s) to set up for the harmonic torsion force parameters 
+for impropers.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.setNativeContactParameters">
-<code class="descname">setNativeContactParameters</code><span class="sig-paren">(</span><em>contact_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setNativeContactParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setNativeContactParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setNativeContactParameters</code><span class="sig-paren">(</span><em>self</em>, <em>contact_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setNativeContactParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setNativeContactParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the native interactions constant force parameters for native 
 contacts. The input can be a float, to set the same parameter for 
 all force interactions, or a list, to define a unique parameter 
 for each force interaction.</p>
-<dl class="docutils">
-<dt>contact_parameters <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
-<dd>Parameter(s) to set up for the native interaction force for 
-native contacts.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>contact_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Parameter(s) to set up for the native interaction force for 
+native contacts.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.setParticlesMasses">
-<code class="descname">setParticlesMasses</code><span class="sig-paren">(</span><em>particles_mass</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setParticlesMasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setParticlesMasses" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setParticlesMasses</code><span class="sig-paren">(</span><em>self</em>, <em>particles_mass</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setParticlesMasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setParticlesMasses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the mass of the particles in the system. The input can be a 
 float, to set the same mass for all particles, or a list, to define 
 a unique mass for each particle.</p>
-<dl class="docutils">
-<dt>particles_mass <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
-<dd>Mass(es) values to add for the particles in the sbmOpenMM system class.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>particles_mass</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Mass(es) values to add for the particles in the sbmOpenMM system class.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.setPlanarParameters">
-<code class="descname">setPlanarParameters</code><span class="sig-paren">(</span><em>planar_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setPlanarParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setPlanarParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setPlanarParameters</code><span class="sig-paren">(</span><em>self</em>, <em>planar_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setPlanarParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setPlanarParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the harmonic torsion constant force parameters for planars. 
 The input can be a float, to set the same parameter for all force 
 interactions, or a list, to define a unique parameter for each force 
 interaction.</p>
-<dl class="docutils">
-<dt>planar_parameters <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
-<dd>Parameter(s) to set up for the harmonic torsion force parameters 
-for planars.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>planar_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Parameter(s) to set up for the harmonic torsion force parameters 
+for planars.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="core.system.setProperTorsionParameters">
-<code class="descname">setProperTorsionParameters</code><span class="sig-paren">(</span><em>torsion_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setProperTorsionParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setProperTorsionParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setProperTorsionParameters</code><span class="sig-paren">(</span><em>self</em>, <em>torsion_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setProperTorsionParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setProperTorsionParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the periodic torsion constant force parameters. The input can 
 be a float, to set the same parameter for all force interactions, 
 or a list, to define a unique parameter for each force interaction.</p>
-<dl class="docutils">
-<dt>torsion_parameters <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
-<dd>Parameter(s) to set up for the periodic torsion forces.</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>torsion_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or list</span></dt>
+<dd><p class="first last">Parameter(s) to set up for the periodic torsion forces.</p>
+</dd>
 </dl>
-<p>None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
 
 </div>
+</div>
 <div class="section" id="reporter-class">
 <h2>Reporter class<a class="headerlink" href="#reporter-class" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sbmopenmm-sbmreporter">
+<h3>sbmOpenMM.sbmReporter<a class="headerlink" href="#sbmopenmm-sbmreporter" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="reporter.sbmReporter">
+<em class="property">class </em><code class="descname">sbmReporter</code><span class="sig-paren">(</span><em>file</em>, <em>reportInterval</em>, <em>sbmObject=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reporter/sbm_reporter.html#sbmReporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reporter.sbmReporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>A special case of the StateDataReporter class that outputs information about a simulation, 
+such as energy and temperature, etc. to a file. This special reporter outputs the sbmOpenMM 
+force group energies inside the sbmOpenMM system object.</p>
+<p>It is used in the same way as the OpenMM StateDataReporter class, but it takes as additional
+input an instance of the sbmOpenMM object with the option ‘sbmObject’.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#reporter.sbmReporter" title="reporter.sbmReporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reporter.sbmReporter</span></code></a>(file,&nbsp;reportInterval[,&nbsp;…])</td>
-<td>A special case of the StateDataReporter class that outputs information about a simulation,  such as energy and temperature, etc.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">describeNextReport</span></code>(self,&nbsp;simulation)</td>
+<td>Get information about the next report this object will generate.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code>(self,&nbsp;simulation,&nbsp;state)</td>
+<td>Generate a report.</td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
 <span class="target" id="module-reporter"></span><dl class="class">
-<dt id="reporter.sbmReporter">
-<em class="property">class </em><code class="descclassname">reporter.</code><code class="descname">sbmReporter</code><span class="sig-paren">(</span><em>file</em>, <em>reportInterval</em>, <em>sbmObject=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reporter/sbm_reporter.html#sbmReporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reporter.sbmReporter" title="Permalink to this definition">¶</a></dt>
+<dt>
+<em class="property">class </em><code class="descname">sbmReporter</code><span class="sig-paren">(</span><em>file</em>, <em>reportInterval</em>, <em>sbmObject=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reporter/sbm_reporter.html#sbmReporter"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>A special case of the StateDataReporter class that outputs information about a simulation, 
 such as energy and temperature, etc. to a file. This special reporter outputs the sbmOpenMM 
 force group energies inside the sbmOpenMM system object.</p>
@@ -1219,6 +2332,7 @@ force group energies inside the sbmOpenMM system object.</p>
 input an instance of the sbmOpenMM object with the option ‘sbmObject’.</p>
 </dd></dl>
 
+</div>
 </div>
 </div>
 
@@ -1231,25 +2345,20 @@ input an instance of the sbmOpenMM object with the option ‘sbmObject’.</p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">sbmOpenMM Documentation</a><ul>
-<li><a class="reference internal" href="#core-classes">Core classes</a></li>
-<li><a class="reference internal" href="#reporter-class">Reporter class</a></li>
+<li><a class="reference internal" href="#core-classes">Core classes</a><ul>
+<li><a class="reference internal" href="#sbmopenmm-geometry">sbmOpenMM.geometry</a></li>
+<li><a class="reference internal" href="#sbmopenmm-models">sbmOpenMM.models</a></li>
+<li><a class="reference internal" href="#sbmopenmm-system">sbmOpenMM.system</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reporter-class">Reporter class</a><ul>
+<li><a class="reference internal" href="#sbmopenmm-sbmreporter">sbmOpenMM.sbmReporter</a></li>
 </ul>
 </li>
 </ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="#">Documentation overview</a><ul>
-  </ul></li>
+</li>
 </ul>
-</div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">

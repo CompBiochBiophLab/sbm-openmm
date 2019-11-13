@@ -9,27 +9,42 @@ sbmOpenMM Documentation
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
+   
 Core classes
 ============
-.. autosummary::
-   core.geometry
-   core.models
-   core.system
+
+sbmOpenMM.geometry
+__________________
+
+.. autoclass:: core.geometry.geometry
 
 .. automodule:: core
    :members: geometry
 
+sbmOpenMM.models
+________________
+
+.. autoclass:: core.models.models
+
 .. automodule:: core
    :members: models
+
+sbmOpenMM.system
+________________
+
+.. autoclass:: core.models.system
 
 .. automodule:: core
    :members: system
 
 Reporter class
 ==============
-.. autosummary::
-   reporter.sbmReporter
+
+sbmOpenMM.sbmReporter
+_____________________
+
+.. autoclass:: reporter.sbmReporter
 
 .. automodule:: reporter
    :members: sbmReporter
+

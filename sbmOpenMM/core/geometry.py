@@ -7,24 +7,10 @@
 from simtk import unit
 import numpy as np
 
-
-# In[1]:
-
-
 class geometry:
-    """A class to hold methods for calculating geometrical values 
+    """
+    A class to hold methods for calculating geometrical values 
     given sets of atom coordinates.
-
-    Methods
-    -------
-    position2Array(quantity)
-        Converts quantity arrays into numpy arrays for ease up calculations.
-    bond(coord1, coord2)
-        Calculate the bond length between two atoms.
-    angle(coord1, coord2, coord3)
-        Calculate the angle length between three atoms.
-    torsion(coord1, coord2, coord3, coord4)
-        Calculate the torsion angle length between four atoms.
     """
 
     def position2Array(position, output_unit):

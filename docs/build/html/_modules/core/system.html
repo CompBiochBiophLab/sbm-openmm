@@ -50,7 +50,7 @@
 <span class="c1"># In[ ]:</span>
 
 
-<div class="viewcode-block" id="system"><a class="viewcode-back" href="../../index.html#core.system">[docs]</a><span class="k">class</span> <span class="nc">system</span><span class="p">:</span>
+<div class="viewcode-block" id="system"><a class="viewcode-back" href="../../index.html#core.models.system">[docs]</a><span class="k">class</span> <span class="nc">system</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class containing methods and parameters for generating Structure Based</span>
 <span class="sd">    Models (SBM) systems to be simulated using the OpenMM interface. It offers </span>
@@ -61,11 +61,11 @@
 <span class="sd">    ----------</span>
 <span class="sd">    pdb_path : string</span>
 <span class="sd">        Path to the pdb input file</span>
-<span class="sd">    pdb : simtk.openmm.app.pdbfile.PDBFile</span>
+<span class="sd">    pdb : openmm.app.pdbfile.PDBFile</span>
 <span class="sd">        Object that holds the information of OpenMM PDB parsing method.</span>
-<span class="sd">    topology : simtk.openmm.app.topology.Topology</span>
+<span class="sd">    topology : openmm.app.topology.Topology</span>
 <span class="sd">        OpenMM topology of the model.</span>
-<span class="sd">    positions : simtk.unit.quantity.Quantity</span>
+<span class="sd">    positions : unit.quantity.Quantity</span>
 <span class="sd">        Atomic positions of the model.</span>
 <span class="sd">    particles_mass : float or list</span>
 <span class="sd">        Mass of each particle. If float then uniform masses are given to all </span>
@@ -119,59 +119,59 @@
 <span class="sd">    energy_constant : dict</span>
 <span class="sd">        A dict that holds the value for the different energy terms parameters</span>
 <span class="sd">        used by different SBM models and forces.</span>
-<span class="sd">    harmonicBondForce : simtk.openmm.openmm.HarmonicBondForce</span>
+<span class="sd">    harmonicBondForce : openmm.HarmonicBondForce</span>
 <span class="sd">        Stores the OpenMM HarmonicBondForce initialised-class. Implements</span>
 <span class="sd">        an harmonic bond potential between pairs of particles, that depends</span>
 <span class="sd">        quadratically on their distance.</span>
-<span class="sd">    harmonicAngleForce : simtk.openmm.openmm.HarmonicAngleForce</span>
+<span class="sd">    harmonicAngleForce : openmm.HarmonicAngleForce</span>
 <span class="sd">        Stores the OpenMM HarmonicAngleForce initialised-class. Implements</span>
 <span class="sd">        an harmonic angle potential between trios of particles, that depends</span>
 <span class="sd">        quadratically on their angle length.</span>
-<span class="sd">    periodicTorsionForce : simtk.openmm.openmm.CustomTorsionForce</span>
+<span class="sd">    periodicTorsionForce : openmm.CustomTorsionForce</span>
 <span class="sd">        Stores the OpenMM CustomTorsionForce initialised-class. Implements </span>
 <span class="sd">        a force potential that varies periodically with the value of the </span>
 <span class="sd">        proper torsion angle.</span>
-<span class="sd">    generalPeriodicTorsionForce: simtk.openmm.openmm.CustomTorsionForce</span>
+<span class="sd">    generalPeriodicTorsionForce : openmm.CustomTorsionForce</span>
 <span class="sd">        Stores the OpenMM CustomTorsionForce initialised-class. Implements </span>
 <span class="sd">        a general force potential that varies periodically with the value of the </span>
 <span class="sd">        proper torsion angle.</span>
-<span class="sd">    harmonicImproperForce : simtk.openmm.openmm.CustomTorsionForce</span>
+<span class="sd">    harmonicImproperForce : openmm.CustomTorsionForce</span>
 <span class="sd">        Stores the OpenMM CustomTorsionForce initialised-class. Implements </span>
 <span class="sd">        a force potential that varies quadratically with the value of the  </span>
 <span class="sd">        improper torsion angle.</span>
-<span class="sd">    harmonicPlanarForce : simtk.openmm.openmm.CustomTorsionForce</span>
+<span class="sd">    harmonicPlanarForce : openmm.CustomTorsionForce</span>
 <span class="sd">        Stores the OpenMM CustomTorsionForce initialised-class. Implements </span>
 <span class="sd">        a force potential that varies quadratically with the value of the  </span>
 <span class="sd">        planar torsion angle.</span>
-<span class="sd">    lj12_6contactForce : simtk.openmm.openmm.CustomBondForce</span>
+<span class="sd">    lj12_6contactForce : openmm.CustomBondForce</span>
 <span class="sd">        Stores the OpenMM CustomBondForce initialised-class to be applied</span>
 <span class="sd">        to non-bonded interactions between native contact pairs. Implements </span>
 <span class="sd">        a lennard-jones potential with exponents 12 and 6 for the repulsive</span>
 <span class="sd">        and attractive componenets, respectively.</span>
-<span class="sd">    lj12_10contactForce : simtk.openmm.openmm.CustomBondForce</span>
+<span class="sd">    lj12_10contactForce : openmm.CustomBondForce</span>
 <span class="sd">        Stores the OpenMM CustomBondForce initialised-class to be applied</span>
 <span class="sd">        to non-bonded interactions between native contact pairs. Implements </span>
 <span class="sd">        a lennard-jones potential with exponents 12 and 10 for the repulsive</span>
 <span class="sd">        and attractive components, respectively.</span>
-<span class="sd">    lj12_10_6contactForce</span>
+<span class="sd">    lj12_10_6contactForce : openmm.CustomBondForce</span>
 <span class="sd">        Stores the OpenMM CustomBondForce initialised-class to be applied</span>
 <span class="sd">        to non-bonded interactions between native contact pairs. Implements </span>
 <span class="sd">        a lennard-jones potential with exponents 12 and 10 for the repulsive</span>
 <span class="sd">        and attractive components, respectively, and an additional 6-exponent </span>
 <span class="sd">        term to model a “desolvation penalty” for forming/breaking contacts.</span>
-<span class="sd">    singleGaussianContactForce : simtk.openmm.openmm.CustomNonbondedForce</span>
+<span class="sd">    singleGaussianContactForce : openmm.CustomNonbondedForce</span>
 <span class="sd">        Stores the OpenMM CustomBondForce initialised-class to be applied</span>
 <span class="sd">        to non-bonded interactions between native contact pairs with single</span>
 <span class="sd">        minimum. Implements a mixed lennard-jones (repulsive) and gaussian</span>
 <span class="sd">        potential (attractive) with separate control of equilibrium distance</span>
 <span class="sd">        and excluded volume.</span>
-<span class="sd">    doubleGaussianContactForce : simtk.openmm.openmm.CustomNonbondedForce</span>
+<span class="sd">    doubleGaussianContactForce : openmm.CustomNonbondedForce</span>
 <span class="sd">        Stores the OpenMM CustomBondForce initialised-class to be applied</span>
 <span class="sd">        to non-bonded interactions between native contact pairs with two </span>
 <span class="sd">        minima. Implements a mixed lennard-jones (repulsive) and gaussian</span>
 <span class="sd">        potential (attractive) with separate control of the equilibrium </span>
 <span class="sd">        distances and excluded volume.</span>
-<span class="sd">    ljRepulsionForce : simtk.openmm.openmm.CustomNonbondedForce</span>
+<span class="sd">    ljRepulsionForce : openmm.CustomNonbondedForce</span>
 <span class="sd">        Stores the OpenMM CustomBondForce initialised-class to be applied</span>
 <span class="sd">        to the non-bonded interactions between non-native contact pairs. </span>
 <span class="sd">        Implements only a repulsive lennard-jones potential with exponent </span>
@@ -179,7 +179,7 @@
 <span class="sd">    forceGroups : collections.OrderedDict</span>
 <span class="sd">        A dict that uses force names as keys and their corresponding force</span>
 <span class="sd">        as values.</span>
-<span class="sd">    system : simtk.openmm.openmm.System</span>
+<span class="sd">    system : openmm.System</span>
 <span class="sd">        Stores the OpenMM System initialised class. It stores all the forcefield</span>
 <span class="sd">        information for the SBM model.</span>
 <span class="sd">    rf_epsilon : float</span>
@@ -378,7 +378,7 @@
         <span class="c1">#Initialise an OpenMM system class instance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">system</span> <span class="o">=</span> <span class="n">openmm</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
         
-<div class="viewcode-block" id="system.removeHydrogens"><a class="viewcode-back" href="../../index.html#core.system.removeHydrogens">[docs]</a>    <span class="k">def</span> <span class="nf">removeHydrogens</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.removeHydrogens"><a class="viewcode-back" href="../../index.html#core.models.system.removeHydrogens">[docs]</a>    <span class="k">def</span> <span class="nf">removeHydrogens</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes all hydrogen atoms in the topology from the SBM system.</span>
 <span class="sd">        </span>
@@ -405,7 +405,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">modeller_topology</span><span class="o">.</span><span class="n">getPositions</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;AA&#39;</span></div>
         
-<div class="viewcode-block" id="system.getCAlphaOnly"><a class="viewcode-back" href="../../index.html#core.system.getCAlphaOnly">[docs]</a>    <span class="k">def</span> <span class="nf">getCAlphaOnly</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getCAlphaOnly"><a class="viewcode-back" href="../../index.html#core.models.system.getCAlphaOnly">[docs]</a>    <span class="k">def</span> <span class="nf">getCAlphaOnly</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Keeps in the SBM system only the alpha carbon atoms from the OpenMM topology.</span>
 <span class="sd">        </span>
@@ -447,7 +447,7 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;CA&#39;</span></div>
             
-<div class="viewcode-block" id="system.getAtoms"><a class="viewcode-back" href="../../index.html#core.system.getAtoms">[docs]</a>    <span class="k">def</span> <span class="nf">getAtoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getAtoms"><a class="viewcode-back" href="../../index.html#core.models.system.getAtoms">[docs]</a>    <span class="k">def</span> <span class="nf">getAtoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds atoms in the OpenMM topology instance to the sbmOpenMM system class.</span>
 <span class="sd">        </span>
@@ -474,7 +474,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atom</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_atoms</span> <span class="o">+=</span> <span class="mi">1</span></div>
             
-<div class="viewcode-block" id="system.getBonds"><a class="viewcode-back" href="../../index.html#core.system.getBonds">[docs]</a>    <span class="k">def</span> <span class="nf">getBonds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getBonds"><a class="viewcode-back" href="../../index.html#core.models.system.getBonds">[docs]</a>    <span class="k">def</span> <span class="nf">getBonds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds bonds in the OpenMM topology instance to the sbmOpenMM system class.</span>
 <span class="sd">        </span>
@@ -515,7 +515,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">bondedTo</span><span class="p">[</span><span class="n">bond</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bond</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bondedTo</span><span class="p">[</span><span class="n">bond</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bond</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
             
-<div class="viewcode-block" id="system.getAngles"><a class="viewcode-back" href="../../index.html#core.system.getAngles">[docs]</a>    <span class="k">def</span> <span class="nf">getAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getAngles"><a class="viewcode-back" href="../../index.html#core.models.system.getAngles">[docs]</a>    <span class="k">def</span> <span class="nf">getAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds angles to the sbmOpenMM system class based on the bondings in the topology </span>
 <span class="sd">        object.</span>
@@ -558,7 +558,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">[</span><span class="n">angle</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">angle_length</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+=</span> <span class="mi">1</span></div>
         
-<div class="viewcode-block" id="system.getProperTorsions"><a class="viewcode-back" href="../../index.html#core.system.getProperTorsions">[docs]</a>    <span class="k">def</span> <span class="nf">getProperTorsions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getProperTorsions"><a class="viewcode-back" href="../../index.html#core.models.system.getProperTorsions">[docs]</a>    <span class="k">def</span> <span class="nf">getProperTorsions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds proper torsions to the sbmOpenMM system class based on the bonded angles</span>
 <span class="sd">        in it. Excludes special torsions for rings and backbones.</span>
@@ -651,7 +651,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">torsions</span><span class="p">[</span><span class="n">torsion</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">torsion_angle</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_torsions</span> <span class="o">+=</span> <span class="mi">1</span></div>
             
-<div class="viewcode-block" id="system.getImpropers"><a class="viewcode-back" href="../../index.html#core.system.getImpropers">[docs]</a>    <span class="k">def</span> <span class="nf">getImpropers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getImpropers"><a class="viewcode-back" href="../../index.html#core.models.system.getImpropers">[docs]</a>    <span class="k">def</span> <span class="nf">getImpropers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds improper torsions to the sbmOpenMM system class to maintain backbone </span>
 <span class="sd">        chiralities.</span>
@@ -689,7 +689,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">impropers</span><span class="p">[</span><span class="n">improper</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">improper_angle</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">n_impropers</span> <span class="o">+=</span> <span class="mi">1</span></div>
             
-<div class="viewcode-block" id="system.getPlanars"><a class="viewcode-back" href="../../index.html#core.system.getPlanars">[docs]</a>    <span class="k">def</span> <span class="nf">getPlanars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getPlanars"><a class="viewcode-back" href="../../index.html#core.models.system.getPlanars">[docs]</a>    <span class="k">def</span> <span class="nf">getPlanars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds planar torsions to the sbmOpenMM system class to mantain side chain and </span>
 <span class="sd">        backbone planar arrangements.</span>
@@ -817,7 +817,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">planars</span><span class="p">[</span><span class="n">planar</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">planar_angle</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_planars</span> <span class="o">+=</span> <span class="mi">1</span></div>
     
-<div class="viewcode-block" id="system.readContactFile"><a class="viewcode-back" href="../../index.html#core.system.readContactFile">[docs]</a>    <span class="k">def</span> <span class="nf">readContactFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="system.readContactFile"><a class="viewcode-back" href="../../index.html#core.models.system.readContactFile">[docs]</a>    <span class="k">def</span> <span class="nf">readContactFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads a file to add native contact information to the sbmOpenMM system class.</span>
 <span class="sd">        The file format can be &#39;smog&#39; like (i.e. 4 columns) or &#39;2column&#39; like</span>
@@ -858,7 +858,7 @@
                 
     <span class="c1">## Functions for setting force specific parameters ##</span>
     
-<div class="viewcode-block" id="system.setBondParameters"><a class="viewcode-back" href="../../index.html#core.system.setBondParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setBondParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond_parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="system.setBondParameters"><a class="viewcode-back" href="../../index.html#core.models.system.setBondParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setBondParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond_parameters</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the harmonic bond constant force parameters. The input can be </span>
 <span class="sd">        a float, to set the same parameter for all force interactions, or </span>
@@ -876,7 +876,7 @@
         
         <span class="n">system</span><span class="o">.</span><span class="n">_setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bonds</span><span class="p">,</span> <span class="n">bond_parameters</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="system.setAngleParameters"><a class="viewcode-back" href="../../index.html#core.system.setAngleParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setAngleParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle_parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="system.setAngleParameters"><a class="viewcode-back" href="../../index.html#core.models.system.setAngleParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setAngleParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle_parameters</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the harmonic angle constant force parameters. The input can </span>
 <span class="sd">        be a float, to set the same parameter for all force interactions, </span>
@@ -894,7 +894,7 @@
         
         <span class="n">system</span><span class="o">.</span><span class="n">_setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">,</span> <span class="n">angle_parameters</span><span class="p">)</span></div>
                 
-<div class="viewcode-block" id="system.setProperTorsionParameters"><a class="viewcode-back" href="../../index.html#core.system.setProperTorsionParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setProperTorsionParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">torsion_parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="system.setProperTorsionParameters"><a class="viewcode-back" href="../../index.html#core.models.system.setProperTorsionParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setProperTorsionParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">torsion_parameters</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the periodic torsion constant force parameters. The input can </span>
 <span class="sd">        be a float, to set the same parameter for all force interactions, </span>
@@ -912,7 +912,7 @@
         
         <span class="n">system</span><span class="o">.</span><span class="n">_setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">torsions</span><span class="p">,</span> <span class="n">torsion_parameters</span><span class="p">)</span></div>
                 
-<div class="viewcode-block" id="system.setImproperParameters"><a class="viewcode-back" href="../../index.html#core.system.setImproperParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setImproperParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">improper_parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="system.setImproperParameters"><a class="viewcode-back" href="../../index.html#core.models.system.setImproperParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setImproperParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">improper_parameters</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the harmonic torsion constant force parameters for impropers. </span>
 <span class="sd">        The input can be a float, to set the same parameter for all force </span>
@@ -932,7 +932,7 @@
         
         <span class="n">system</span><span class="o">.</span><span class="n">_setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">impropers</span><span class="p">,</span> <span class="n">improper_parameters</span><span class="p">)</span></div>
                 
-<div class="viewcode-block" id="system.setPlanarParameters"><a class="viewcode-back" href="../../index.html#core.system.setPlanarParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setPlanarParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">planar_parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="system.setPlanarParameters"><a class="viewcode-back" href="../../index.html#core.models.system.setPlanarParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setPlanarParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">planar_parameters</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the harmonic torsion constant force parameters for planars. </span>
 <span class="sd">        The input can be a float, to set the same parameter for all force </span>
@@ -952,7 +952,7 @@
         
         <span class="n">system</span><span class="o">.</span><span class="n">_setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">planars</span><span class="p">,</span> <span class="n">planar_parameters</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="system.setNativeContactParameters"><a class="viewcode-back" href="../../index.html#core.system.setNativeContactParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setNativeContactParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contact_parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="system.setNativeContactParameters"><a class="viewcode-back" href="../../index.html#core.models.system.setNativeContactParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setNativeContactParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contact_parameters</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the native interactions constant force parameters for native </span>
 <span class="sd">        contacts. The input can be a float, to set the same parameter for </span>
@@ -972,7 +972,7 @@
         
         <span class="n">system</span><span class="o">.</span><span class="n">_setParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">,</span> <span class="n">contact_parameters</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="system.setParticlesMasses"><a class="viewcode-back" href="../../index.html#core.system.setParticlesMasses">[docs]</a>    <span class="k">def</span> <span class="nf">setParticlesMasses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">particles_mass</span><span class="p">):</span>
+<div class="viewcode-block" id="system.setParticlesMasses"><a class="viewcode-back" href="../../index.html#core.models.system.setParticlesMasses">[docs]</a>    <span class="k">def</span> <span class="nf">setParticlesMasses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">particles_mass</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the mass of the particles in the system. The input can be a </span>
 <span class="sd">        float, to set the same mass for all particles, or a list, to define </span>
@@ -992,7 +992,7 @@
     
     <span class="c1">## Functions for creating force objects with defined parameters ##</span>
     
-<div class="viewcode-block" id="system.addHarmonicBondForces"><a class="viewcode-back" href="../../index.html#core.system.addHarmonicBondForces">[docs]</a>    <span class="k">def</span> <span class="nf">addHarmonicBondForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addHarmonicBondForces"><a class="viewcode-back" href="../../index.html#core.models.system.addHarmonicBondForces">[docs]</a>    <span class="k">def</span> <span class="nf">addHarmonicBondForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.HarmonicBondForce() object with the bonds and </span>
 <span class="sd">        parameters setted up in the &quot;bonds&quot; dictionary attribute. The force object </span>
@@ -1021,7 +1021,7 @@
                                            <span class="bp">self</span><span class="o">.</span><span class="n">bonds</span><span class="p">[</span><span class="n">bond</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                                            <span class="bp">self</span><span class="o">.</span><span class="n">bonds</span><span class="p">[</span><span class="n">bond</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span></div>
     
-<div class="viewcode-block" id="system.addHarmonicAngleForces"><a class="viewcode-back" href="../../index.html#core.system.addHarmonicAngleForces">[docs]</a>    <span class="k">def</span> <span class="nf">addHarmonicAngleForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addHarmonicAngleForces"><a class="viewcode-back" href="../../index.html#core.models.system.addHarmonicAngleForces">[docs]</a>    <span class="k">def</span> <span class="nf">addHarmonicAngleForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.HarmonicAngleForce() object with the angles and </span>
 <span class="sd">        parameters setted up in the &quot;angles&quot; attribute. The force object </span>
@@ -1051,7 +1051,7 @@
                                             <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">[</span><span class="n">angle</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                                             <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">[</span><span class="n">angle</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span></div>
             
-<div class="viewcode-block" id="system.addPeriodicTorsionForces"><a class="viewcode-back" href="../../index.html#core.system.addPeriodicTorsionForces">[docs]</a>    <span class="k">def</span> <span class="nf">addPeriodicTorsionForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addPeriodicTorsionForces"><a class="viewcode-back" href="../../index.html#core.models.system.addPeriodicTorsionForces">[docs]</a>    <span class="k">def</span> <span class="nf">addPeriodicTorsionForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomTorsionForce() object with the torsions </span>
 <span class="sd">        and parameters setted up in the &quot;torsions&quot; attribute. The custom </span>
@@ -1089,7 +1089,7 @@
                                                  <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">torsions</span><span class="p">[</span><span class="n">torsion</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                                                  <span class="bp">self</span><span class="o">.</span><span class="n">torsions</span><span class="p">[</span><span class="n">torsion</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span></div>
             
-<div class="viewcode-block" id="system.addGeneralPeriodicTorsionForces"><a class="viewcode-back" href="../../index.html#core.system.addGeneralPeriodicTorsionForces">[docs]</a>    <span class="k">def</span> <span class="nf">addGeneralPeriodicTorsionForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addGeneralPeriodicTorsionForces"><a class="viewcode-back" href="../../index.html#core.models.system.addGeneralPeriodicTorsionForces">[docs]</a>    <span class="k">def</span> <span class="nf">addGeneralPeriodicTorsionForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomTorsionForce() object with the torsions </span>
 <span class="sd">        and parameters setted up in the &quot;torsions&quot; attribute. The custom </span>
@@ -1134,7 +1134,7 @@
                                                      <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                                                      <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span></div>
             
-<div class="viewcode-block" id="system.addHarmonicImproperForces"><a class="viewcode-back" href="../../index.html#core.system.addHarmonicImproperForces">[docs]</a>    <span class="k">def</span> <span class="nf">addHarmonicImproperForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addHarmonicImproperForces"><a class="viewcode-back" href="../../index.html#core.models.system.addHarmonicImproperForces">[docs]</a>    <span class="k">def</span> <span class="nf">addHarmonicImproperForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomTorsionForce() object with the torsions </span>
 <span class="sd">        and parameters setted up in the &quot;impropers&quot; attribute. The custom </span>
@@ -1179,7 +1179,7 @@
                                                  <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">impropers</span><span class="p">[</span><span class="n">improper</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                                                  <span class="bp">self</span><span class="o">.</span><span class="n">impropers</span><span class="p">[</span><span class="n">improper</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span></div>
             
-<div class="viewcode-block" id="system.addHarmonicPlanarForces"><a class="viewcode-back" href="../../index.html#core.system.addHarmonicPlanarForces">[docs]</a>    <span class="k">def</span> <span class="nf">addHarmonicPlanarForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addHarmonicPlanarForces"><a class="viewcode-back" href="../../index.html#core.models.system.addHarmonicPlanarForces">[docs]</a>    <span class="k">def</span> <span class="nf">addHarmonicPlanarForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomTorsionForce() object with the torsions </span>
 <span class="sd">        and parameters setted up in the &quot;planars&quot; attribute. The custom </span>
@@ -1224,7 +1224,7 @@
                                               <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">planars</span><span class="p">[</span><span class="n">planar</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                                               <span class="bp">self</span><span class="o">.</span><span class="n">planars</span><span class="p">[</span><span class="n">planar</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span></div>
             
-<div class="viewcode-block" id="system.addLJ12_6ContactForces"><a class="viewcode-back" href="../../index.html#core.system.addLJ12_6ContactForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJ12_6ContactForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addLJ12_6ContactForces"><a class="viewcode-back" href="../../index.html#core.models.system.addLJ12_6ContactForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJ12_6ContactForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomBondForce() object with the bonds and </span>
 <span class="sd">        parameters setted up in the &quot;contacts&quot; attribute. The custom </span>
@@ -1266,7 +1266,7 @@
                                                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[</span><span class="n">contact</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                                                     <span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[</span><span class="n">contact</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span></div>
 
-<div class="viewcode-block" id="system.addLJ12_10ContactForces"><a class="viewcode-back" href="../../index.html#core.system.addLJ12_10ContactForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJ12_10ContactForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addLJ12_10ContactForces"><a class="viewcode-back" href="../../index.html#core.models.system.addLJ12_10ContactForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJ12_10ContactForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomBondForce() object with the bonds and </span>
 <span class="sd">        parameters setted up in the &quot;contacts&quot; attribute. The custom </span>
@@ -1308,7 +1308,7 @@
                                                      <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[</span><span class="n">contact</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                                                      <span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[</span><span class="n">contact</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span></div>
                     
-<div class="viewcode-block" id="system.addLJ12_10_6ContactForces"><a class="viewcode-back" href="../../index.html#core.system.addLJ12_10_6ContactForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJ12_10_6ContactForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addLJ12_10_6ContactForces"><a class="viewcode-back" href="../../index.html#core.models.system.addLJ12_10_6ContactForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJ12_10_6ContactForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomBondForce() object with the bonds and </span>
 <span class="sd">        parameters setted up in the &quot;contacts&quot; attribute. The custom </span>
@@ -1350,7 +1350,7 @@
                                                      <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[</span><span class="n">contact</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                                                      <span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[</span><span class="n">contact</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span></div>
             
-<div class="viewcode-block" id="system.addGaussianContactForces"><a class="viewcode-back" href="../../index.html#core.system.addGaussianContactForces">[docs]</a>    <span class="k">def</span> <span class="nf">addGaussianContactForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addGaussianContactForces"><a class="viewcode-back" href="../../index.html#core.models.system.addGaussianContactForces">[docs]</a>    <span class="k">def</span> <span class="nf">addGaussianContactForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomBondForce() object with the equilibrium </span>
 <span class="sd">        distances and parameters setted up in the &quot;contacts&quot; attribute. </span>
@@ -1436,7 +1436,7 @@
                                                             <span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[</span><span class="n">contact</span><span class="p">][</span><span class="mi">3</span><span class="p">]))</span></div>
 
             
-<div class="viewcode-block" id="system.addLJRepulsionForces"><a class="viewcode-back" href="../../index.html#core.system.addLJRepulsionForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJRepulsionForces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bonded_exclusions_index</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addLJRepulsionForces"><a class="viewcode-back" href="../../index.html#core.models.system.addLJRepulsionForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJRepulsionForces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bonded_exclusions_index</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomNonbondedForce() object with the parameters </span>
 <span class="sd">        sigma and epsilon given to this method. The custom non-bonded force</span>
@@ -1519,7 +1519,7 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">ljRepulsionForce</span><span class="o">.</span><span class="n">setCutoffDistance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rf_cutoff</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="system.groupTorsionsbyBBAndSC"><a class="viewcode-back" href="../../index.html#core.system.groupTorsionsbyBBAndSC">[docs]</a>    <span class="k">def</span> <span class="nf">groupTorsionsbyBBAndSC</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.groupTorsionsbyBBAndSC"><a class="viewcode-back" href="../../index.html#core.models.system.groupTorsionsbyBBAndSC">[docs]</a>    <span class="k">def</span> <span class="nf">groupTorsionsbyBBAndSC</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Classifies the torsions into backbone or sidechain, based on the atoms </span>
 <span class="sd">        present in each torsion definition.</span>
@@ -1568,7 +1568,7 @@
     
     <span class="c1">## Functions for generating default parameters for AA default forcefield ##</span>
     
-<div class="viewcode-block" id="system.getAATorsionParameters"><a class="viewcode-back" href="../../index.html#core.system.getAATorsionParameters">[docs]</a>    <span class="k">def</span> <span class="nf">getAATorsionParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_by_bb_and_sc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getAATorsionParameters"><a class="viewcode-back" href="../../index.html#core.models.system.getAATorsionParameters">[docs]</a>    <span class="k">def</span> <span class="nf">getAATorsionParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_by_bb_and_sc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the torsion force field parameters by distributing the </span>
 <span class="sd">        total torsional energy equally among all the torsions. Optionally,</span>
@@ -1613,7 +1613,7 @@
             
         <span class="k">return</span> <span class="n">torsion_parameters</span></div>
     
-<div class="viewcode-block" id="system.getAANativeContactParameters"><a class="viewcode-back" href="../../index.html#core.system.getAANativeContactParameters">[docs]</a>    <span class="k">def</span> <span class="nf">getAANativeContactParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.getAANativeContactParameters"><a class="viewcode-back" href="../../index.html#core.models.system.getAANativeContactParameters">[docs]</a>    <span class="k">def</span> <span class="nf">getAANativeContactParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the contact force field parameters by distributing the </span>
 <span class="sd">        total native contact energy equally among all the contacts.</span>
@@ -1638,7 +1638,7 @@
     
     <span class="c1">## Functions for creating OpenMM system object ##</span>
     
-<div class="viewcode-block" id="system.createSystemObject"><a class="viewcode-back" href="../../index.html#core.system.createSystemObject">[docs]</a>    <span class="k">def</span> <span class="nf">createSystemObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check_bond_distances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_threshold</span><span class="o">=</span><span class="mf">0.24</span><span class="p">):</span>
+<div class="viewcode-block" id="system.createSystemObject"><a class="viewcode-back" href="../../index.html#core.models.system.createSystemObject">[docs]</a>    <span class="k">def</span> <span class="nf">createSystemObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check_bond_distances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_threshold</span><span class="o">=</span><span class="mf">0.24</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.System() object using the force field parameters</span>
 <span class="sd">        given to the SBM &#39;system&#39; class. It adds particles, forces and </span>
@@ -1679,7 +1679,7 @@
         <span class="c1">#Check for high forces in atoms and minimise the system if necessary</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">checkLargeForces</span><span class="p">(</span><span class="n">minimise</span><span class="o">=</span><span class="n">minimise</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">force_threshold</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="system.checkBondDistances"><a class="viewcode-back" href="../../index.html#core.system.checkBondDistances">[docs]</a>    <span class="k">def</span> <span class="nf">checkBondDistances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.24</span><span class="p">):</span>
+<div class="viewcode-block" id="system.checkBondDistances"><a class="viewcode-back" href="../../index.html#core.models.system.checkBondDistances">[docs]</a>    <span class="k">def</span> <span class="nf">checkBondDistances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.24</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Searches for large bond distances for the atom pairs defined in </span>
 <span class="sd">        the &#39;bonds&#39; attribute. It raises an error when large bonds are found.</span>
@@ -1702,7 +1702,7 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The bond distance between atoms &#39;</span><span class="o">+</span>                <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; is larger &#39;</span><span class="o">+</span>
                 <span class="s1">&#39;than &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; nanometers. Please check your input structure.&#39;</span><span class="p">)</span></div>
                 
-<div class="viewcode-block" id="system.checkLargeForces"><a class="viewcode-back" href="../../index.html#core.system.checkLargeForces">[docs]</a>    <span class="k">def</span> <span class="nf">checkLargeForces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="system.checkLargeForces"><a class="viewcode-back" href="../../index.html#core.models.system.checkLargeForces">[docs]</a>    <span class="k">def</span> <span class="nf">checkLargeForces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prints the SBM system energies of the input configuration of the </span>
 <span class="sd">        system. It optionally checks for large forces acting upon all </span>
@@ -1782,7 +1782,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">getPositions</span><span class="p">()</span></div>
                 
-<div class="viewcode-block" id="system.addParticles"><a class="viewcode-back" href="../../index.html#core.system.addParticles">[docs]</a>    <span class="k">def</span> <span class="nf">addParticles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addParticles"><a class="viewcode-back" href="../../index.html#core.models.system.addParticles">[docs]</a>    <span class="k">def</span> <span class="nf">addParticles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a particle to the sbmOpenMM system for each atom in it. The mass </span>
 <span class="sd">        of each particle is set up with the values in the &#39;particles_mass&#39; </span>
@@ -1808,7 +1808,7 @@
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span><span class="p">)):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">addParticle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
     
-<div class="viewcode-block" id="system.addSystemForces"><a class="viewcode-back" href="../../index.html#core.system.addSystemForces">[docs]</a>    <span class="k">def</span> <span class="nf">addSystemForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addSystemForces"><a class="viewcode-back" href="../../index.html#core.models.system.addSystemForces">[docs]</a>    <span class="k">def</span> <span class="nf">addSystemForces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds generated forces to the sbmOpenMM system, also adding </span>
 <span class="sd">        a force group to the &#39;forceGroups&#39; attribute dictionary.</span>
@@ -1870,7 +1870,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">addForce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ljRepulsionForce</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">forceGroups</span><span class="p">[</span><span class="s1">&#39;LJ 12 Repulsion Energy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ljRepulsionForce</span></div>
     
-<div class="viewcode-block" id="system.dumpPdb"><a class="viewcode-back" href="../../index.html#core.system.dumpPdb">[docs]</a>    <span class="k">def</span> <span class="nf">dumpPdb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+<div class="viewcode-block" id="system.dumpPdb"><a class="viewcode-back" href="../../index.html#core.models.system.dumpPdb">[docs]</a>    <span class="k">def</span> <span class="nf">dumpPdb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes a PDB file containing the currently defined abmOpenMM system atoms.</span>
 <span class="sd">        </span>
@@ -1886,7 +1886,7 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">pdb</span><span class="o">.</span><span class="n">writeFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span></div>
         
-<div class="viewcode-block" id="system.dumpForceFieldData"><a class="viewcode-back" href="../../index.html#core.system.dumpForceFieldData">[docs]</a>    <span class="k">def</span> <span class="nf">dumpForceFieldData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+<div class="viewcode-block" id="system.dumpForceFieldData"><a class="viewcode-back" href="../../index.html#core.models.system.dumpForceFieldData">[docs]</a>    <span class="k">def</span> <span class="nf">dumpForceFieldData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes a file containing the current forcefield parameters in the </span>
 <span class="sd">        sbmOpenMM system.</span>
@@ -2072,7 +2072,7 @@
                                                                           <span class="n">atom1</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">res1</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">res1</span><span class="o">.</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
                                                                           <span class="n">atom2</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">res2</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">res2</span><span class="o">.</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span></div>
             
-<div class="viewcode-block" id="system.loadForcefieldFromFile"><a class="viewcode-back" href="../../index.html#core.system.loadForcefieldFromFile">[docs]</a>    <span class="k">def</span> <span class="nf">loadForcefieldFromFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forcefield_file</span><span class="p">):</span>
+<div class="viewcode-block" id="system.loadForcefieldFromFile"><a class="viewcode-back" href="../../index.html#core.models.system.loadForcefieldFromFile">[docs]</a>    <span class="k">def</span> <span class="nf">loadForcefieldFromFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forcefield_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads force field parameters from a force field file written by the </span>
 <span class="sd">        dumpForceFieldData() method into the sbmOpenMM system.</span>
@@ -2228,7 +2228,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done reading Forcefield paramters&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="system.setCAMassPerResidueType"><a class="viewcode-back" href="../../index.html#core.system.setCAMassPerResidueType">[docs]</a>    <span class="k">def</span> <span class="nf">setCAMassPerResidueType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="system.setCAMassPerResidueType"><a class="viewcode-back" href="../../index.html#core.models.system.setCAMassPerResidueType">[docs]</a>    <span class="k">def</span> <span class="nf">setCAMassPerResidueType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the masses of the alpha carbon atoms to the average mass</span>
 <span class="sd">        of its amino acid residue. </span>
@@ -2328,15 +2328,7 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">

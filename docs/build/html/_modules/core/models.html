@@ -49,7 +49,7 @@
 <span class="c1"># In[ ]:</span>
 
 
-<div class="viewcode-block" id="models"><a class="viewcode-back" href="../../index.html#core.models">[docs]</a><span class="k">class</span> <span class="nc">models</span><span class="p">:</span>
+<div class="viewcode-block" id="models"><a class="viewcode-back" href="../../index.html#core.models.models">[docs]</a><span class="k">class</span> <span class="nc">models</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class to hold functions for the automated generation of default SBM models.</span>
 
@@ -65,7 +65,7 @@
 <span class="sd">        Creates a multi basin model from two sbmOpenMM.system class instances.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-<div class="viewcode-block" id="models.getAllAtomModel"><a class="viewcode-back" href="../../index.html#core.models.getAllAtomModel">[docs]</a>    <span class="k">def</span> <span class="nf">getAllAtomModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
+<div class="viewcode-block" id="models.getAllAtomModel"><a class="viewcode-back" href="../../index.html#core.models.models.getAllAtomModel">[docs]</a>    <span class="k">def</span> <span class="nf">getAllAtomModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
                         <span class="n">default_parameters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                         <span class="n">default_forces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                         <span class="n">group_by_bb_and_sc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -202,7 +202,7 @@
 
         <span class="k">return</span> <span class="n">sbm</span></div>
 
-<div class="viewcode-block" id="models.getCAModel"><a class="viewcode-back" href="../../index.html#core.models.getCAModel">[docs]</a>    <span class="k">def</span> <span class="nf">getCAModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
+<div class="viewcode-block" id="models.getCAModel"><a class="viewcode-back" href="../../index.html#core.models.models.getCAModel">[docs]</a>    <span class="k">def</span> <span class="nf">getCAModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
                    <span class="n">default_parameters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                    <span class="n">default_forces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                    <span class="n">create_system</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -325,7 +325,7 @@
             
         <span class="k">return</span> <span class="n">sbm</span></div>
     
-<div class="viewcode-block" id="models.getMultiBasinModel"><a class="viewcode-back" href="../../index.html#core.models.getMultiBasinModel">[docs]</a>    <span class="k">def</span> <span class="nf">getMultiBasinModel</span><span class="p">(</span><span class="n">main_model</span><span class="p">,</span> <span class="n">alternate_configuration</span><span class="p">,</span> 
+<div class="viewcode-block" id="models.getMultiBasinModel"><a class="viewcode-back" href="../../index.html#core.models.models.getMultiBasinModel">[docs]</a>    <span class="k">def</span> <span class="nf">getMultiBasinModel</span><span class="p">(</span><span class="n">main_model</span><span class="p">,</span> <span class="n">alternate_configuration</span><span class="p">,</span> 
                                        <span class="n">double_minima_threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> 
                                        <span class="n">excluded_volume_radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                        <span class="n">use_lennard_jones</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -584,15 +584,7 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">

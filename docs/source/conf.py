@@ -12,9 +12,16 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+
+from sphinx.ext.autosummary import Autosummary
+from sphinx.ext.autosummary import get_documenter
+from docutils.parsers.rst import directives
+from sphinx.util.inspect import safe_getattr
+import re
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../sbmOpenMM/'))
+
+sys.path.insert(0, os.path.abspath('../../sbmOpenMM'))
 sys.setrecursionlimit(1500)
 
 # -- Project information -----------------------------------------------------
@@ -45,6 +52,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+    'numpydoc'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -74,6 +82,8 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
+# If true, the current module name will be prepended to all description unit titles.
+add_module_names = False
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -101,7 +111,9 @@ html_static_path = ['_static']
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
-# html_sidebars = {}
+html_sidebars = {
+   '**': ['localtoc.html', 'searchbox.html'],
+}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -156,7 +168,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'sbmOpenMM', 'sbmOpenMM Documentation',
-     author, 'sbmOpenMM', 'One line description of project.',
+     author, 'sbmOpenMM', 'Python library to run structure based model (SBM) simulations using the OpenMM toolkit.',
      'Miscellaneous'),
 ]
 
@@ -188,3 +200,46 @@ epub_exclude_files = ['search.html']
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
+
+class AutoAutoSummary(Autosummary):
+
+    option_spec = {
+        'methods': directives.unchanged,
+        'attributes': directives.unchanged
+    }
+
+    required_arguments = 1
+
+    @staticmethod
+    def get_members(obj, typ, include_public=None):
+        if not include_public:
+            include_public = []
+        items = []
+        for name in dir(obj):
+            try:
+                documenter = get_documenter(safe_getattr(obj, name), obj)
+            except AttributeError:
+                continue
+            if documenter.objtype == typ:
+                items.append(name)
+        public = [x for x in items if x in include_public or not x.startswith('_')]
+        return public, items
+
+    def run(self):
+        clazz = str(self.arguments[0])
+        try:
+            (module_name, class_name) = clazz.rsplit('.', 1)
+            m = __import__(module_name, globals(), locals(), [class_name])
+            c = getattr(m, class_name)
+            if 'methods' in self.options:
+                _, methods = self.get_members(c, 'method', ['__init__'])
+
+                self.content = ["~%s.%s" % (clazz, method) for method in methods if not method.startswith('_')]
+            if 'attributes' in self.options:
+                _, attribs = self.get_members(c, 'attribute')
+                self.content = ["~%s.%s" % (clazz, attrib) for attrib in attribs if not attrib.startswith('_')]
+        finally:
+            return super(AutoAutoSummary, self).run()
+
+def setup(app):
+    app.add_directive('autoautosummary', AutoAutoSummary)

@@ -29,11 +29,11 @@ class system:
     ----------
     pdb_path : string
         Path to the pdb input file
-    pdb : simtk.openmm.app.pdbfile.PDBFile
+    pdb : openmm.app.pdbfile.PDBFile
         Object that holds the information of OpenMM PDB parsing method.
-    topology : simtk.openmm.app.topology.Topology
+    topology : openmm.app.topology.Topology
         OpenMM topology of the model.
-    positions : simtk.unit.quantity.Quantity
+    positions : unit.quantity.Quantity
         Atomic positions of the model.
     particles_mass : float or list
         Mass of each particle. If float then uniform masses are given to all 
@@ -87,59 +87,59 @@ class system:
     energy_constant : dict
         A dict that holds the value for the different energy terms parameters
         used by different SBM models and forces.
-    harmonicBondForce : simtk.openmm.openmm.HarmonicBondForce
+    harmonicBondForce : openmm.HarmonicBondForce
         Stores the OpenMM HarmonicBondForce initialised-class. Implements
         an harmonic bond potential between pairs of particles, that depends
         quadratically on their distance.
-    harmonicAngleForce : simtk.openmm.openmm.HarmonicAngleForce
+    harmonicAngleForce : openmm.HarmonicAngleForce
         Stores the OpenMM HarmonicAngleForce initialised-class. Implements
         an harmonic angle potential between trios of particles, that depends
         quadratically on their angle length.
-    periodicTorsionForce : simtk.openmm.openmm.CustomTorsionForce
+    periodicTorsionForce : openmm.CustomTorsionForce
         Stores the OpenMM CustomTorsionForce initialised-class. Implements 
         a force potential that varies periodically with the value of the 
         proper torsion angle.
-    generalPeriodicTorsionForce: simtk.openmm.openmm.CustomTorsionForce
+    generalPeriodicTorsionForce : openmm.CustomTorsionForce
         Stores the OpenMM CustomTorsionForce initialised-class. Implements 
         a general force potential that varies periodically with the value of the 
         proper torsion angle.
-    harmonicImproperForce : simtk.openmm.openmm.CustomTorsionForce
+    harmonicImproperForce : openmm.CustomTorsionForce
         Stores the OpenMM CustomTorsionForce initialised-class. Implements 
         a force potential that varies quadratically with the value of the  
         improper torsion angle.
-    harmonicPlanarForce : simtk.openmm.openmm.CustomTorsionForce
+    harmonicPlanarForce : openmm.CustomTorsionForce
         Stores the OpenMM CustomTorsionForce initialised-class. Implements 
         a force potential that varies quadratically with the value of the  
         planar torsion angle.
-    lj12_6contactForce : simtk.openmm.openmm.CustomBondForce
+    lj12_6contactForce : openmm.CustomBondForce
         Stores the OpenMM CustomBondForce initialised-class to be applied
         to non-bonded interactions between native contact pairs. Implements 
         a lennard-jones potential with exponents 12 and 6 for the repulsive
         and attractive componenets, respectively.
-    lj12_10contactForce : simtk.openmm.openmm.CustomBondForce
+    lj12_10contactForce : openmm.CustomBondForce
         Stores the OpenMM CustomBondForce initialised-class to be applied
         to non-bonded interactions between native contact pairs. Implements 
         a lennard-jones potential with exponents 12 and 10 for the repulsive
         and attractive components, respectively.
-    lj12_10_6contactForce
+    lj12_10_6contactForce : openmm.CustomBondForce
         Stores the OpenMM CustomBondForce initialised-class to be applied
         to non-bonded interactions between native contact pairs. Implements 
         a lennard-jones potential with exponents 12 and 10 for the repulsive
         and attractive components, respectively, and an additional 6-exponent 
         term to model a “desolvation penalty” for forming/breaking contacts.
-    singleGaussianContactForce : simtk.openmm.openmm.CustomNonbondedForce
+    singleGaussianContactForce : openmm.CustomNonbondedForce
         Stores the OpenMM CustomBondForce initialised-class to be applied
         to non-bonded interactions between native contact pairs with single
         minimum. Implements a mixed lennard-jones (repulsive) and gaussian
         potential (attractive) with separate control of equilibrium distance
         and excluded volume.
-    doubleGaussianContactForce : simtk.openmm.openmm.CustomNonbondedForce
+    doubleGaussianContactForce : openmm.CustomNonbondedForce
         Stores the OpenMM CustomBondForce initialised-class to be applied
         to non-bonded interactions between native contact pairs with two 
         minima. Implements a mixed lennard-jones (repulsive) and gaussian
         potential (attractive) with separate control of the equilibrium 
         distances and excluded volume.
-    ljRepulsionForce : simtk.openmm.openmm.CustomNonbondedForce
+    ljRepulsionForce : openmm.CustomNonbondedForce
         Stores the OpenMM CustomBondForce initialised-class to be applied
         to the non-bonded interactions between non-native contact pairs. 
         Implements only a repulsive lennard-jones potential with exponent 
@@ -147,7 +147,7 @@ class system:
     forceGroups : collections.OrderedDict
         A dict that uses force names as keys and their corresponding force
         as values.
-    system : simtk.openmm.openmm.System
+    system : openmm.System
         Stores the OpenMM System initialised class. It stores all the forcefield
         information for the SBM model.
     rf_epsilon : float
