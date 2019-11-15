@@ -37,3 +37,9 @@ Using the correct python 3.6 (or higher) environment, execute:
 
 pip install sbmOpenMM
 
+## Documentation
+
+Documentation for the sbmOpenMM library can be found in the following link:
+
+[sbmOpenMM Documentation](https://compbiochbiophlab.github.io/sbm-openmm)
+
