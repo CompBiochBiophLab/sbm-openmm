@@ -50,9 +50,10 @@ Tutorials are available for learning how to set up SBM simulations using sbmOpen
 ### Basic tutorials
 
 [01 - Coarse grained SBM simulations](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/basic/01-AlphaCarbon/coarseGrainedSBM.ipynb)
+
 [02 - Coarse grained SBM simulations](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/basic/02-AllAtom/allHeavyAtomSBM.ipynb)
+
 [03 - Estimating the folding temperature](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/basic/03-FoldingTemperature/foldingTemperature.ipynb)
+
 [04 - Estimating free energy profiles](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/basic/04-FreeEnergySurface/freeEnergyProfile.ipynb)
-
-
 
