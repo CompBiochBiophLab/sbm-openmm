@@ -23,7 +23,7 @@ The library was written and tested with python 3.6 and has only two other python
 
 The source code can be obtained from [GitHub]("https://github.com/CompBiochBiophLab/sbm-openmm") or by directly downloading it from the following link:
 
-https://github.com/CompBiochBiophLab/sbm-openmm/archive/master.zip
+[Download sbmOpenMM source code](https://github.com/CompBiochBiophLab/sbm-openmm/archive/master.zip)
 
 After unziping the source code file and changing to the source directory, execute:
 
@@ -39,7 +39,17 @@ pip install sbmOpenMM
 
 ## Documentation
 
-Documentation for the sbmOpenMM library can be found in the following link:
+Documentation for the sbmOpenMM library functions can be found in the following link:
 
 [sbmOpenMM Documentation](https://compbiochbiophlab.github.io/sbm-openmm)
+
+## Tutorials
+
+Tutorials are available for learning how to set up SBM simulations using sbmOpenMM.
+
+### Basic tutorials
+
+[01 - Coarse grained SBM simulations](https://gist.github.com/Martin-Floor/e528d25908b5265c1520dcfd8a30fc1d)
+
+
 
