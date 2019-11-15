@@ -1,5 +1,0 @@
-site_name: openmm-sbm documentation
-nav:
-  - Home: index.md
-  - Renference Manul: referenceManual.md
-theme: readthedocs
