@@ -112,8 +112,9 @@ class models:
         print('Added '+str(sbm.n_impropers)+' impropers')
         sbm.getPlanars()
         print('Added '+str(sbm.n_planars)+' planars')
-        print('Reading contacts from contact file: '+contact_file)
-        sbm.readContactFile(contact_file)
+        if contact_file != None:
+            print('Reading contacts from contact file: '+contact_file)
+            sbm.readContactFile(contact_file)
         print('Added '+str(sbm.n_contacts)+' native contacts')
         print('')
         
