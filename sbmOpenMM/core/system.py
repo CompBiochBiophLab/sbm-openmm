@@ -1600,6 +1600,9 @@ class system:
             native contact in the SBM system.
         """
         
+        if self.n_contacts == None:
+            raise ValueError('Not contacts have been defined. Please check that you read correctly a contact file.')
+
         self.energy_constant['C'] = 2.0*self.n_atoms/3.0/self.n_contacts
         contact_parameters = self.energy_constant['C']
         return contact_parameters
