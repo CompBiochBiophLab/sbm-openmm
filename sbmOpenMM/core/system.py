@@ -49,31 +49,43 @@ class system:
     bonds : collections.OrderedDict
         A dict that uses bonds (2-tuple of simtk.openmm.app.topology.Atom objects) 
         present in the model as keys and their forcefield properties as values.
+    bonds_indexes : list
+        A list containing the zero-based indexes of the atoms defining the bonds in the model.
     n_bonds : int
         Total numer of bonds in the model.
     angles : collections.OrderedDict
         A dict that uses angles (3-tuple of simtk.openmm.app.topology.Atom objects)
         present in the model as keys and their forcefield properties as values.
+    angles_indexes : list
+        A list containing the zero-based indexes of the atoms defining the angles in the model.
     n_angles : int
         Total numer of angles in the model.
     torsions : collections.OrderedDict
         A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects) 
         present in the model as keys and their forcefield properties as values.
+    torions_indexes : list
+        A list containing the zero-based indexes of the atoms defining the torsions in the model.
     n_torsions : int
         Total numer of proper torsions in the model.
     impropers : collections.OrderedDict
         A dict that uses improper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
         present in the model as keys and their forcefield properties as values.
+    impropers_indexes : list
+        A list containing the zero-based indexes of the atoms defining the imporpers in the model.
     n_impropers : int
         Total numer of improper torsions in the model.
     planars : collections.OrderedDict
         A dict that uses planar torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
         present in the model as keys and their forcefield properties as values.
+    planars_indexes : list
+        A list containing the zero-based indexes of the atoms defining the planars in the model.
     n_planars : int
         Total numer of planar torsions in the model.
     contacts : collections.OrderedDict
         A dict that uses native contacts (2-tuple of simtk.openmm.app.topology.Atom objects
         present in the model as keys and their forcefield properties as values.
+    contacts_indexes : list
+        A list containing the zero-based indexes of the atoms defining the contacts in the model.
     n_contacts : int
         Total numer of native contacts in the model.
     torsions_group : dict
@@ -306,16 +318,22 @@ class system:
         self.atoms = []
         self.n_atoms = None
         self.bonds = OrderedDict()
+        self.bond_indexes = []
         self.n_bonds = None
         self.angles = OrderedDict()
+        self.angles_indexes = []
         self.n_angles = None
         self.torsions = OrderedDict()
+        self.torsions_indexes = []
         self.n_torsions = None
         self.impropers = OrderedDict()
+        self.impropers_indexes = []
         self.n_impropers = None
         self.planars = OrderedDict()
+        self.planars_indexes = []
         self.n_planars = None
         self.contacts = OrderedDict()
+        self.contacts_indexes = []
         self.n_contacts = None
         
         #Define force field attributes
@@ -474,6 +492,9 @@ class system:
             bond_length = geometry.bond(p1, p2)
             self.bonds[bond] = (bond_length, None)
             self.n_bonds += 1
+        
+            #Store bond indexes
+            self.bonds_indexes.append((p1, p2))
             
         #Record which atoms are bonded to each other
         self.bondedTo = {}
@@ -525,6 +546,9 @@ class system:
             angle_length = geometry.angle(p1, p2, p3)
             self.angles[angle] = (angle_length, None)
             self.n_angles += 1
+        
+            #Store angle indexes
+            self.angles_indexes.append((p1, p2, p3))
         
     def getProperTorsions(self):
         """
@@ -619,6 +643,9 @@ class system:
             self.torsions[torsion] = (torsion_angle, None)
             self.n_torsions += 1
             
+            #Store torsion indexes
+            self.torsions_indexes.append((p1, p2, p3, p4))
+            
     def getImpropers(self):
         """
         Adds improper torsions to the sbmOpenMM system class to maintain backbone 
@@ -656,6 +683,9 @@ class system:
                 improper_angle = geometry.torsion(p1, p2, p3, p4)
                 self.impropers[improper] = (improper_angle, None)
                 self.n_impropers += 1
+                
+                #Store improper indexes
+                self.impropers_indexes.append((p1, p2, p3, p4))
             
     def getPlanars(self):
         """
@@ -784,6 +814,9 @@ class system:
             planar_angle = geometry.torsion(p1, p2, p3, p4)
             self.planars[planar] = (planar_angle, None)
             self.n_planars += 1
+            
+            #Store planar indexes
+            self.planars_indexes.append((p1, p2, p3, p4))
     
     def readContactFile(self, contact_file, shift=1):
         """
@@ -823,6 +856,9 @@ class system:
                     contact_length = geometry.bond(p1, p2)
                     self.contacts[(c1,c2)] = (contact_length, None)
                     self.n_contacts += 1
+                    
+                    #Store contact indexes
+                    self.contacts_indexes.append((p1, p2, p3, p4))
                 
     ## Functions for setting force specific parameters ##
     
