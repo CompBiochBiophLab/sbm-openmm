@@ -494,7 +494,8 @@ class system:
             self.n_bonds += 1
         
             #Store bond indexes
-            self.bonds_indexes.append((p1, p2))
+            self.bonds_indexes.append((bond[0].index, 
+                                       bond[1].index))
             
         #Record which atoms are bonded to each other
         self.bondedTo = {}
@@ -548,7 +549,9 @@ class system:
             self.n_angles += 1
         
             #Store angle indexes
-            self.angles_indexes.append((p1, p2, p3))
+            self.angles_indexes.append((angle[0].index,
+                                        angle[1].index,
+                                        angle[2].index))
         
     def getProperTorsions(self):
         """
@@ -644,7 +647,10 @@ class system:
             self.n_torsions += 1
             
             #Store torsion indexes
-            self.torsions_indexes.append((p1, p2, p3, p4))
+            self.torsions_indexes.append((torsion[0].index,
+                                          torsion[1].index,
+                                          torsion[2].index,
+                                          torsion[3].index))
             
     def getImpropers(self):
         """
@@ -685,7 +691,10 @@ class system:
                 self.n_impropers += 1
                 
                 #Store improper indexes
-                self.impropers_indexes.append((p1, p2, p3, p4))
+                self.impropers_indexes.append((improper[0].index,
+                                               improper[1].index,
+                                               improper[2].index,
+                                               improper[3].index))
             
     def getPlanars(self):
         """
@@ -816,7 +825,10 @@ class system:
             self.n_planars += 1
             
             #Store planar indexes
-            self.planars_indexes.append((p1, p2, p3, p4))
+            self.planars_indexes.append((planar[0].index,
+                                         planar[1].index,
+                                         planar[2].index,
+                                         planar[3].index))
     
     def readContactFile(self, contact_file, shift=1):
         """
@@ -858,7 +870,8 @@ class system:
                     self.n_contacts += 1
                     
                     #Store contact indexes
-                    self.contacts_indexes.append((p1, p2))
+                    self.contacts_indexes.append((c1.index,
+                                                  c2.index))
                 
     ## Functions for setting force specific parameters ##
     
