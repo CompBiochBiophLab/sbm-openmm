@@ -77,8 +77,8 @@ class system:
     n_contacts : int
         Total numer of native contacts in the model.
     torsions_group : dict
-        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
-        present in the model as keys and the number of torsions (int) that share the same middle 
+        A dict that uses proper torsions two central atoms (2-tuple of simtk.openmm.app.topology.Atom objects)
+        present in the model's topology as keys and the number of torsions (int) that share these same middle 
         bond atoms as values.
     torsions_type : dict
         A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
@@ -1492,7 +1492,7 @@ class system:
         Classifies the torsions into backbone or sidechain, based on the atoms 
         present in each torsion definition.
         
-        The classification is stored in the 'torsions_type' attribute.
+        The classification is stored in the 'torsions_type' dictionary attribute.
         
         Parameters
         ----------
@@ -1523,12 +1523,12 @@ class system:
         
         #Classify torsions in backbone or sidechain torsion according to middle atoms
         for torsion in self.torsions:
-            self.torsions_type[(torsion[1], torsion[2])] = 'BB'
-            self.torsions_type[(torsion[2], torsion[1])] = 'BB'
+            self.torsions_type[torsion] = 'BB'
+            self.torsions_type[torsion] = 'BB'
             for atom in torsion[1:3]:
                 if atom.name in self.sidechainAtoms:
-                    self.torsions_type[(torsion[1], torsion[2])] = 'SC'
-                    self.torsions_type[(torsion[2], torsion[1])] = 'SC'
+                    self.torsions_type[torsion] = 'SC'
+                    self.torsions_type[torsion] = 'SC'
                     break
         
         #Count the number of backbone and sidechin torsions with unique middle bond atoms.
@@ -1572,7 +1572,7 @@ class system:
             torsion_parameters = []
             for torsion in self.torsions:
                 middle_bond = (torsion[1],torsion[2])
-                k = self.energy_constant[self.torsions_type[middle_bond]] / self.torsions_group[middle_bond]
+                k = self.energy_constant[self.torsions_type[torsion]] / self.torsions_group[middle_bond]
                 torsion_parameters.append(k)
                 
         else:
