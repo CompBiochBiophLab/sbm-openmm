@@ -318,7 +318,7 @@ class system:
         self.atoms = []
         self.n_atoms = None
         self.bonds = OrderedDict()
-        self.bond_indexes = []
+        self.bonds_indexes = []
         self.n_bonds = None
         self.angles = OrderedDict()
         self.angles_indexes = []
