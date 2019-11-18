@@ -858,7 +858,7 @@ class system:
                     self.n_contacts += 1
                     
                     #Store contact indexes
-                    self.contacts_indexes.append((p1, p2, p3, p4))
+                    self.contacts_indexes.append((p1, p2))
                 
     ## Functions for setting force specific parameters ##
     
