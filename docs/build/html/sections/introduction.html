@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>&lt;no title&gt; &#8212; sbmOpenMM 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>Structure Based Models (SBMs) are representations of protein systems based on simplifications made over classical Molecular Dynamics (MD) force fields. Their are based on the energy landscape theory of protein folding and the principal of minimal frustration. The models maintain protein structures by focusing only on the chemical contacts formed at the native protein configuration, ignoring all other contacts. This allows for simpler force field definitions which capture essential protein dynamics at a much lower computational expense than traditional MD simulations.</p>
+<p>sbmOpenMM is a Python library that offers flexibility to set up SBMs using the MD framework of OpenMM toolkit. It automates the creation of openmm.system classes that contain the necessary force field parameters to run molecular dynamics simulations using a protein structure and a contact map as the only necessary inputs.</p>
+<p>sbmOpenMM is divided in three main classes:</p>
+<ol class="arabic simple">
+<li><p>geometry</p></li>
+<li><p>models</p></li>
+<li><p>system</p></li>
+</ol>
+<p>The first class, geometry, contains methods to calculate the geometrical parameters from the input structures. These parameters are used to define the input conformation as the global minimum configuration in the potential energy function. The second class, models, allows to easily set up predefined SBM models, that encompass coarse grained, all atom and multi basin versions of SBM. The third class, system, is the main class that holds all the methods to define, modify and create SBMs to be simulated with OpenMM.</p>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, "Martin Floor, Kengjie Li".
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/sections/introduction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

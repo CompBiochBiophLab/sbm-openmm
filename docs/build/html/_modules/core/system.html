@@ -82,36 +82,48 @@
 <span class="sd">    bonds : collections.OrderedDict</span>
 <span class="sd">        A dict that uses bonds (2-tuple of simtk.openmm.app.topology.Atom objects) </span>
 <span class="sd">        present in the model as keys and their forcefield properties as values.</span>
+<span class="sd">    bonds_indexes : list</span>
+<span class="sd">        A list containing the zero-based indexes of the atoms defining the bonds in the model.</span>
 <span class="sd">    n_bonds : int</span>
 <span class="sd">        Total numer of bonds in the model.</span>
 <span class="sd">    angles : collections.OrderedDict</span>
 <span class="sd">        A dict that uses angles (3-tuple of simtk.openmm.app.topology.Atom objects)</span>
 <span class="sd">        present in the model as keys and their forcefield properties as values.</span>
+<span class="sd">    angles_indexes : list</span>
+<span class="sd">        A list containing the zero-based indexes of the atoms defining the angles in the model.</span>
 <span class="sd">    n_angles : int</span>
 <span class="sd">        Total numer of angles in the model.</span>
 <span class="sd">    torsions : collections.OrderedDict</span>
 <span class="sd">        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects) </span>
 <span class="sd">        present in the model as keys and their forcefield properties as values.</span>
+<span class="sd">    torions_indexes : list</span>
+<span class="sd">        A list containing the zero-based indexes of the atoms defining the torsions in the model.</span>
 <span class="sd">    n_torsions : int</span>
 <span class="sd">        Total numer of proper torsions in the model.</span>
 <span class="sd">    impropers : collections.OrderedDict</span>
 <span class="sd">        A dict that uses improper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)</span>
 <span class="sd">        present in the model as keys and their forcefield properties as values.</span>
+<span class="sd">    impropers_indexes : list</span>
+<span class="sd">        A list containing the zero-based indexes of the atoms defining the imporpers in the model.</span>
 <span class="sd">    n_impropers : int</span>
 <span class="sd">        Total numer of improper torsions in the model.</span>
 <span class="sd">    planars : collections.OrderedDict</span>
 <span class="sd">        A dict that uses planar torsions (4-tuple of simtk.openmm.app.topology.Atom objects)</span>
 <span class="sd">        present in the model as keys and their forcefield properties as values.</span>
+<span class="sd">    planars_indexes : list</span>
+<span class="sd">        A list containing the zero-based indexes of the atoms defining the planars in the model.</span>
 <span class="sd">    n_planars : int</span>
 <span class="sd">        Total numer of planar torsions in the model.</span>
 <span class="sd">    contacts : collections.OrderedDict</span>
 <span class="sd">        A dict that uses native contacts (2-tuple of simtk.openmm.app.topology.Atom objects</span>
 <span class="sd">        present in the model as keys and their forcefield properties as values.</span>
+<span class="sd">    contacts_indexes : list</span>
+<span class="sd">        A list containing the zero-based indexes of the atoms defining the contacts in the model.</span>
 <span class="sd">    n_contacts : int</span>
 <span class="sd">        Total numer of native contacts in the model.</span>
 <span class="sd">    torsions_group : dict</span>
-<span class="sd">        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)</span>
-<span class="sd">        present in the model as keys and the number of torsions (int) that share the same middle </span>
+<span class="sd">        A dict that uses proper torsions two central atoms (2-tuple of simtk.openmm.app.topology.Atom objects)</span>
+<span class="sd">        present in the model&#39;s topology as keys and the number of torsions (int) that share these same middle </span>
 <span class="sd">        bond atoms as values.</span>
 <span class="sd">    torsions_type : dict</span>
 <span class="sd">        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)</span>
@@ -339,16 +351,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_atoms</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bonds</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bonds_indexes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_bonds</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angles_indexes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">torsions</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">torsions_indexes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_torsions</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">impropers</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">impropers_indexes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_impropers</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">planars</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">planars_indexes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_planars</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">contacts</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contacts_indexes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_contacts</span> <span class="o">=</span> <span class="kc">None</span>
         
         <span class="c1">#Define force field attributes</span>
@@ -507,6 +525,10 @@
             <span class="n">bond_length</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">bond</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bonds</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bond_length</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_bonds</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+            <span class="c1">#Store bond indexes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bonds_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">bond</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> 
+                                       <span class="n">bond</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
             
         <span class="c1">#Record which atoms are bonded to each other</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bondedTo</span> <span class="o">=</span> <span class="p">{}</span>
@@ -557,7 +579,12 @@
             <span class="n">p3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
             <span class="n">angle_length</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">[</span><span class="n">angle</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">angle_length</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+=</span> <span class="mi">1</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+            <span class="c1">#Store angle indexes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angles_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                        <span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                        <span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">))</span></div>
         
 <div class="viewcode-block" id="system.getProperTorsions"><a class="viewcode-back" href="../../index.html#core.models.system.getProperTorsions">[docs]</a>    <span class="k">def</span> <span class="nf">getProperTorsions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -650,7 +677,13 @@
             <span class="n">p4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">torsion</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
             <span class="n">torsion_angle</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">torsion</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">torsions</span><span class="p">[</span><span class="n">torsion</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">torsion_angle</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">n_torsions</span> <span class="o">+=</span> <span class="mi">1</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_torsions</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="c1">#Store torsion indexes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">torsions_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">torsion</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                          <span class="n">torsion</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                          <span class="n">torsion</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                          <span class="n">torsion</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">))</span></div>
             
 <div class="viewcode-block" id="system.getImpropers"><a class="viewcode-back" href="../../index.html#core.models.system.getImpropers">[docs]</a>    <span class="k">def</span> <span class="nf">getImpropers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -688,7 +721,13 @@
                 <span class="n">p4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">improper</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
                 <span class="n">improper_angle</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">torsion</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">impropers</span><span class="p">[</span><span class="n">improper</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">improper_angle</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">n_impropers</span> <span class="o">+=</span> <span class="mi">1</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_impropers</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+                <span class="c1">#Store improper indexes</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">impropers_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">improper</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                               <span class="n">improper</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                               <span class="n">improper</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                               <span class="n">improper</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">))</span></div>
             
 <div class="viewcode-block" id="system.getPlanars"><a class="viewcode-back" href="../../index.html#core.models.system.getPlanars">[docs]</a>    <span class="k">def</span> <span class="nf">getPlanars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -816,7 +855,13 @@
             <span class="n">p4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">planar</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
             <span class="n">planar_angle</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">torsion</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">planars</span><span class="p">[</span><span class="n">planar</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">planar_angle</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">n_planars</span> <span class="o">+=</span> <span class="mi">1</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_planars</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="c1">#Store planar indexes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">planars_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">planar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                         <span class="n">planar</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                         <span class="n">planar</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                         <span class="n">planar</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">))</span></div>
     
 <div class="viewcode-block" id="system.readContactFile"><a class="viewcode-back" href="../../index.html#core.models.system.readContactFile">[docs]</a>    <span class="k">def</span> <span class="nf">readContactFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -855,7 +900,11 @@
                     <span class="n">p2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">c2</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
                     <span class="n">contact_length</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">bond</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[(</span><span class="n">c1</span><span class="p">,</span><span class="n">c2</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">contact_length</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">n_contacts</span> <span class="o">+=</span> <span class="mi">1</span></div>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">n_contacts</span> <span class="o">+=</span> <span class="mi">1</span>
+                    
+                    <span class="c1">#Store contact indexes</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">contacts_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">c1</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                                  <span class="n">c2</span><span class="o">.</span><span class="n">index</span><span class="p">))</span></div>
                 
     <span class="c1">## Functions for setting force specific parameters ##</span>
     
@@ -1525,7 +1574,7 @@
 <span class="sd">        Classifies the torsions into backbone or sidechain, based on the atoms </span>
 <span class="sd">        present in each torsion definition.</span>
 <span class="sd">        </span>
-<span class="sd">        The classification is stored in the &#39;torsions_type&#39; attribute.</span>
+<span class="sd">        The classification is stored in the &#39;torsions_type&#39; dictionary attribute.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1556,12 +1605,12 @@
         
         <span class="c1">#Classify torsions in backbone or sidechain torsion according to middle atoms</span>
         <span class="k">for</span> <span class="n">torsion</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">torsions</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[(</span><span class="n">torsion</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">torsion</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span> <span class="o">=</span> <span class="s1">&#39;BB&#39;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[(</span><span class="n">torsion</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">torsion</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="o">=</span> <span class="s1">&#39;BB&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[</span><span class="n">torsion</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;BB&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[</span><span class="n">torsion</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;BB&#39;</span>
             <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">torsion</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sidechainAtoms</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[(</span><span class="n">torsion</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">torsion</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span> <span class="o">=</span> <span class="s1">&#39;SC&#39;</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[(</span><span class="n">torsion</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">torsion</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="o">=</span> <span class="s1">&#39;SC&#39;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[</span><span class="n">torsion</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SC&#39;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[</span><span class="n">torsion</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SC&#39;</span>
                     <span class="k">break</span>
         
         <span class="c1">#Count the number of backbone and sidechin torsions with unique middle bond atoms.</span>
@@ -1605,7 +1654,7 @@
             <span class="n">torsion_parameters</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">torsion</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">torsions</span><span class="p">:</span>
                 <span class="n">middle_bond</span> <span class="o">=</span> <span class="p">(</span><span class="n">torsion</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">torsion</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-                <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_constant</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[</span><span class="n">middle_bond</span><span class="p">]]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">torsions_group</span><span class="p">[</span><span class="n">middle_bond</span><span class="p">]</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_constant</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">torsions_type</span><span class="p">[</span><span class="n">torsion</span><span class="p">]]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">torsions_group</span><span class="p">[</span><span class="n">middle_bond</span><span class="p">]</span>
                 <span class="n">torsion_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
                 
         <span class="k">else</span><span class="p">:</span>

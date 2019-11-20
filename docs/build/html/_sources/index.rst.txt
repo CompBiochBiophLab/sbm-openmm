@@ -9,7 +9,17 @@ sbmOpenMM Documentation
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
+
+Introduction
+============
+
+.. include:: sections/introduction.rst
+
+SBM Models
+============
+
+.. include:: sections/models.rst
+
 Core classes
 ============
 
