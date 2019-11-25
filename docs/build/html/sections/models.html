@@ -12,6 +12,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -30,22 +31,43 @@
 
           <div class="body" role="main">
             
-  <p>The models class of sbmOpenMM contains three methods for automatic setting up predefined SBM flavors. It works by initializing a system class with the necessary force field parameters, derived from the input files, to set up default models that are detailed next:</p>
+  <p>The models class of sbmOpenMM contains three methods for automatic setting up predefined SBM potentials. It works by initializing a system class with the necessary force field parameters, derived from the input files, to set up one of the possible models which are detailed next:</p>
 <ul class="simple">
 <li><p>Coarse grained, alpha-carbon (CA), model</p></li>
 </ul>
-<p>The coarse grained method represents the protein system as beads centered at the alpha carbons of each residue in the protein. It uses harmonic potentials to hold the covalent connectivity, geometry and chirality of the beads. Torsional geometries are modeled with a periodic torsion potential. Native contacts are represented through the use of Lennard-Jones potentials that allow to form and break the connections, permitting complete and local unfolding of the structures.</p>
-<p>The force field equation is:</p>
-<p>The method to create a CA model is to call:</p>
-<p>sbmOpenMM.models.getCAModel(input_pdb_file, input_contacts_file)</p>
+<p>The coarse grained method represents the protein system as beads centered at the alpha carbons of each residue in the protein. It uses harmonic potentials to hold the covalent connectivity and geometry of the beads. Torsional geometries are modeled with a periodic torsion potential. Native contacts are represented through the use of Lennard-Jones potentials that allow to form and break non-bonded interactions, permitting complete and local unfolding of the structures.</p>
+<p>The force field equations are:</p>
+<div class="math notranslate nohighlight">
+\[H_A = \sum_{bonds}V_{bond}+\sum_{angles}V_{angle}+\sum_{torsions}V_{torsion}+\sum_{contacts}V_{LJ_{12-10}}+\sum_{non-contacts}V_{LJ_{12}}\]</div>
+<div class="math notranslate nohighlight">
+\[V_{bond} = \frac{k_b}{2}(r-r_0)^2\]</div>
+<div class="math notranslate nohighlight">
+\[V_{angle} = \frac{k_a}{2}(\theta-\theta_0)^2\]</div>
+<div class="math notranslate nohighlight">
+\[V_{torsion} = k_t(1-cos(\phi-\phi_0))+\frac{1}{2}(1-cos(3(\phi-\phi_0))))\]</div>
+<div class="math notranslate nohighlight">
+\[V_{LJ_{12-10}} = \epsilon_{c}(5(\frac{\sigma_{ij}}{r})^{12}-6(\frac{\sigma_{ij}}{r})^{10})\]</div>
+<div class="math notranslate nohighlight">
+\[V_{LJ_{12}} = \epsilon_{nc}(\frac{\sigma_{ij}}{r})^{12}\]</div>
+<p>Here the default values are <span class="math notranslate nohighlight">\(k_b=20000\)</span> kJ/(mol mm) , <span class="math notranslate nohighlight">\(k_a=40\)</span> kJ/(mol rad), <span class="math notranslate nohighlight">\(k_t=1.0\)</span> kJ/mol , <span class="math notranslate nohighlight">\(\epsilon_{c}=1.0\)</span> kJ/mol and <span class="math notranslate nohighlight">\(\epsilon_{nc}=1.0\)</span> kJ/mol. The geometric parameters are set to the calculated structural value in the input structure, with <span class="math notranslate nohighlight">\(r_0\)</span> the equilibrium bond distance in nanometers, <span class="math notranslate nohighlight">\(\theta_0\)</span> the equilibrium angle length in radians, <span class="math notranslate nohighlight">\(\phi_0\)</span> the equilibrium torsional angle in radians and <span class="math notranslate nohighlight">\(\sigma_{ij}\)</span> the equilibrium contact distance in nanometers. The variable <span class="math notranslate nohighlight">\(r\)</span> represents, accordingly, the current bond or contact distance in nanometers, <span class="math notranslate nohighlight">\(\theta\)</span> the current angle length in radians and <span class="math notranslate nohighlight">\(\phi\)</span> the current torsional angle in radians.</p>
+<p>To create a CA model, call:</p>
+<p>sbmOpenMM.models.getCAModel(pdb_file, contacts_file)</p>
+<p>Here, pdb_file is the path to the PDB format structure of the protein and  contacts_file is the path to the contact file containing only the CA atoms of the system. This last file should be numbered considering the CA atoms consecutively.</p>
 <ul class="simple">
 <li><p>All-heavy-atoms (AA) model</p></li>
 </ul>
-<p>The all-atom model represents the protein system with all its heavy atoms (i.e. excluding hydrogens). It uses harmonic potentials to hold the covalent connectivity, geometry and chirality of the protein residues. Periodic torsional potentials are used to maintain dihedral geometries of backbones and side chains. Native contacts are represented through the use of Lennard-Jones potentials that allow to form and break the connections, permitting complete and local unfolding of the structures.</p>
+<p>The all-atom model represents the protein system with all its heavy atoms (i.e. excluding hydrogens). It uses harmonic potentials to hold the covalent connectivity, geometry and chirality of the protein residues. Periodic torsional potentials are used to maintain dihedral geometries of backbones and side chains. Native contacts are represented through the use of Lennard-Jones potentials that allow to form and break non-bonded interactions, permitting complete and local unfolding of the structures.</p>
 <p>The force field equation is:</p>
+<p>The method to create an AA model is:</p>
+<p>sbmOpenMM.models.getAllAtomModel(pdb_file, contacts_file)</p>
+<p>Here, pdb_file is the path to the PDB format structure of the protein and  contacts_file is the path to the contact file containing only the non-hydorgen atoms of the protein system.</p>
 <ul class="simple">
 <li><p>Multi basin model</p></li>
 </ul>
+<p>The multi basin model automates the creation of a dual basin native contact potential. It receives as input two sbmOpenMM system classes, either CA or AA models, containing two different definitions of native contacts. One of the configurations is defined as the main model and the other is considered as the alternate model. All forcefield parameters different than the native contacts are copied from the main configuration into the multi basin model. Then, the contacts are compared between the input configurations to define the sets of common and unique contacts. Common contacts with equilibrium length distances that differ more than a threshold are defined as dual basin and are assigned a special non-bonded Gaussian potential. The rest of the contacts are treated as single minima and are modeled with a Lennard-Jones (default) or a single basin Gaussian potential.
+The method to create a multi basin model is:</p>
+<p>sbmOpenMM.models.getMultiBasinModel(main_model, alternate_configuration=alternate_model)</p>
+<p>Here, main_model and alternate_model are initialized sbmOpenMM system classes containing full force field parameter definitions.</p>
 
 
           </div>

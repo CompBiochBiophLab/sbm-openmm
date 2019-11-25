@@ -12,6 +12,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -30,7 +31,8 @@
 
           <div class="body" role="main">
             
-  <p>Structure Based Models (SBMs) are representations of protein systems based on simplifications made over classical Molecular Dynamics (MD) force fields. Their are based on the energy landscape theory of protein folding and the principal of minimal frustration. The models maintain protein structures by focusing only on the chemical contacts formed at the native protein configuration, ignoring all other contacts. This allows for simpler force field definitions which capture essential protein dynamics at a much lower computational expense than traditional MD simulations.</p>
+  <p>Introduction</p>
+<p>Structure Based Models (SBMs) are representations of protein systems based on simplifications made over classical Molecular Dynamics (MD) force fields. Their are based on the energy landscape theory of protein folding and the principle of minimal frustration. The models maintain protein structures by focusing on chemical contacts formed at the native protein configuration, ignoring other non-native contacts. This allows for simpler force field definitions which capture essential protein dynamics at a much lower computational expense than traditional MD simulations.</p>
 <p>sbmOpenMM is a Python library that offers flexibility to set up SBMs using the MD framework of OpenMM toolkit. It automates the creation of openmm.system classes that contain the necessary force field parameters to run molecular dynamics simulations using a protein structure and a contact map as the only necessary inputs.</p>
 <p>sbmOpenMM is divided in three main classes:</p>
 <ol class="arabic simple">
@@ -38,7 +40,8 @@
 <li><p>models</p></li>
 <li><p>system</p></li>
 </ol>
-<p>The first class, geometry, contains methods to calculate the geometrical parameters from the input structures. These parameters are used to define the input conformation as the global minimum configuration in the potential energy function. The second class, models, allows to easily set up predefined SBM models, that encompass coarse grained, all atom and multi basin versions of SBM. The third class, system, is the main class that holds all the methods to define, modify and create SBMs to be simulated with OpenMM.</p>
+<p>The first class, geometry, contains methods to calculate the geometrical parameters from the input structures. These parameters are used to define the input conformation as the global minimum configuration in the potential energy function. The second class, models, allows to easily set up predefined SBM models, that encompass coarse grained, all atom and multi basin potentials. The third class, system, is the main class that holds all the methods to define, modify and create SBMs to be simulated with OpenMM.</p>
+<p>The library is open-source and offers flexibility to create custom SBMs or to modify the predefined topology based models included in it.</p>
 
 
           </div>

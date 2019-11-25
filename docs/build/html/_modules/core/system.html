@@ -12,6 +12,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -1107,7 +1108,7 @@
 <span class="sd">        and parameters setted up in the &quot;torsions&quot; attribute. The custom </span>
 <span class="sd">        torsion force is initilized with the formula: </span>
 <span class="sd">        </span>
-<span class="sd">        energy = k*((1-cos(theta-theta0))+0.5*(1-cos(3*(theta-theta0))))</span>
+<span class="sd">        energy = k*(1-cos(theta-theta0)+0.5*(1-cos(3*(theta-theta0))))</span>
 <span class="sd">        </span>
 <span class="sd">        The force object is stored at the &quot;periodicTorsionForce&quot; attribute.</span>
 <span class="sd">        </span>
@@ -1127,7 +1128,7 @@
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="n">energy_function</span> <span class="o">=</span> <span class="s2">&quot;k*((1-cos(theta-theta0)+0.5*(1-cos(3*(theta-theta0)))))&quot;</span>
+        <span class="n">energy_function</span> <span class="o">=</span> <span class="s2">&quot;k*(1-cos(theta-theta0)+0.5*(1-cos(3*(theta-theta0))))&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">periodicTorsionForce</span> <span class="o">=</span> <span class="n">openmm</span><span class="o">.</span><span class="n">CustomTorsionForce</span><span class="p">(</span><span class="n">energy_function</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">periodicTorsionForce</span><span class="o">.</span><span class="n">addPerTorsionParameter</span><span class="p">(</span><span class="s1">&#39;theta0&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">periodicTorsionForce</span><span class="o">.</span><span class="n">addPerTorsionParameter</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
