@@ -1074,7 +1074,7 @@ class system:
         and parameters setted up in the "torsions" attribute. The custom 
         torsion force is initilized with the formula: 
         
-        energy = k*((1-cos(theta-theta0))+0.5*(1-cos(3*(theta-theta0))))
+        energy = k*(1-cos(theta-theta0)+0.5*(1-cos(3*(theta-theta0))))
         
         The force object is stored at the "periodicTorsionForce" attribute.
         
@@ -1094,7 +1094,7 @@ class system:
         None
         """
         
-        energy_function = "k*((1-cos(theta-theta0)+0.5*(1-cos(3*(theta-theta0)))))"
+        energy_function = "k*(1-cos(theta-theta0)+0.5*(1-cos(3*(theta-theta0))))"
         self.periodicTorsionForce = openmm.CustomTorsionForce(energy_function)
         self.periodicTorsionForce.addPerTorsionParameter('theta0')
         self.periodicTorsionForce.addPerTorsionParameter('k')

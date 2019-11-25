@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 from simtk.openmm.app import *
@@ -262,7 +262,7 @@ class models:
             print('')
             
         #Create default system force objects
-        if default_forces:
+        if default_parameters and default_forces:
             print('Adding Forces:')
             print('_____________')
             sbm.addHarmonicBondForces()
@@ -285,7 +285,7 @@ class models:
             print('')
             
         #Generate the system object and add previously generated forces
-        if create_system:
+        if default_parameters and default_forces and create_system:
             print('Creating System Object:')
             print('______________________')
             sbm.createSystemObject(minimise=False, check_bond_distances=False)
@@ -320,6 +320,17 @@ class models:
         
         Finally, the method can be stopped before creating the OpenMM system class using
         create_system=False.
+        
+        Attributes
+        ----------
+        
+        common_contacts : set
+            Set containing the common contacts between configurations.
+        dual_basin_contacts : set
+            Set containing the subset of common contacts that have a dual basin potential
+        unique_contacts : dict
+            Dictionary containing the sets of unique contacts for each configuration. The keys are 
+            integers, 0 for the main configuration, 1 for the alternate configuration. 
         
         Parameters
         ----------
@@ -372,6 +383,11 @@ class models:
         multi_basin_model.contacts = OrderedDict()
         multi_basin_model.n_contacts = None
         
+        #Create attributes to store unique and common contacts
+        multi_basin_model.common_contacts = None
+        multi_basin_model.dual_basin_contacts = None
+        multi_basin_model.unique_contacts = OrderedDict()
+        
         #Reset forces and force groups
         multi_basin_model.harmonicBondForce = None
         multi_basin_model.harmonicAngleForce = None
@@ -407,9 +423,14 @@ class models:
         print('Contacts in alternate configuration: '+str(len(contacts[1])))
         print('Common contacts between configurations: '+str(len(common_contacts)))  
         
+        #Set attribute to store common and unique contacts set
+        multi_basin_model.common_contacts = common_contacts
+        multi_basin_model.unique_contacts[0] = unique_contacts[0]
+        multi_basin_model.unique_contacts[1] = unique_contacts[1]
+        
         #Check common contacts with large differences (larger than double_minima_threshold)
         #in equilibrium position.
-        n_dm_contacts = 0
+        dm_contacts = set()
         for c in common_contacts:
             
             #Get main an alterante contact distances
@@ -431,8 +452,9 @@ class models:
                 #If excluded_volume_radius given add separate control of excluded volume.
                 else:
                     multi_basin_model.contacts[atoms] = (excluded_volume_radius*unit.nanometer, r0, r1, main_model.contacts[atoms][-1])
-                #Count added double minima
-                n_dm_contacts += 1
+                    
+                # Add double minima contacts
+                dm_contacts.add(c)
             
             #Otherwise just add single basin parameter 
             else:
@@ -447,9 +469,12 @@ class models:
                 #If excluded_volume_radius given add separate control of excluded volume.
                 else:
                     multi_basin_model.contacts[atoms] = (excluded_volume_radius*unit.nanometer, d0, main_model.contacts[atoms][1])
-                    
+        
         print('Common contacts with an equilibrium distance difference larger than %.2f nm: %s' % 
-             (double_minima_threshold, n_dm_contacts))
+             (double_minima_threshold, len(dm_contacts)))
+        
+        #Set attribute to store common double minima contacts
+        multi_basin_model.dual_basin_contacts = dm_contacts
         
         #Add unique contacts in main configuration
         print('Unique contacts in main configuration: '+str(len(unique_contacts[0])))
