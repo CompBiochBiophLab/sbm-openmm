@@ -262,7 +262,7 @@ class models:
             print('')
             
         #Create default system force objects
-        if default_forces:
+        if default_parameters and default_forces:
             print('Adding Forces:')
             print('_____________')
             sbm.addHarmonicBondForces()
@@ -285,7 +285,7 @@ class models:
             print('')
             
         #Generate the system object and add previously generated forces
-        if create_system:
+        if default_parameters and default_forces and create_system:
             print('Creating System Object:')
             print('______________________')
             sbm.createSystemObject(minimise=False, check_bond_distances=False)
