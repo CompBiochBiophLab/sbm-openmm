@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<WhamSpec>
+  <General>
+    <Coordinates>
+      <Coordinate name="V"/>
+      <Coordinate name="Qf_open"/>
+      <Coordinate name="Qf_close"/>
+    </Coordinates>
+    <DefaultCoordinateFileReader returnsTime="false">
+      <ReturnList name="V"/>
+      <ReturnList name="Qf_open"/>
+      <ReturnList name="Qf_close"/>
+    </DefaultCoordinateFileReader>
+    <Binnings>
+      <Binning name="V">
+        <Interval>2</Interval>
+      </Binning>
+      <Binning name="Qf_open">
+        <Interval>0.05</Interval>
+      </Binning>
+      <Binning name="Qf_close">
+        <Interval>0.05</Interval>
+      </Binning>
+    </Binnings>
+  </General>
+  <Trajectories>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_01.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_02.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_03.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_04.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_05.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_06.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_07.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_08.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_09.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+    <Trajectory T="123.75">
+      <EnergyFunction>V</EnergyFunction>
+      <CoordinateFiles>
+        <CoordinateFile>simulationData/Qf_10.data</CoordinateFile>
+      </CoordinateFiles>
+    </Trajectory>
+  </Trajectories>
+  <Jobs>
+    <FreeEnergy outFilePrefix="fe.data">
+      <Coordinates>
+        <Coordinate name="Qf_open"/>
+        <Coordinate name="Qf_close"/>
+      </Coordinates>
+      <EnergyFunction>V</EnergyFunction>
+      <Temperatures>123.75</Temperatures>
+      <Parameters>
+        <Parameter name="in_kT">true</Parameter>
+      </Parameters>
+    </FreeEnergy>
+  </Jobs>
+</WhamSpec>
