@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Coarse grained, alpha-carbon (CA), model &#8212; sbmOpenMM 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>The models class of sbmOpenMM contains three methods for automatic setting up predefined SBM potentials. It works by initializing a system class with the necessary force field parameters, derived from the input files, to set up one of the possible models which are detailed next:</p>
+<div class="section" id="coarse-grained-alpha-carbon-ca-model">
+<h1>Coarse grained, alpha-carbon (CA), model<a class="headerlink" href="#coarse-grained-alpha-carbon-ca-model" title="Permalink to this headline">¶</a></h1>
+<p>The coarse grained method represents the protein system as beads centered at the alpha carbons of each residue in the protein. It uses harmonic potentials to hold the covalent connectivity and geometry of the beads. Torsional geometries are modeled with a periodic torsion potential. Native contacts are represented through the use of Lennard-Jones potentials that allow to form and break non-bonded interactions, permitting complete and local unfolding of the structures.</p>
+<p>To create a CA model, call:</p>
+<p>sbmOpenMM.models.getCAModel(pdb_file, contacts_file)</p>
+<p>Here, pdb_file is the path to the PDB format structure of the protein and  contacts_file is the path to the contact file containing only the CA atoms of the system. This last file should be numbered considering the CA atoms consecutively.</p>
+<p>The force field equations are:</p>
+<div class="math notranslate nohighlight">
+\[H_A = \sum_{bonds}V_{bond}+\sum_{angles}V_{angle}+\sum_{torsions}V_{torsion}+\sum_{contacts}V_{LJ_{12-10}}+\sum_{non-contacts}V_{LJ_{12}}\]</div>
+<div class="math notranslate nohighlight">
+\[V_{bond} = \frac{k_b}{2}(r-r_0)^2\]</div>
+<div class="math notranslate nohighlight">
+\[V_{angle} = \frac{k_a}{2}(\theta-\theta_0)^2\]</div>
+<div class="math notranslate nohighlight">
+\[V_{torsion} = k_t(1-cos(\phi-\phi_0))+\frac{1}{2}(1-cos(3(\phi-\phi_0))))\]</div>
+<div class="math notranslate nohighlight">
+\[V_{LJ_{12-10}} = \epsilon_{c}(5(\frac{\sigma_{ij}}{r})^{12}-6(\frac{\sigma_{ij}}{r})^{10})\]</div>
+<div class="math notranslate nohighlight">
+\[V_{LJ_{12}} = \epsilon_{nc}(\frac{\sigma_{nc}}{r})^{12}\]</div>
+<p>Here the default values are <span class="math notranslate nohighlight">\(k_b=20000\ kJ/(mol \cdot nm^2)\)</span>, <span class="math notranslate nohighlight">\(k_a=40\ kJ/(mol \cdot rad^2)\)</span>, <span class="math notranslate nohighlight">\(k_t=1.0\ kJ/mol\)</span>, <span class="math notranslate nohighlight">\(\epsilon_{c}=1.0\ kJ/mol\)</span>, <span class="math notranslate nohighlight">\(\epsilon_{nc}=1.0\ kJ/mol\)</span> and <span class="math notranslate nohighlight">\(\sigma_{nc}=0.4\ nm\)</span>. The geometric parameters are set to the calculated structural values in the input structure, with <span class="math notranslate nohighlight">\(r_0\)</span> the equilibrium bond distance in nanometers, <span class="math notranslate nohighlight">\(\theta_0\)</span> the equilibrium angle length in radians, <span class="math notranslate nohighlight">\(\phi_0\)</span> the equilibrium torsional angle in radians and <span class="math notranslate nohighlight">\(\sigma_{ij}\)</span> the equilibrium contact distance in nanometers. The variable <span class="math notranslate nohighlight">\(r\)</span> represents, accordingly, the current bond or (non)contact distance in nanometers, <span class="math notranslate nohighlight">\(\theta\)</span> the current angle length in radians and <span class="math notranslate nohighlight">\(\phi\)</span> the current torsional angle in radians.</p>
+<p>It is possible to use a <span class="math notranslate nohighlight">\(V_{LJ_{12-10-6}}\)</span> potential for the native contact interactions, defined as:</p>
+<div class="math notranslate nohighlight">
+\[V_{LJ_{12-10-6}} = \epsilon_{c}(13(\frac{\sigma_{ij}}{r})^{12}-18(\frac{\sigma_{ij}}{r})^{10}+4(\frac{\sigma_{ij}}{r})^{6})\]</div>
+<p>This potential gives a small energy barrier for contact formation/breaking that emulates a “desolvation effect”. To use this potential as the native contact energy function, instead of the <span class="math notranslate nohighlight">\(V_{LJ_{12-10}}\)</span> potential, give the option contact_force =’12-10-6’ to the sbmOpenMM.models.getCAModel() method.</p>
+<p>Note that even if the units for the force constants are given in real physical units (e.g. <span class="math notranslate nohighlight">\(kJ/mol\)</span>), this is just to match the variables used by OpenMM. The models are not parametrized to equate this real physical values and comparison with experiments will require further adjustment to the energy unit system.</p>
+</div>
+<div class="section" id="all-heavy-atoms-aa-model">
+<h1>All-heavy-atoms (AA) model<a class="headerlink" href="#all-heavy-atoms-aa-model" title="Permalink to this headline">¶</a></h1>
+<p>The all-atom model represents the protein system with all its heavy atoms (i.e. excluding hydrogens). It uses harmonic potentials to hold the covalent connectivity, geometry and chirality of the protein residues. Periodic torsional potentials are used to maintain dihedral geometries of backbones and side chains. Native contacts are represented through the use of Lennard-Jones potentials that allow to form and break non-bonded interactions, permitting complete and local unfolding of the structures.</p>
+<p>The method to create an AA model is:</p>
+<p>sbmOpenMM.models.getAllAtomModel(pdb_file, contacts_file)</p>
+<p>Here, pdb_file is the path to the PDB format structure of the protein and  contacts_file is the path to the contact file containing only the non-hydorgen atoms of the protein system.</p>
+<p>The force field equations are:</p>
+<div class="math notranslate nohighlight">
+\[H_A = \sum_{bonds}V_{bond}+\sum_{angles}V_{angle}+\sum_{torsions}V_{torsion}+\sum_{impropers}V_{improper}+\sum_{planars}V_{planar}+\sum_{contacts}V_{LJ_{12-10}}+\sum_{non-contacts}V_{LJ_{12}}\]</div>
+<div class="math notranslate nohighlight">
+\[V_{bond} = \frac{k_b}{2}(r-r_0)^2\]</div>
+<div class="math notranslate nohighlight">
+\[V_{angle} = \frac{k_a}{2}(\theta-\theta_0)^2\]</div>
+<div class="math notranslate nohighlight">
+\[V_{torsion} = k_t(1-cos(\phi-\phi_0))+\frac{1}{2}(1-cos(3(\phi-\phi_0))))\]</div>
+<div class="math notranslate nohighlight">
+\[V_{improper} = \frac{k_i}{2}(\chi-\chi_{0})^2\]</div>
+<div class="math notranslate nohighlight">
+\[V_{planar} = \frac{k_p}{2}(\chi-\chi_{0})^2\]</div>
+<div class="math notranslate nohighlight">
+\[V_{LJ_{12-10}} = \epsilon_{c}(5(\frac{\sigma_{ij}}{r})^{12}-6(\frac{\sigma_{ij}}{r})^{10})\]</div>
+<div class="math notranslate nohighlight">
+\[V_{LJ_{12}} = \epsilon_{nc}(\frac{\sigma_{nc}}{r})^{12}\]</div>
+<p>Here the default values are <span class="math notranslate nohighlight">\(k_b=10000\ kJ/(mol \cdot nm^2)\)</span>, <span class="math notranslate nohighlight">\(k_a=80\ kJ/(mol \cdot rad^2)\)</span>, <span class="math notranslate nohighlight">\(k_i=10.0\ kJ/(mol \cdot rad^2)\)</span>, <span class="math notranslate nohighlight">\(k_p=20.0\ kJ/(mol \cdot rad^2)\)</span>, <span class="math notranslate nohighlight">\(\epsilon_{nc}=0.1\ kJ/mol\)</span> and <span class="math notranslate nohighlight">\(\sigma_{nc}=0.25\ nm\)</span>. The values of the torsional <span class="math notranslate nohighlight">\(k_t\)</span> and native energy constant <span class="math notranslate nohighlight">\(\epsilon_{c}\)</span> are assigned by the following equations:</p>
+<div class="math notranslate nohighlight">
+\[k_t=N_{atoms}/3N_{torsions}\ (kJ/mol)\]</div>
+<div class="math notranslate nohighlight">
+\[k_c=2N_{atoms}/3N_{contacts}\ (kJ/mol)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(N_{atoms}\)</span> is the total number of atoms in the system, <span class="math notranslate nohighlight">\(N_{torsions}\)</span> is the total number of proper torsions assigned by the forcefield and <span class="math notranslate nohighlight">\(N_{contacts}\)</span> is the number of native contacts in the contact file definition. Additionally, the torsional energy constant <span class="math notranslate nohighlight">\(k_t\)</span> is further divided by classifying the torsions into backbone and sidechain groups. The assignment is carried out as:</p>
+<div class="math notranslate nohighlight">
+\[k_{t}^{bb}=2k_t/3\]</div>
+<div class="math notranslate nohighlight">
+\[k_{t}^{sc}=k_t/3\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(k_{t}^{bb}\)</span> and <span class="math notranslate nohighlight">\(k_{t}^{sc}\)</span> are the torsional energy constant for backbone and sidechain torsion groups, respectively. This grouping of torsions into backbone and side chains is the default behaviour of the sbmOpenMM.models.getAllAtomModel() method. It can be disabled by given the option group_by_bb_and_sc=False.</p>
+<p>The geometric parameters are set to the calculated structural values in the input structure, with <span class="math notranslate nohighlight">\(r_0\)</span> the equilibrium bond distance in nanometers, <span class="math notranslate nohighlight">\(\theta_0\)</span> the equilibrium angle length in radians, <span class="math notranslate nohighlight">\(\phi_0\)</span> the equilibrium torsional angle in radians, <span class="math notranslate nohighlight">\(\chi_0\)</span> the equilibrium improper or planar equilibrium angle in radians and <span class="math notranslate nohighlight">\(\sigma_{ij}\)</span> the equilibrium contact distance in nanometers. The variable <span class="math notranslate nohighlight">\(r\)</span> represents, accordingly, the current bond or (non)contact distance in nanometers, <span class="math notranslate nohighlight">\(\theta\)</span> the current angle length in radians, <span class="math notranslate nohighlight">\(\phi\)</span> the current proper torsional angle in radians and <span class="math notranslate nohighlight">\(\chi\)</span> the equilibrium improper or planar torsional angles in radians.</p>
+<p>Note that even if the units for the force constants are given in real physical units (e.g. <span class="math notranslate nohighlight">\(kJ/mol\)</span>), this is just to match the variables used by OpenMM. The models are not parametrized to equate this real physical values and comparison with experiments will require further adjustment to the energy unit system.</p>
+</div>
+<div class="section" id="multi-basin-model">
+<h1>Multi basin model<a class="headerlink" href="#multi-basin-model" title="Permalink to this headline">¶</a></h1>
+<p>The multi basin model automates the creation of a dual basin native contact potential. It receives as input two sbmOpenMM system classes, either CA or AA models, containing two different definitions of native contacts. One of the configurations is defined as the main model and the other is considered as the alternate model. All forcefield and topology parameters, different than the native contacts, are passed from the main configuration into the multi basin model. Then, the contacts are compared between the input configurations to define the sets of common and unique contacts. Common contacts with equilibrium length distances that differ more than a threshold are defined as dual basin and are assigned a special non-bonded Gaussian potential. The rest of the contacts are treated as single minima and are modeled with a Lennard-Jones (default) or a single basin Gaussian potential.</p>
+<p>The multi basin Gaussian potential is defined as:</p>
+<div class="math notranslate nohighlight">
+\[V_{Multi-basin} = \epsilon_{C}((1+(\frac{r_{ex}}{r})^{12})\prod_{minima}G(r,r_{0}^{\alpha})-1)\]</div>
+<div class="math notranslate nohighlight">
+\[G(r,r_{0}^{\alpha}) = 1-exp(\frac{-(r-r_{0}^{\alpha})^2}{2\sigma^2})\]</div>
+<div class="math notranslate nohighlight">
+\[\sigma^{2} = \frac{(r_{0}^{\alpha})^2}{50ln(2)}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\epsilon_{C}\)</span> is the native contact energy constant inherited from the main configuration, <span class="math notranslate nohighlight">\(r_{ex}\)</span> is the contact excluded volume radius, <span class="math notranslate nohighlight">\(r_{0}^{\alpha}\)</span> is the equilibrium distance for the <span class="math notranslate nohighlight">\(alpha\)</span>-th configuration and <span class="math notranslate nohighlight">\(r\)</span> is the current contact distance. <span class="math notranslate nohighlight">\(\sigma\)</span> is a parameter that modulates the well amplitude of the <span class="math notranslate nohighlight">\(V_{Multi-basin}\)</span> energy function. The single and double basin gaussian potential are distinguished by the number of <span class="math notranslate nohighlight">\(r_{0}^{\alpha}\)</span> parameters given.</p>
+<p>The Lennard Jones contact potential is inherited accordingly from the CA or AA models used to build the multi basin SBM.</p>
+<p>The method to create a multi basin model is:</p>
+<p>sbmOpenMM.models.getMultiBasinModel(main_model, alternate_configuration=alternate_model)</p>
+<p>Here, main_model and alternate_model are initialized sbmOpenMM system classes containing full force field parameter definitions.</p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Coarse grained, alpha-carbon (CA), model</a></li>
+<li><a class="reference internal" href="#all-heavy-atoms-aa-model">All-heavy-atoms (AA) model</a></li>
+<li><a class="reference internal" href="#multi-basin-model">Multi basin model</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, "Martin Floor, Kengjie Li".
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/sections/models.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
