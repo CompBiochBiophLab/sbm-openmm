@@ -57,3 +57,4 @@ Tutorials are available for learning how to set up SBM simulations using sbmOpen
 
 [04 - Estimating free energy profiles](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/basic/04-FreeEnergySurface/freeEnergyProfile.ipynb)
 
+[05 - Setting up a multi-basin SBM](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/basic/05-MultiBasin/multiBasinModel.ipynb)
