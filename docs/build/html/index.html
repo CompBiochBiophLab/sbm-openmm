@@ -31,10 +31,10 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="sbmopenmm-documentation">
-<h1>sbmOpenMM Documentation<a class="headerlink" href="#sbmopenmm-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="toctree-wrapper compound">
 </div>
+<div class="section" id="sbmopenmm-documentation">
+<h1>sbmOpenMM Documentation<a class="headerlink" href="#sbmopenmm-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Structure Based Models (SBMs) are representations of protein systems based on simplifications made over classical Molecular Dynamics (MD) force fields. Their are based on the energy landscape theory of protein folding and the principle of minimal frustration. The models maintain protein structures by focusing on chemical contacts formed at the native protein configuration, ignoring other non-native contacts. This allows for simpler force field definitions which capture essential protein dynamics at a much lower computational expense than traditional MD simulations.</p>
@@ -161,7 +161,17 @@ given sets of atom coordinates.</p>
 </table>
 </dd></dl>
 
-<span class="target" id="module-core"></span><dl class="class">
+<span class="target" id="module-core"></span><p>core package of the sbmOpenMM package that contains the main sbmOpenMM classes.</p>
+<p>The sbmOpenMM.core package contains the three sbmOpenMM main classes:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>geometry</p></li>
+<li><p>models</p></li>
+<li><p>system</p></li>
+</ol>
+</div></blockquote>
+<p>The first class, geometry, contains methods to calculate the geometrical parameters from the input structures. These parameters are used to define the input conformation as the global minimum configuration in the potential energy function. The second class, models, allows to easily set up predefined SBM models, that encompass coarse grained, all atom and multi basin potentials. The third class, system, is the main class that holds all the methods to define, modify and create SBMs to be simulated with OpenMM.</p>
+<dl class="class">
 <dt id="core.geometry">
 <em class="property">class </em><code class="sig-name descname">geometry</code><a class="reference internal" href="_modules/core/geometry.html#geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class to hold methods for calculating geometrical values 
@@ -288,7 +298,17 @@ coordinates.</p>
 </table>
 </dd></dl>
 
-<span class="target" id="module-core"></span><dl class="class">
+<span class="target" id="module-core"></span><p>core package of the sbmOpenMM package that contains the main sbmOpenMM classes.</p>
+<p>The sbmOpenMM.core package contains the three sbmOpenMM main classes:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>geometry</p></li>
+<li><p>models</p></li>
+<li><p>system</p></li>
+</ol>
+</div></blockquote>
+<p>The first class, geometry, contains methods to calculate the geometrical parameters from the input structures. These parameters are used to define the input conformation as the global minimum configuration in the potential energy function. The second class, models, allows to easily set up predefined SBM models, that encompass coarse grained, all atom and multi basin potentials. The third class, system, is the main class that holds all the methods to define, modify and create SBMs to be simulated with OpenMM.</p>
+<dl class="class">
 <dt id="core.models">
 <em class="property">class </em><code class="sig-name descname">models</code><a class="reference internal" href="_modules/core/models.html#models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class to hold functions for the automated generation of default SBM models.</p>
@@ -752,7 +772,17 @@ information for the SBM model.</p>
 </table>
 </dd></dl>
 
-<span class="target" id="module-core"></span><dl class="class">
+<span class="target" id="module-core"></span><p>core package of the sbmOpenMM package that contains the main sbmOpenMM classes.</p>
+<p>The sbmOpenMM.core package contains the three sbmOpenMM main classes:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>geometry</p></li>
+<li><p>models</p></li>
+<li><p>system</p></li>
+</ol>
+</div></blockquote>
+<p>The first class, geometry, contains methods to calculate the geometrical parameters from the input structures. These parameters are used to define the input conformation as the global minimum configuration in the potential energy function. The second class, models, allows to easily set up predefined SBM models, that encompass coarse grained, all atom and multi basin potentials. The third class, system, is the main class that holds all the methods to define, modify and create SBMs to be simulated with OpenMM.</p>
+<dl class="class">
 <dt id="core.system">
 <em class="property">class </em><code class="sig-name descname">system</code><span class="sig-paren">(</span><em class="sig-param">pdb_path</em>, <em class="sig-param">particles_mass=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class containing methods and parameters for generating Structure Based
@@ -2048,7 +2078,11 @@ input an instance of the sbmOpenMM object with the option ‘sbmObject’.</p>
 </table>
 </dd></dl>
 
-<span class="target" id="module-reporter"></span><dl class="class">
+<span class="target" id="module-reporter"></span><p>reporter package of the sbmOpenMM package that contains the sbmReporter class.</p>
+<p>The sbmOpenMM.reproter package contains the sbmReporter class.</p>
+<p>sbmReporter is a special class of the OpenMM StateDataReporter class, that additionally
+accepts a sbmobject to print the SBM forcefield energies.</p>
+<dl class="class">
 <dt>
 <em class="property">class </em><code class="sig-name descname">sbmReporter</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">reportInterval</em>, <em class="sig-param">sbmObject=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reporter/sbm_reporter.html#sbmReporter"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>A special case of the StateDataReporter class that outputs information about a simulation, 

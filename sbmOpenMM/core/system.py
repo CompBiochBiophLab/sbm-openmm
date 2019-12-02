@@ -1699,7 +1699,7 @@ class system:
         #Check for high forces in atoms and minimise the system if necessary
         self.checkLargeForces(minimise=minimise, threshold=force_threshold)
         
-    def checkBondDistances(self, threshold=0.24):
+    def checkBondDistances(self, threshold=0.25):
         """
         Searches for large bond distances for the atom pairs defined in 
         the 'bonds' attribute. It raises an error when large bonds are found.
