@@ -1658,7 +1658,7 @@ class system:
     
     ## Functions for creating OpenMM system object ##
     
-    def createSystemObject(self, check_bond_distances=True, minimise=False, force_threshold=10, bond_threshold=0.24):
+    def createSystemObject(self, check_bond_distances=True, minimise=False, force_threshold=10, bond_threshold=0.25):
         """
         Creates an openmm.System() object using the force field parameters
         given to the SBM 'system' class. It adds particles, forces and 
