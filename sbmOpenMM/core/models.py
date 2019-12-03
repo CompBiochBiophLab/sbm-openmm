@@ -230,7 +230,7 @@ class models:
         print('Setting up geometrical parameters:')
         print('_________________________________')
         sbm = system(pdb_file)
-        print('Keeping only carbon alpha atoms in topology')
+        print('Keeping only alpha carbon atoms in topology')
         sbm.getCAlphaOnly()
         sbm.getAtoms()
         print('Added '+str(sbm.n_atoms)+' CA atoms')
