@@ -1925,8 +1925,28 @@ class system:
             
             ff.write('#### SBM Force Field Parameters ####\n')
             ff.write('\n')
-            
+            if self.atoms != OrderedDict():
+                ff.write('[atoms]\n')
+                ff.write('# %2s %3s %9s \t %14s\n' % ('atom', 'mass', 'ex_radius', 'atom_name'))
+                
+                for i,atom in enumerate(self.atoms):
+                    
+                    if isinstance(self.particles_mass, list):
+                        mass = self.particles_mass[i]
+                    elif isinstance(self.particles_mass, float):
+                        mass = self.particles_mass
+                    if isinstance(self.rf_sigma, list):
+                        sigma = self.rf_sigma[i]
+                    elif isinstance(self.rf_sigma, float):
+                        sigma = self.rf_sigma
+                    res = atom.residue
+                    
+                    ff.write('%4s %5s %9s\t# %12s\n' % (atom.index+1,
+                                                     mass,
+                                                         sigma,
+                                                         atom.name+'_'+res.name+'_'+str(res.index+1)))
             if self.bonds != OrderedDict():
+                ff.write('\n')
                 ff.write('[bonds]\n')
                 ff.write('# %2s %3s %-6s %-s \t\t self.bonds[bond][1] %12s %12s\n' % ('at1', 'at2', 'b0', 'k', 'at1_name', 'at2_name'))
                 for bond in self.bonds:
@@ -2113,6 +2133,7 @@ class system:
             print('________________________________________'+'_'*len(forcefield_file))
             
             #Initilise ff-file section booleans to 0
+            atoms = False
             bonds = False
             angles = False
             torsions = False
@@ -2128,6 +2149,7 @@ class system:
                     
                     #Turn off all sections when a new is being reading.
                     if line.startswith('['):
+                        atoms = False
                         bonds = False
                         angles = False
                         torsions = False
@@ -2140,6 +2162,26 @@ class system:
                         line = line[:line.find('#')]
                         ls = line.split()
                         
+                        #Reading [atoms] section
+                        if atoms == True:
+                            
+                            if not isinstance(self.particles_mass, list):
+                                self.particles_mass = [1.0 for m in range(self.n_atoms)]
+                            if not isinstance(self.particles_mass, list):
+                                self.rf_sigma = [ 0 for s in range(self.n_atoms)]
+                            if len(ls) > 3:
+                                raise ValueError('More than three parameters given in [atoms] section at line '+str(i)+':\n'+line)
+                            if len(ls) < 3:
+                                raise ValueError('Less than three parameters given in [atoms] section at line '+str(i)+':\n'+line)
+                                
+                            # Check if ff atom index is the same as openmm atom index
+                            assert int(ls[0])-1 == self.atoms[int(ls[0])-1].index
+                            
+                            mass = self.atoms[float(ls[1])]
+                            sigma = self.atoms[float(ls[1])]
+                            self.particles_mass[i] = mass
+                            self.rf_sigma[i] = sigma
+                            
                         #Reading [bonds] section
                         if bonds == True:
                             if len(ls) > 4:

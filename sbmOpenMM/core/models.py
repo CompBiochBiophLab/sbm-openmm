@@ -175,7 +175,8 @@ class models:
                    default_parameters=True, 
                    default_forces=True, 
                    create_system=True,
-                   contact_force='12-10'):
+                   contact_force='12-10',
+                   minimise=False):
         """
         Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
         from a PDB file and a contact file defining the native contacts for the 
@@ -288,7 +289,7 @@ class models:
         if default_parameters and default_forces and create_system:
             print('Creating System Object:')
             print('______________________')
-            sbm.createSystemObject(minimise=False, check_bond_distances=False)
+            sbm.createSystemObject(minimise=minimise, check_bond_distances=False)
             print('OpenMM system Object created')
             print('')
             
