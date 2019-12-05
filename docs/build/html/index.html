@@ -133,34 +133,6 @@
 </div>
 <div class="section" id="core-classes">
 <h2>Core classes<a class="headerlink" href="#core-classes" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="core.geometry.geometry">
-<em class="property">class </em><code class="sig-name descname">geometry</code><a class="reference internal" href="_modules/core/geometry.html#geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.geometry.geometry" title="Permalink to this definition">¶</a></dt>
-<dd><p>A class to hold methods for calculating geometrical values 
-given sets of atom coordinates.</p>
-<p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">angle</span></code>(coord1, coord2, coord3)</p></td>
-<td><p>Calculate the angle length between three (x,y,z) quantity coordinates.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bond</span></code>(coord1, coord2)</p></td>
-<td><p>Calculate the distance length between two (x,y,z) quantity coordinates.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">position2Array</span></code>(position, output_unit)</p></td>
-<td><p>Converts an OpenMM position object quantity into a numpy array.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">torsion</span></code>(coord1, coord2, coord3, coord4)</p></td>
-<td><p>Calculate the torsion angle length between four (x,y,z) quantity  coordinates.</p></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <span class="target" id="module-core"></span><p>core package of the sbmOpenMM package that contains the main sbmOpenMM classes.</p>
 <p>The sbmOpenMM.core package contains the three sbmOpenMM main classes:</p>
 <blockquote>
@@ -274,30 +246,6 @@ coordinates.</p>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="core.models.models">
-<em class="property">class </em><code class="sig-name descname">models</code><a class="reference internal" href="_modules/core/models.html#models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.models" title="Permalink to this definition">¶</a></dt>
-<dd><p>A class to hold functions for the automated generation of default SBM models.</p>
-<p class="rubric">Methods</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 42%" />
-<col style="width: 58%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>getAllAtomModel(pdb_file, contact_file, kwarg</strong>)**</p></td>
-<td><p>Creates an all atom SBM system class object with default initialized parameters.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>getCAModel(pdb_file, contact_file, kwarg</strong>)**</p></td>
-<td><p>Creates an alpha-carbon only sbmOpenMM system class object with default initialized parameters.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>getMultiBasinModel(main_model, alternate_configuration, kwarg</strong>)**</p></td>
-<td><p>Creates a multi basin model from two sbmOpenMM.system class instances.</p></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <span class="target" id="module-core"></span><p>core package of the sbmOpenMM package that contains the main sbmOpenMM classes.</p>
 <p>The sbmOpenMM.core package contains the three sbmOpenMM main classes:</p>
 <blockquote>
@@ -387,7 +335,7 @@ defining an All Atom SBM force field.</p>
 
 <dl class="method">
 <dt id="core.models.getCAModel">
-<code class="sig-name descname">getCAModel</code><span class="sig-paren">(</span><em class="sig-param">pdb_file</em>, <em class="sig-param">contact_file</em>, <em class="sig-param">default_parameters=True</em>, <em class="sig-param">default_forces=True</em>, <em class="sig-param">create_system=True</em>, <em class="sig-param">contact_force='12-10'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getCAModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getCAModel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getCAModel</code><span class="sig-paren">(</span><em class="sig-param">pdb_file</em>, <em class="sig-param">contact_file</em>, <em class="sig-param">default_parameters=True</em>, <em class="sig-param">default_forces=True</em>, <em class="sig-param">create_system=True</em>, <em class="sig-param">contact_force='12-10'</em>, <em class="sig-param">minimise=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getCAModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getCAModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
 from a PDB file and a contact file defining the native contacts for the 
 coarse grained model.</p>
@@ -498,278 +446,6 @@ integers, 0 for the main configuration, 1 for the alternate configuration.</p>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="class">
-<dt id="core.models.system">
-<em class="property">class </em><code class="sig-name descname">system</code><span class="sig-paren">(</span><em class="sig-param">pdb_path</em>, <em class="sig-param">particles_mass=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.system" title="Permalink to this definition">¶</a></dt>
-<dd><p>A class containing methods and parameters for generating Structure Based
-Models (SBM) systems to be simulated using the OpenMM interface. It offers 
-flexibility to create default and custom SBM systems and to easily 
-modify their parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Attributes</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>pdb_path</strong><span class="classifier">string</span></dt><dd><p>Path to the pdb input file</p>
-</dd>
-<dt><strong>pdb</strong><span class="classifier">openmm.app.pdbfile.PDBFile</span></dt><dd><p>Object that holds the information of OpenMM PDB parsing method.</p>
-</dd>
-<dt><strong>topology</strong><span class="classifier">openmm.app.topology.Topology</span></dt><dd><p>OpenMM topology of the model.</p>
-</dd>
-<dt><strong>positions</strong><span class="classifier">unit.quantity.Quantity</span></dt><dd><p>Atomic positions of the model.</p>
-</dd>
-<dt><strong>particles_mass</strong><span class="classifier">float or list</span></dt><dd><p>Mass of each particle. If float then uniform masses are given to all 
-particles. If list per-particle masses are assigned.</p>
-</dd>
-<dt><strong>model_type</strong><span class="classifier">string</span></dt><dd><p>String representing the model type: All-atom (AA), alpha-carbon (CA)
-or multi-basin variants (AA-MB, CA-MB).</p>
-</dd>
-<dt><strong>atoms</strong><span class="classifier">list</span></dt><dd><p>A list of the current atoms in the model. The items are simtk.openmm.app.topology.Atom
-initialised classes.</p>
-</dd>
-<dt><strong>n_atoms</strong><span class="classifier">int</span></dt><dd><p>Total numer of atoms in the model.</p>
-</dd>
-<dt><strong>bonds</strong><span class="classifier">collections.OrderedDict</span></dt><dd><p>A dict that uses bonds (2-tuple of simtk.openmm.app.topology.Atom objects) 
-present in the model as keys and their forcefield properties as values.</p>
-</dd>
-<dt><strong>bonds_indexes</strong><span class="classifier">list</span></dt><dd><p>A list containing the zero-based indexes of the atoms defining the bonds in the model.</p>
-</dd>
-<dt><strong>n_bonds</strong><span class="classifier">int</span></dt><dd><p>Total numer of bonds in the model.</p>
-</dd>
-<dt><strong>angles</strong><span class="classifier">collections.OrderedDict</span></dt><dd><p>A dict that uses angles (3-tuple of simtk.openmm.app.topology.Atom objects)
-present in the model as keys and their forcefield properties as values.</p>
-</dd>
-<dt><strong>angles_indexes</strong><span class="classifier">list</span></dt><dd><p>A list containing the zero-based indexes of the atoms defining the angles in the model.</p>
-</dd>
-<dt><strong>n_angles</strong><span class="classifier">int</span></dt><dd><p>Total numer of angles in the model.</p>
-</dd>
-<dt><strong>torsions</strong><span class="classifier">collections.OrderedDict</span></dt><dd><p>A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects) 
-present in the model as keys and their forcefield properties as values.</p>
-</dd>
-<dt><strong>torions_indexes</strong><span class="classifier">list</span></dt><dd><p>A list containing the zero-based indexes of the atoms defining the torsions in the model.</p>
-</dd>
-<dt><strong>n_torsions</strong><span class="classifier">int</span></dt><dd><p>Total numer of proper torsions in the model.</p>
-</dd>
-<dt><strong>impropers</strong><span class="classifier">collections.OrderedDict</span></dt><dd><p>A dict that uses improper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
-present in the model as keys and their forcefield properties as values.</p>
-</dd>
-<dt><strong>impropers_indexes</strong><span class="classifier">list</span></dt><dd><p>A list containing the zero-based indexes of the atoms defining the imporpers in the model.</p>
-</dd>
-<dt><strong>n_impropers</strong><span class="classifier">int</span></dt><dd><p>Total numer of improper torsions in the model.</p>
-</dd>
-<dt><strong>planars</strong><span class="classifier">collections.OrderedDict</span></dt><dd><p>A dict that uses planar torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
-present in the model as keys and their forcefield properties as values.</p>
-</dd>
-<dt><strong>planars_indexes</strong><span class="classifier">list</span></dt><dd><p>A list containing the zero-based indexes of the atoms defining the planars in the model.</p>
-</dd>
-<dt><strong>n_planars</strong><span class="classifier">int</span></dt><dd><p>Total numer of planar torsions in the model.</p>
-</dd>
-<dt><strong>contacts</strong><span class="classifier">collections.OrderedDict</span></dt><dd><p>A dict that uses native contacts (2-tuple of simtk.openmm.app.topology.Atom objects
-present in the model as keys and their forcefield properties as values.</p>
-</dd>
-<dt><strong>contacts_indexes</strong><span class="classifier">list</span></dt><dd><p>A list containing the zero-based indexes of the atoms defining the contacts in the model.</p>
-</dd>
-<dt><strong>n_contacts</strong><span class="classifier">int</span></dt><dd><p>Total numer of native contacts in the model.</p>
-</dd>
-<dt><strong>torsions_group</strong><span class="classifier">dict</span></dt><dd><p>A dict that uses proper torsions two central atoms (2-tuple of simtk.openmm.app.topology.Atom objects)
-present in the model’s topology as keys and the number of torsions (int) that share these same middle 
-bond atoms as values.</p>
-</dd>
-<dt><strong>torsions_type</strong><span class="classifier">dict</span></dt><dd><p>A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
-present in the model as keys and, a string representing wheter the torsion 
-is classified as ‘backbone’ or ‘sidechain’ as values.</p>
-</dd>
-<dt><strong>energy_constant</strong><span class="classifier">dict</span></dt><dd><p>A dict that holds the value for the different energy terms parameters
-used by different SBM models and forces.</p>
-</dd>
-<dt><strong>harmonicBondForce</strong><span class="classifier">openmm.HarmonicBondForce</span></dt><dd><p>Stores the OpenMM HarmonicBondForce initialised-class. Implements
-an harmonic bond potential between pairs of particles, that depends
-quadratically on their distance.</p>
-</dd>
-<dt><strong>harmonicAngleForce</strong><span class="classifier">openmm.HarmonicAngleForce</span></dt><dd><p>Stores the OpenMM HarmonicAngleForce initialised-class. Implements
-an harmonic angle potential between trios of particles, that depends
-quadratically on their angle length.</p>
-</dd>
-<dt><strong>periodicTorsionForce</strong><span class="classifier">openmm.CustomTorsionForce</span></dt><dd><p>Stores the OpenMM CustomTorsionForce initialised-class. Implements 
-a force potential that varies periodically with the value of the 
-proper torsion angle.</p>
-</dd>
-<dt><strong>generalPeriodicTorsionForce</strong><span class="classifier">openmm.CustomTorsionForce</span></dt><dd><p>Stores the OpenMM CustomTorsionForce initialised-class. Implements 
-a general force potential that varies periodically with the value of the 
-proper torsion angle.</p>
-</dd>
-<dt><strong>harmonicImproperForce</strong><span class="classifier">openmm.CustomTorsionForce</span></dt><dd><p>Stores the OpenMM CustomTorsionForce initialised-class. Implements 
-a force potential that varies quadratically with the value of the  
-improper torsion angle.</p>
-</dd>
-<dt><strong>harmonicPlanarForce</strong><span class="classifier">openmm.CustomTorsionForce</span></dt><dd><p>Stores the OpenMM CustomTorsionForce initialised-class. Implements 
-a force potential that varies quadratically with the value of the  
-planar torsion angle.</p>
-</dd>
-<dt><strong>lj12_6contactForce</strong><span class="classifier">openmm.CustomBondForce</span></dt><dd><p>Stores the OpenMM CustomBondForce initialised-class to be applied
-to non-bonded interactions between native contact pairs. Implements 
-a lennard-jones potential with exponents 12 and 6 for the repulsive
-and attractive componenets, respectively.</p>
-</dd>
-<dt><strong>lj12_10contactForce</strong><span class="classifier">openmm.CustomBondForce</span></dt><dd><p>Stores the OpenMM CustomBondForce initialised-class to be applied
-to non-bonded interactions between native contact pairs. Implements 
-a lennard-jones potential with exponents 12 and 10 for the repulsive
-and attractive components, respectively.</p>
-</dd>
-<dt><strong>lj12_10_6contactForce</strong><span class="classifier">openmm.CustomBondForce</span></dt><dd><p>Stores the OpenMM CustomBondForce initialised-class to be applied
-to non-bonded interactions between native contact pairs. Implements 
-a lennard-jones potential with exponents 12 and 10 for the repulsive
-and attractive components, respectively, and an additional 6-exponent 
-term to model a “desolvation penalty” for forming/breaking contacts.</p>
-</dd>
-<dt><strong>singleGaussianContactForce</strong><span class="classifier">openmm.CustomNonbondedForce</span></dt><dd><p>Stores the OpenMM CustomBondForce initialised-class to be applied
-to non-bonded interactions between native contact pairs with single
-minimum. Implements a mixed lennard-jones (repulsive) and gaussian
-potential (attractive) with separate control of equilibrium distance
-and excluded volume.</p>
-</dd>
-<dt><strong>doubleGaussianContactForce</strong><span class="classifier">openmm.CustomNonbondedForce</span></dt><dd><p>Stores the OpenMM CustomBondForce initialised-class to be applied
-to non-bonded interactions between native contact pairs with two 
-minima. Implements a mixed lennard-jones (repulsive) and gaussian
-potential (attractive) with separate control of the equilibrium 
-distances and excluded volume.</p>
-</dd>
-<dt><strong>ljRepulsionForce</strong><span class="classifier">openmm.CustomNonbondedForce</span></dt><dd><p>Stores the OpenMM CustomBondForce initialised-class to be applied
-to the non-bonded interactions between non-native contact pairs. 
-Implements only a repulsive lennard-jones potential with exponent 
-12.</p>
-</dd>
-<dt><strong>forceGroups</strong><span class="classifier">collections.OrderedDict</span></dt><dd><p>A dict that uses force names as keys and their corresponding force
-as values.</p>
-</dd>
-<dt><strong>system</strong><span class="classifier">openmm.System</span></dt><dd><p>Stores the OpenMM System initialised class. It stores all the forcefield
-information for the SBM model.</p>
-</dd>
-<dt><strong>rf_epsilon</strong><span class="classifier">float</span></dt><dd><p>Epsilon parameter used in the repulsion force object.</p>
-</dd>
-<dt><strong>rf_sigma</strong><span class="classifier">float</span></dt><dd><p>Sigma parameter used in the repulsion force object.</p>
-</dd>
-<dt><strong>rf_cutoff</strong><span class="classifier">float</span></dt><dd><p>Cutoff value used for repulsion force interactions.</p>
-</dd>
-<dt><strong>exclusions</strong><span class="classifier">list</span></dt><dd><p>List of added exclusions for the repuslion non-bonded term.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Methods</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>removeHydrogens()</strong></p></td>
-<td><p>Remove hydrogens from the input pdb by using a regexpression pattern. Used specially for creating all atom (AA) models.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>getCAlphaOnly()</strong></p></td>
-<td><p>Filter in only alpha carbon atoms from the input pdb and updates the topology object to add new bonds between them. Used specially for creating alpha-carbon (CA) corse-grained models.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>getAtoms()</strong></p></td>
-<td><p>Reads atoms from topology, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>getBonds()</strong></p></td>
-<td><p>Reads bonds from topology, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>getAngles()</strong></p></td>
-<td><p>Reads bonds from topology and creates a list of all possible angles, adds them to the main class and sorts them into a dictionary to store their forcefield properties.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>getProperTorsions()</strong></p></td>
-<td><p>Using the created angles, usually by the getAngles() method, creates a list of all possible proper torsion dihedral angles, filtering out torsions based on residue-specific rules (only for the all-atom model). The torsions are then added to the main class and sorted into a dictionary to store their forcefield properties.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>getImpropers()</strong></p></td>
-<td><p>Create improper torsions based on backbone and sidechain residue-specific rules (all-atom model only), adds them to the main class and sorts them into a dictionary to store their forcefield properties.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>getPlanars()</strong></p></td>
-<td><p>Create planar torsions based on backbone and sidechain residue-specific rules (all-atom model only), adds them to the main class and sorts them into a dictionary to store their forcefield properties.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>readContactFile()</strong></p></td>
-<td><p>Reads a file containing native contact information and adds it into the main class. The file can be smog-style (4 columns) or given as 2 columns. The format will be automatically detected.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>setBondParameters()</strong></p></td>
-<td><p>Change the forcefield parameters for bonded terms.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>setAngleParameters()</strong></p></td>
-<td><p>Change the forcefield parameters for angle terms.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>setProperTorsionParameters()</strong></p></td>
-<td><p>Change the forcefield parameters for proper torsion terms.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>setImproperParameters()</strong></p></td>
-<td><p>Change the forcefield parameters for improper torsion terms.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>setPlanarParameters()</strong></p></td>
-<td><p>Change the forcefield parameters for planar torsion terms.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>setNativeContactParameters()</strong></p></td>
-<td><p>Change the forcefield parameters for native contact terms.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>setParticlesMasses()</strong></p></td>
-<td><p>Change the mass parameter for each atom in the system.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>addHarmonicBondForces()</strong></p></td>
-<td><p>Creates an harmonic bonded force term for each bond in the main class using their defined forcefield parameters.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>addHarmonicAngleForces()</strong></p></td>
-<td><p>Creates an harmonic angle force term for each angle in the main class using their defined forcefield parameters.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>addPeriodicTorsionForces()</strong></p></td>
-<td><p>Creates a periodic torsion force term for each proper torsion in the main class using their defined forcefield parameters.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>addGenericPeriodicTorsionForces()</strong></p></td>
-<td><p>Creates a periodic torsion force term for each proper torsion in the main class using their defined forcefield parameters.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>addHarmonicImproperForces()</strong></p></td>
-<td><p>Creates an harmonic torsion force term for each improper torsion in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>addHarmonicPlanarForces()</strong></p></td>
-<td><p>Creates an harmonic torsion force term for each planar torsion in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>addLJ12_6ContactForces()</strong></p></td>
-<td><p>Creates a 12-6 Lennard-Jones bond potential for each native contact in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>addLJ12_10ContactForces()</strong></p></td>
-<td><p>Creates a 12-10 Lennard-Jones bond potential for each native contact in the main class using their defined forcefield parameters. Used specially for simulating coarse-grained alpha-carbon systems.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>addGaussianContactForces()</strong></p></td>
-<td><p>Creates a gaussian single and double basin bond potential for each native contact in the main class using their defined forcefield parameters. The contacts are recognized according two the number of parameters given as values in the attribute system. 3-parameters for single-basin potential and 4-paramters for dual-basin potentials.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>addLJRepulsionForces()</strong></p></td>
-<td><p>Creates a repulsive-only 12 Lennard-Jones non-bonded potential specifying a exclusion list for bond, angle, torsion, and native contact terms.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>groupTorsionsbyBBAndSC()</strong></p></td>
-<td><p>Groups proper torsions by backbone and sidechain torsions. Used exclusively for simulating all-atom SBM.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>getAATorsionParameters()</strong></p></td>
-<td><p>Generates default periodic torsion forcefield parameters, for proper torsions, using pre-defined assignment schemes. Used exclusively for simulating all-atom SBM.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>getAANativeContactParameters()</strong></p></td>
-<td><p>Generates default bonded contact forcefield parameters, for native contacts, using pre-defined assignment schemes. Used exclusively for simulating all-atom SBM.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>createSystemObject()</strong></p></td>
-<td><p>Creates OpenMM system object adding particles, masses and forces. It also groups the added forces into Force-Groups for the sbmReporter class.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>addParticles()</strong></p></td>
-<td><p>Add particles to the system OpenMM class instance.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>addSystemForces()</strong></p></td>
-<td><p>Add forces to the system OpenMM class instance. It also save names for the added forces to include them in the reporter class.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>dumpPdb()</strong></p></td>
-<td><p>Writes a PDB file of the system in its current state.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>dumpForceFieldData()</strong></p></td>
-<td><p>Writes to a file the parameters of the SBM forcefield.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>loadForcefieldFromFile()</strong></p></td>
-<td><p>Loads forcefield parameters from a sbmOpenMM force field file written with the dumpForceFieldData() method.</p></td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <span class="target" id="module-core"></span><p>core package of the sbmOpenMM package that contains the main sbmOpenMM classes.</p>
@@ -1505,7 +1181,7 @@ a force group to the ‘forceGroups’ attribute dictionary.</p>
 
 <dl class="method">
 <dt id="core.system.checkBondDistances">
-<code class="sig-name descname">checkBondDistances</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">threshold=0.24</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.checkBondDistances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.checkBondDistances" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">checkBondDistances</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">threshold=0.25</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.checkBondDistances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.checkBondDistances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Searches for large bond distances for the atom pairs defined in 
 the ‘bonds’ attribute. It raises an error when large bonds are found.</p>
 <dl class="field-list simple">
@@ -1550,7 +1226,7 @@ the thresshold value.</p>
 
 <dl class="method">
 <dt id="core.system.createSystemObject">
-<code class="sig-name descname">createSystemObject</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">check_bond_distances=True</em>, <em class="sig-param">minimise=False</em>, <em class="sig-param">force_threshold=10</em>, <em class="sig-param">bond_threshold=0.24</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.createSystemObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.createSystemObject" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">createSystemObject</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">check_bond_distances=True</em>, <em class="sig-param">minimise=False</em>, <em class="sig-param">force_threshold=10</em>, <em class="sig-param">bond_threshold=0.25</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.createSystemObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.createSystemObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.System() object using the force field parameters
 given to the SBM ‘system’ class. It adds particles, forces and 
 creates a force group for each force object. Optionally the method 
@@ -2053,38 +1729,13 @@ or a list, to define a unique parameter for each force interaction.</p>
 </div>
 <div class="section" id="reporter-class">
 <h2>Reporter class<a class="headerlink" href="#reporter-class" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="reporter.sbmReporter">
-<em class="property">class </em><code class="sig-name descname">sbmReporter</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">reportInterval</em>, <em class="sig-param">sbmObject=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reporter/sbm_reporter.html#sbmReporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reporter.sbmReporter" title="Permalink to this definition">¶</a></dt>
-<dd><p>A special case of the StateDataReporter class that outputs information about a simulation, 
-such as energy and temperature, etc. to a file. This special reporter outputs the sbmOpenMM 
-force group energies inside the sbmOpenMM system object.</p>
-<p>It is used in the same way as the OpenMM StateDataReporter class, but it takes as additional
-input an instance of the sbmOpenMM object with the option ‘sbmObject’.</p>
-<p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">describeNextReport</span></code>(self, simulation)</p></td>
-<td><p>Get information about the next report this object will generate.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code>(self, simulation, state)</p></td>
-<td><p>Generate a report.</p></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <span class="target" id="module-reporter"></span><p>reporter package of the sbmOpenMM package that contains the sbmReporter class.</p>
 <p>The sbmOpenMM.reproter package contains the sbmReporter class.</p>
 <p>sbmReporter is a special class of the OpenMM StateDataReporter class, that additionally
 accepts a sbmobject to print the SBM forcefield energies.</p>
 <dl class="class">
-<dt>
-<em class="property">class </em><code class="sig-name descname">sbmReporter</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">reportInterval</em>, <em class="sig-param">sbmObject=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reporter/sbm_reporter.html#sbmReporter"><span class="viewcode-link">[source]</span></a></dt>
+<dt id="reporter.sbmReporter">
+<em class="property">class </em><code class="sig-name descname">sbmReporter</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">reportInterval</em>, <em class="sig-param">sbmObject=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reporter/sbm_reporter.html#sbmReporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reporter.sbmReporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>A special case of the StateDataReporter class that outputs information about a simulation, 
 such as energy and temperature, etc. to a file. This special reporter outputs the sbmOpenMM 
 force group energies inside the sbmOpenMM system object.</p>

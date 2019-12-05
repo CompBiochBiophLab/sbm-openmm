@@ -41,13 +41,13 @@
 <span class="kn">from</span> <span class="nn">simtk</span> <span class="k">import</span> <span class="n">unit</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<div class="viewcode-block" id="geometry"><a class="viewcode-back" href="../../index.html#core.geometry.geometry">[docs]</a><span class="k">class</span> <span class="nc">geometry</span><span class="p">:</span>
+<div class="viewcode-block" id="geometry"><a class="viewcode-back" href="../../index.html#core.geometry">[docs]</a><span class="k">class</span> <span class="nc">geometry</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class to hold methods for calculating geometrical values </span>
 <span class="sd">    given sets of atom coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="geometry.position2Array"><a class="viewcode-back" href="../../index.html#core.geometry.geometry.position2Array">[docs]</a>    <span class="k">def</span> <span class="nf">position2Array</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">output_unit</span><span class="p">):</span>
+<div class="viewcode-block" id="geometry.position2Array"><a class="viewcode-back" href="../../index.html#core.geometry.position2Array">[docs]</a>    <span class="k">def</span> <span class="nf">position2Array</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">output_unit</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Converts an OpenMM position object quantity into a numpy array.</span>
 
 <span class="sd">        Parameters</span>
@@ -66,7 +66,7 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">value_in_unit</span><span class="p">(</span><span class="n">output_unit</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">position</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="geometry.bond"><a class="viewcode-back" href="../../index.html#core.geometry.geometry.bond">[docs]</a>    <span class="k">def</span> <span class="nf">bond</span><span class="p">(</span><span class="n">coord1</span><span class="p">,</span> <span class="n">coord2</span><span class="p">):</span>
+<div class="viewcode-block" id="geometry.bond"><a class="viewcode-back" href="../../index.html#core.geometry.bond">[docs]</a>    <span class="k">def</span> <span class="nf">bond</span><span class="p">(</span><span class="n">coord1</span><span class="p">,</span> <span class="n">coord2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the distance length between two (x,y,z) quantity coordinates.</span>
 
 <span class="sd">        Parameters</span>
@@ -90,7 +90,7 @@
 
         <span class="k">return</span> <span class="n">bond_length</span> <span class="o">*</span> <span class="n">unit</span><span class="o">.</span><span class="n">nanometer</span></div>
 
-<div class="viewcode-block" id="geometry.angle"><a class="viewcode-back" href="../../index.html#core.geometry.geometry.angle">[docs]</a>    <span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="n">coord1</span><span class="p">,</span> <span class="n">coord2</span><span class="p">,</span> <span class="n">coord3</span><span class="p">):</span>
+<div class="viewcode-block" id="geometry.angle"><a class="viewcode-back" href="../../index.html#core.geometry.angle">[docs]</a>    <span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="n">coord1</span><span class="p">,</span> <span class="n">coord2</span><span class="p">,</span> <span class="n">coord3</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the angle length between three (x,y,z) quantity coordinates.</span>
 
 <span class="sd">        Parameters</span>
@@ -119,7 +119,7 @@
 
         <span class="k">return</span> <span class="n">angle</span> <span class="o">*</span> <span class="n">unit</span><span class="o">.</span><span class="n">radian</span></div>
 
-<div class="viewcode-block" id="geometry.torsion"><a class="viewcode-back" href="../../index.html#core.geometry.geometry.torsion">[docs]</a>    <span class="k">def</span> <span class="nf">torsion</span><span class="p">(</span><span class="n">coord1</span><span class="p">,</span> <span class="n">coord2</span><span class="p">,</span> <span class="n">coord3</span><span class="p">,</span> <span class="n">coord4</span><span class="p">):</span>
+<div class="viewcode-block" id="geometry.torsion"><a class="viewcode-back" href="../../index.html#core.geometry.torsion">[docs]</a>    <span class="k">def</span> <span class="nf">torsion</span><span class="p">(</span><span class="n">coord1</span><span class="p">,</span> <span class="n">coord2</span><span class="p">,</span> <span class="n">coord3</span><span class="p">,</span> <span class="n">coord4</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the torsion angle length between four (x,y,z) quantity </span>
 <span class="sd">        coordinates.</span>
 

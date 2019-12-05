@@ -26,23 +26,17 @@ Core classes
 sbmOpenMM.geometry
 __________________
 
-.. autoclass:: core.geometry.geometry
-
 .. automodule:: core
    :members: geometry
 
 sbmOpenMM.models
 ________________
 
-.. autoclass:: core.models.models
-
 .. automodule:: core
    :members: models
 
 sbmOpenMM.system
 ________________
-
-.. autoclass:: core.models.system
 
 .. automodule:: core
    :members: system
@@ -52,8 +46,6 @@ Reporter class
 
 sbmOpenMM.sbmReporter
 _____________________
-
-.. autoclass:: reporter.sbmReporter
 
 .. automodule:: reporter
    :members: sbmReporter

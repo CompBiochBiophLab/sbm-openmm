@@ -51,7 +51,7 @@
 <span class="c1"># In[ ]:</span>
 
 
-<div class="viewcode-block" id="models"><a class="viewcode-back" href="../../index.html#core.models.models">[docs]</a><span class="k">class</span> <span class="nc">models</span><span class="p">:</span>
+<div class="viewcode-block" id="models"><a class="viewcode-back" href="../../index.html#core.models">[docs]</a><span class="k">class</span> <span class="nc">models</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class to hold functions for the automated generation of default SBM models.</span>
 
@@ -67,7 +67,7 @@
 <span class="sd">        Creates a multi basin model from two sbmOpenMM.system class instances.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-<div class="viewcode-block" id="models.getAllAtomModel"><a class="viewcode-back" href="../../index.html#core.models.models.getAllAtomModel">[docs]</a>    <span class="k">def</span> <span class="nf">getAllAtomModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
+<div class="viewcode-block" id="models.getAllAtomModel"><a class="viewcode-back" href="../../index.html#core.models.getAllAtomModel">[docs]</a>    <span class="k">def</span> <span class="nf">getAllAtomModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
                         <span class="n">default_parameters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                         <span class="n">default_forces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                         <span class="n">group_by_bb_and_sc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -205,11 +205,12 @@
 
         <span class="k">return</span> <span class="n">sbm</span></div>
 
-<div class="viewcode-block" id="models.getCAModel"><a class="viewcode-back" href="../../index.html#core.models.models.getCAModel">[docs]</a>    <span class="k">def</span> <span class="nf">getCAModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
+<div class="viewcode-block" id="models.getCAModel"><a class="viewcode-back" href="../../index.html#core.models.getCAModel">[docs]</a>    <span class="k">def</span> <span class="nf">getCAModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
                    <span class="n">default_parameters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                    <span class="n">default_forces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                    <span class="n">create_system</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                   <span class="n">contact_force</span><span class="o">=</span><span class="s1">&#39;12-10&#39;</span><span class="p">):</span>
+                   <span class="n">contact_force</span><span class="o">=</span><span class="s1">&#39;12-10&#39;</span><span class="p">,</span>
+                   <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class </span>
 <span class="sd">        from a PDB file and a contact file defining the native contacts for the </span>
@@ -264,7 +265,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting up geometrical parameters:&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;_________________________________&#39;</span><span class="p">)</span>
         <span class="n">sbm</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Keeping only carbon alpha atoms in topology&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Keeping only alpha carbon atoms in topology&#39;</span><span class="p">)</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">getCAlphaOnly</span><span class="p">()</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">getAtoms</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_atoms</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; CA atoms&#39;</span><span class="p">)</span>
@@ -322,13 +323,13 @@
         <span class="k">if</span> <span class="n">default_parameters</span> <span class="ow">and</span> <span class="n">default_forces</span> <span class="ow">and</span> <span class="n">create_system</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Creating System Object:&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;______________________&#39;</span><span class="p">)</span>
-            <span class="n">sbm</span><span class="o">.</span><span class="n">createSystemObject</span><span class="p">(</span><span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check_bond_distances</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">createSystemObject</span><span class="p">(</span><span class="n">minimise</span><span class="o">=</span><span class="n">minimise</span><span class="p">,</span> <span class="n">check_bond_distances</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;OpenMM system Object created&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             
         <span class="k">return</span> <span class="n">sbm</span></div>
     
-<div class="viewcode-block" id="models.getMultiBasinModel"><a class="viewcode-back" href="../../index.html#core.models.models.getMultiBasinModel">[docs]</a>    <span class="k">def</span> <span class="nf">getMultiBasinModel</span><span class="p">(</span><span class="n">main_model</span><span class="p">,</span> <span class="n">alternate_configuration</span><span class="p">,</span> 
+<div class="viewcode-block" id="models.getMultiBasinModel"><a class="viewcode-back" href="../../index.html#core.models.getMultiBasinModel">[docs]</a>    <span class="k">def</span> <span class="nf">getMultiBasinModel</span><span class="p">(</span><span class="n">main_model</span><span class="p">,</span> <span class="n">alternate_configuration</span><span class="p">,</span> 
                                        <span class="n">double_minima_threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> 
                                        <span class="n">excluded_volume_radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                        <span class="n">use_lennard_jones</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
