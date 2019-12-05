@@ -176,7 +176,9 @@ class models:
                    default_forces=True, 
                    create_system=True,
                    contact_force='12-10',
-                   minimise=False):
+                   minimise=False,
+                   residue_masses=False,
+                   residue_radii=False):
         """
         Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
         from a PDB file and a contact file defining the native contacts for the 
@@ -217,7 +219,10 @@ class models:
             If True the function will call the createSystemObject() method
             to create an OpenMM system object. If modifications to the default 
             forcefield are necessary this option should be given False.
-        
+        residue_masses : boolean (False)
+            Set each alpha carbon atom mass to its average aminoacid residue mass. 
+        residue_radii : boolean (False)
+            Set each alpha carbon atom radius to its statistical aminoacid residue radius.
         Returns
         -------
         sbm : sbmOpenMM.system
@@ -235,6 +240,9 @@ class models:
         sbm.getCAlphaOnly()
         sbm.getAtoms()
         print('Added '+str(sbm.n_atoms)+' CA atoms')
+        if residue_masses:
+            print("Setting alpha-carbon masses to their average residue mass.")
+            sbm.setCAMassPerResidueType()
         sbm.getBonds()
         print('Added '+str(sbm.n_bonds)+' bonds')
         sbm.getAngles()
@@ -246,7 +254,6 @@ class models:
             sbm.readContactFile(contact_file)
         print('Added '+str(sbm.n_contacts)+' native contacts')
         print('')
-        
         
         #Add default parameters to each interaction term
         if default_parameters:
@@ -260,6 +267,13 @@ class models:
             sbm.setProperTorsionParameters(1.0)
             print('Adding default contact parameters:')
             sbm.setNativeContactParameters(1.0)
+            print('Adding default excluded volume parameters:')
+            if residue_radii:
+                print("Setting alpha-carbon atoms radii to their statistical residue radius.")
+                sbm.setCARadiusPerResidueType()
+            else:
+                sbm.setParticlesRadii(0.4)
+            sbm.rf_epsilon = 0.1
             print('')
             
         #Create default system force objects
@@ -281,7 +295,7 @@ class models:
             else:
                 raise ValueError('Wrong contact_force option, valid options are "12-10" and "12-10-6"')
                 
-            sbm.addLJRepulsionForces(sigma=0.4, epsilon=1.0, cutoff=1.5)
+            sbm.addLJRepulsionForces(cutoff=1.5)
             print('Added Lennard Jones 12 non-bonded Forces')
             print('')
             

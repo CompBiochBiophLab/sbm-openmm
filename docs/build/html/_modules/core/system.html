@@ -38,20 +38,6 @@
 <span class="c1"># In[ ]:</span>
 
 
-<span class="kn">from</span> <span class="nn">simtk.openmm.app</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">simtk.openmm</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">simtk</span> <span class="k">import</span> <span class="n">unit</span>
-
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">re</span>
-
-<span class="kn">from</span> <span class="nn">.geometry</span> <span class="k">import</span> <span class="n">geometry</span>
-
-
-<span class="c1"># In[ ]:</span>
-
-
 <div class="viewcode-block" id="system"><a class="viewcode-back" href="../../index.html#core.system">[docs]</a><span class="k">class</span> <span class="nc">system</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class containing methods and parameters for generating Structure Based</span>
@@ -257,6 +243,8 @@
 <span class="sd">        Change the forcefield parameters for native contact terms.</span>
 <span class="sd">    setParticlesMasses()</span>
 <span class="sd">        Change the mass parameter for each atom in the system.</span>
+<span class="sd">    setParticlesRadii()</span>
+<span class="sd">        Change the excluded volume radius parameter for each atom in the system.</span>
 <span class="sd">    addHarmonicBondForces()</span>
 <span class="sd">        Creates an harmonic bonded force term for each bond in the main</span>
 <span class="sd">        class using their defined forcefield parameters.</span>
@@ -321,7 +309,12 @@
 <span class="sd">    loadForcefieldFromFile()</span>
 <span class="sd">        Loads forcefield parameters from a sbmOpenMM force field file written with</span>
 <span class="sd">        the dumpForceFieldData() method.</span>
-<span class="sd">    </span>
+<span class="sd">    setCAMassPerResidueType()</span>
+<span class="sd">        Sets alpha carbon atoms to their average residue mass. Used specially for </span>
+<span class="sd">        modifying alpha-carbon (CA) corse-grained models.</span>
+<span class="sd">    setCARadiusPerResidueType()</span>
+<span class="sd">        Sets alpha carbon atoms to their average residue mass. Used specially for </span>
+<span class="sd">        modifying alpha-carbon (CA) corse-grained models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdb_path</span><span class="p">,</span> <span class="n">particles_mass</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
@@ -1025,7 +1018,7 @@
         
 <div class="viewcode-block" id="system.setParticlesMasses"><a class="viewcode-back" href="../../index.html#core.system.setParticlesMasses">[docs]</a>    <span class="k">def</span> <span class="nf">setParticlesMasses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">particles_mass</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the mass of the particles in the system. The input can be a </span>
+<span class="sd">        Set the masses of the particles in the system. The input can be a </span>
 <span class="sd">        float, to set the same mass for all particles, or a list, to define </span>
 <span class="sd">        a unique mass for each particle.</span>
 <span class="sd">        </span>
@@ -1040,6 +1033,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span> <span class="o">=</span> <span class="n">particles_mass</span></div>
+        
+<div class="viewcode-block" id="system.setParticlesRadii"><a class="viewcode-back" href="../../index.html#core.system.setParticlesRadii">[docs]</a>    <span class="k">def</span> <span class="nf">setParticlesRadii</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">particles_radii</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the radii of the particles in the system. The input can be a </span>
+<span class="sd">        float, to set the same radius for all particles, or a list, to define </span>
+<span class="sd">        a unique radius for each particle.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        particles_radii : float or list</span>
+<span class="sd">            Radii values to add for the particles in the sbmOpenMM system class.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span> <span class="o">=</span> <span class="n">particles_radii</span></div>
     
     <span class="c1">## Functions for creating force objects with defined parameters ##</span>
     
@@ -1487,7 +1498,7 @@
                                                             <span class="bp">self</span><span class="o">.</span><span class="n">contacts</span><span class="p">[</span><span class="n">contact</span><span class="p">][</span><span class="mi">3</span><span class="p">]))</span></div>
 
             
-<div class="viewcode-block" id="system.addLJRepulsionForces"><a class="viewcode-back" href="../../index.html#core.system.addLJRepulsionForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJRepulsionForces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bonded_exclusions_index</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="system.addLJRepulsionForces"><a class="viewcode-back" href="../../index.html#core.system.addLJRepulsionForces">[docs]</a>    <span class="k">def</span> <span class="nf">addLJRepulsionForces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bonded_exclusions_index</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an openmm.CustomNonbondedForce() object with the parameters </span>
 <span class="sd">        sigma and epsilon given to this method. The custom non-bonded force</span>
@@ -1517,19 +1528,7 @@
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">rf_epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span> <span class="o">=</span> <span class="n">sigma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rf_cutoff</span> <span class="o">=</span> <span class="n">cutoff</span>
-        
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">rf_epsilon</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span>
-            
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
-                
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cutoff</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rf_cutoff</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cutoff</span><span class="p">)</span>
         
@@ -1959,8 +1958,28 @@
             
             <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;#### SBM Force Field Parameters ####</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">!=</span> <span class="n">OrderedDict</span><span class="p">():</span>
+                <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;[atoms]</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;# </span><span class="si">%2s</span><span class="s1"> </span><span class="si">%3s</span><span class="s1"> </span><span class="si">%9s</span><span class="s1"> </span><span class="se">\t</span><span class="s1"> </span><span class="si">%14s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;atom&#39;</span><span class="p">,</span> <span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="s1">&#39;exc_radius&#39;</span><span class="p">,</span> <span class="s1">&#39;atom_name&#39;</span><span class="p">))</span>
+                
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">atom</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">):</span>
+                    
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                        <span class="n">mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                        <span class="n">mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">residue</span>
+                    
+                    <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%4s</span><span class="s1"> </span><span class="si">%5s</span><span class="s1"> </span><span class="si">%9.3f</span><span class="se">\t</span><span class="s1"># </span><span class="si">%12s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                                     <span class="n">mass</span><span class="p">,</span>
+                                                         <span class="n">sigma</span><span class="p">,</span>
+                                                         <span class="n">atom</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">res</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bonds</span> <span class="o">!=</span> <span class="n">OrderedDict</span><span class="p">():</span>
+                <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;[bonds]</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;# </span><span class="si">%2s</span><span class="s1"> </span><span class="si">%3s</span><span class="s1"> </span><span class="si">%-6s</span><span class="s1"> </span><span class="si">%-s</span><span class="s1"> </span><span class="se">\t\t</span><span class="s1"> self.bonds[bond][1] </span><span class="si">%12s</span><span class="s1"> </span><span class="si">%12s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;at1&#39;</span><span class="p">,</span> <span class="s1">&#39;at2&#39;</span><span class="p">,</span> <span class="s1">&#39;b0&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;at1_name&#39;</span><span class="p">,</span> <span class="s1">&#39;at2_name&#39;</span><span class="p">))</span>
                 <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bonds</span><span class="p">:</span>
@@ -2147,6 +2166,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;________________________________________&#39;</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">forcefield_file</span><span class="p">))</span>
             
             <span class="c1">#Initilise ff-file section booleans to 0</span>
+            <span class="n">atoms</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">bonds</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">angles</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">torsions</span> <span class="o">=</span> <span class="kc">False</span>
@@ -2162,6 +2182,7 @@
                     
                     <span class="c1">#Turn off all sections when a new is being reading.</span>
                     <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">):</span>
+                        <span class="n">atoms</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="n">bonds</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="n">angles</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="n">torsions</span> <span class="o">=</span> <span class="kc">False</span>
@@ -2174,6 +2195,26 @@
                         <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)]</span>
                         <span class="n">ls</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
                         
+                        <span class="c1">#Reading [atoms] section</span>
+                        <span class="k">if</span> <span class="n">atoms</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                            
+                            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_atoms</span><span class="p">)]</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_atoms</span><span class="p">)]</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;More than three parameters given in [atoms] section at line &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="n">line</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Less than three parameters given in [atoms] section at line &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="n">line</span><span class="p">)</span>
+                                
+                            <span class="c1"># Check if ff atom index is the same as openmm atom index</span>
+                            <span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+                            
+                            <span class="n">mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+                            <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">particles_mass</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mass</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">rf_sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigma</span>
+                            
                         <span class="c1">#Reading [bonds] section</span>
                         <span class="k">if</span> <span class="n">bonds</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
                             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
@@ -2309,8 +2350,44 @@
         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">residues</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">aa_masses</span><span class="p">:</span>
                 <span class="n">masses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aa_masses</span><span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
-                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Residue &#39;</span><span class="o">+</span><span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; not found in masses dictionary.&#39;</span><span class="p">)</span>
+                                 
         <span class="bp">self</span><span class="o">.</span><span class="n">setParticlesMasses</span><span class="p">(</span><span class="n">masses</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="system.setCARadiusPerResidueType"><a class="viewcode-back" href="../../index.html#core.system.setCARadiusPerResidueType">[docs]</a>    <span class="k">def</span> <span class="nf">setCARadiusPerResidueType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the excluded volume radii of the alpha carbon atoms </span>
+<span class="sd">        to characteristic radii of their corresponding amino acid </span>
+<span class="sd">        residue.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">aa_radii</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ALA&#39;</span><span class="p">:</span> <span class="mf">0.335</span><span class="p">,</span> <span class="s1">&#39;ARG&#39;</span><span class="p">:</span> <span class="mf">0.395</span><span class="p">,</span> <span class="s1">&#39;ASN&#39;</span><span class="p">:</span> <span class="mf">0.365</span><span class="p">,</span>
+                    <span class="s1">&#39;ASP&#39;</span><span class="p">:</span> <span class="mf">0.350</span><span class="p">,</span> <span class="s1">&#39;CYS&#39;</span><span class="p">:</span> <span class="mf">0.370</span><span class="p">,</span> <span class="s1">&#39;GLU&#39;</span><span class="p">:</span> <span class="mf">0.365</span><span class="p">,</span>
+                    <span class="s1">&#39;GLN&#39;</span><span class="p">:</span> <span class="mf">0.390</span><span class="p">,</span> <span class="s1">&#39;GLY&#39;</span><span class="p">:</span> <span class="mf">0.315</span><span class="p">,</span> <span class="s1">&#39;HIS&#39;</span><span class="p">:</span> <span class="mf">0.400</span><span class="p">,</span>
+                    <span class="s1">&#39;ILE&#39;</span><span class="p">:</span> <span class="mf">0.450</span><span class="p">,</span> <span class="s1">&#39;LEU&#39;</span><span class="p">:</span> <span class="mf">0.460</span><span class="p">,</span> <span class="s1">&#39;LYS&#39;</span><span class="p">:</span> <span class="mf">0.365</span><span class="p">,</span>
+                    <span class="s1">&#39;MET&#39;</span><span class="p">:</span> <span class="mf">0.450</span><span class="p">,</span> <span class="s1">&#39;PHE&#39;</span><span class="p">:</span> <span class="mf">0.460</span><span class="p">,</span> <span class="s1">&#39;PRO&#39;</span><span class="p">:</span> <span class="mf">0.370</span><span class="p">,</span> 
+                    <span class="s1">&#39;SER&#39;</span><span class="p">:</span> <span class="mf">0.330</span><span class="p">,</span> <span class="s1">&#39;THR&#39;</span><span class="p">:</span> <span class="mf">0.360</span><span class="p">,</span> <span class="s1">&#39;TRP&#39;</span><span class="p">:</span> <span class="mf">0.470</span><span class="p">,</span> 
+                    <span class="s1">&#39;TYR&#39;</span><span class="p">:</span> <span class="mf">0.450</span><span class="p">,</span> <span class="s1">&#39;VAL&#39;</span><span class="p">:</span> <span class="mf">0.400</span><span class="p">}</span>
+        
+        <span class="n">radii</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">residues</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">aa_radii</span><span class="p">:</span>
+                <span class="n">radii</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aa_radii</span><span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Residue &#39;</span><span class="o">+</span><span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; not found in radii dictionary.&#39;</span><span class="p">)</span>
+                                 
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParticlesRadii</span><span class="p">(</span><span class="n">radii</span><span class="p">)</span></div>
+        
         
 <span class="c1">#TODO:     def setMassPerAtomType(self):</span>
         
@@ -2375,6 +2452,20 @@
                 <span class="k">return</span> <span class="s1">&#39;2column&#39;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<span class="c1"># In[ ]:</span>
+
+
+<span class="kn">from</span> <span class="nn">simtk.openmm.app</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">simtk.openmm</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">simtk</span> <span class="k">import</span> <span class="n">unit</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">.geometry</span> <span class="k">import</span> <span class="n">geometry</span>
 
 </pre></div>
 

@@ -210,7 +210,9 @@
                    <span class="n">default_forces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                    <span class="n">create_system</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                    <span class="n">contact_force</span><span class="o">=</span><span class="s1">&#39;12-10&#39;</span><span class="p">,</span>
-                   <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                   <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">residue_masses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">residue_radii</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class </span>
 <span class="sd">        from a PDB file and a contact file defining the native contacts for the </span>
@@ -251,7 +253,10 @@
 <span class="sd">            If True the function will call the createSystemObject() method</span>
 <span class="sd">            to create an OpenMM system object. If modifications to the default </span>
 <span class="sd">            forcefield are necessary this option should be given False.</span>
-<span class="sd">        </span>
+<span class="sd">        residue_masses : boolean (False)</span>
+<span class="sd">            Set each alpha carbon atom mass to its average aminoacid residue mass. </span>
+<span class="sd">        residue_radii : boolean (False)</span>
+<span class="sd">            Set each alpha carbon atom radius to its statistical aminoacid residue radius.</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        sbm : sbmOpenMM.system</span>
@@ -269,6 +274,9 @@
         <span class="n">sbm</span><span class="o">.</span><span class="n">getCAlphaOnly</span><span class="p">()</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">getAtoms</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_atoms</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; CA atoms&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">residue_masses</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting alpha-carbon masses to their average residue mass.&quot;</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">setCAMassPerResidueType</span><span class="p">()</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">getBonds</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_bonds</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; bonds&#39;</span><span class="p">)</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">getAngles</span><span class="p">()</span>
@@ -280,7 +288,6 @@
             <span class="n">sbm</span><span class="o">.</span><span class="n">readContactFile</span><span class="p">(</span><span class="n">contact_file</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_contacts</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; native contacts&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-        
         
         <span class="c1">#Add default parameters to each interaction term</span>
         <span class="k">if</span> <span class="n">default_parameters</span><span class="p">:</span>
@@ -294,6 +301,13 @@
             <span class="n">sbm</span><span class="o">.</span><span class="n">setProperTorsionParameters</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default contact parameters:&#39;</span><span class="p">)</span>
             <span class="n">sbm</span><span class="o">.</span><span class="n">setNativeContactParameters</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default excluded volume parameters:&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">residue_radii</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting alpha-carbon atoms radii to their statistical residue radius.&quot;</span><span class="p">)</span>
+                <span class="n">sbm</span><span class="o">.</span><span class="n">setCARadiusPerResidueType</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sbm</span><span class="o">.</span><span class="n">setParticlesRadii</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">rf_epsilon</span> <span class="o">=</span> <span class="mf">0.1</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             
         <span class="c1">#Create default system force objects</span>
@@ -315,7 +329,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Wrong contact_force option, valid options are &quot;12-10&quot; and &quot;12-10-6&quot;&#39;</span><span class="p">)</span>
                 
-            <span class="n">sbm</span><span class="o">.</span><span class="n">addLJRepulsionForces</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">addLJRepulsionForces</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added Lennard Jones 12 non-bonded Forces&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             

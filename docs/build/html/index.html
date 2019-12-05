@@ -335,7 +335,7 @@ defining an All Atom SBM force field.</p>
 
 <dl class="method">
 <dt id="core.models.getCAModel">
-<code class="sig-name descname">getCAModel</code><span class="sig-paren">(</span><em class="sig-param">pdb_file</em>, <em class="sig-param">contact_file</em>, <em class="sig-param">default_parameters=True</em>, <em class="sig-param">default_forces=True</em>, <em class="sig-param">create_system=True</em>, <em class="sig-param">contact_force='12-10'</em>, <em class="sig-param">minimise=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getCAModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getCAModel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getCAModel</code><span class="sig-paren">(</span><em class="sig-param">pdb_file</em>, <em class="sig-param">contact_file</em>, <em class="sig-param">default_parameters=True</em>, <em class="sig-param">default_forces=True</em>, <em class="sig-param">create_system=True</em>, <em class="sig-param">contact_force='12-10'</em>, <em class="sig-param">minimise=False</em>, <em class="sig-param">residue_masses=False</em>, <em class="sig-param">residue_radii=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/models.html#models.getCAModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.models.getCAModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
 from a PDB file and a contact file defining the native contacts for the 
 coarse grained model.</p>
@@ -372,10 +372,12 @@ the parameters will be different from the default ones.</p>
 to create an OpenMM system object. If modifications to the default 
 forcefield are necessary this option should be given False.</p>
 </dd>
-</dl>
+<dt><strong>residue_masses</strong><span class="classifier">boolean (False)</span></dt><dd><p>Set each alpha carbon atom mass to its average aminoacid residue mass.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
+<dt><strong>residue_radii</strong><span class="classifier">boolean (False)</span></dt><dd><p>Set each alpha carbon atom radius to its statistical aminoacid residue radius.</p>
+</dd>
+<dt><strong>Returns</strong></dt><dd></dd>
+<dt><strong>——-</strong></dt><dd></dd>
 <dt><strong>sbm</strong><span class="classifier">sbmOpenMM.system</span></dt><dd><p>Initialized sbmOpenMM.system class with default options for defining 
 a coarse-grained CA SBM force field.</p>
 </dd>
@@ -669,62 +671,71 @@ information for the SBM model.</p>
 <tr class="row-even"><td><p><strong>setParticlesMasses()</strong></p></td>
 <td><p>Change the mass parameter for each atom in the system.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>addHarmonicBondForces()</strong></p></td>
+<tr class="row-odd"><td><p><strong>setParticlesRadii()</strong></p></td>
+<td><p>Change the excluded volume radius parameter for each atom in the system.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>addHarmonicBondForces()</strong></p></td>
 <td><p>Creates an harmonic bonded force term for each bond in the main class using their defined forcefield parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>addHarmonicAngleForces()</strong></p></td>
+<tr class="row-odd"><td><p><strong>addHarmonicAngleForces()</strong></p></td>
 <td><p>Creates an harmonic angle force term for each angle in the main class using their defined forcefield parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>addPeriodicTorsionForces()</strong></p></td>
+<tr class="row-even"><td><p><strong>addPeriodicTorsionForces()</strong></p></td>
 <td><p>Creates a periodic torsion force term for each proper torsion in the main class using their defined forcefield parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>addGenericPeriodicTorsionForces()</strong></p></td>
+<tr class="row-odd"><td><p><strong>addGenericPeriodicTorsionForces()</strong></p></td>
 <td><p>Creates a periodic torsion force term for each proper torsion in the main class using their defined forcefield parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>addHarmonicImproperForces()</strong></p></td>
+<tr class="row-even"><td><p><strong>addHarmonicImproperForces()</strong></p></td>
 <td><p>Creates an harmonic torsion force term for each improper torsion in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>addHarmonicPlanarForces()</strong></p></td>
+<tr class="row-odd"><td><p><strong>addHarmonicPlanarForces()</strong></p></td>
 <td><p>Creates an harmonic torsion force term for each planar torsion in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>addLJ12_6ContactForces()</strong></p></td>
+<tr class="row-even"><td><p><strong>addLJ12_6ContactForces()</strong></p></td>
 <td><p>Creates a 12-6 Lennard-Jones bond potential for each native contact in the main class using their defined forcefield parameters. Used specially for simulating All Atom systems.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>addLJ12_10ContactForces()</strong></p></td>
+<tr class="row-odd"><td><p><strong>addLJ12_10ContactForces()</strong></p></td>
 <td><p>Creates a 12-10 Lennard-Jones bond potential for each native contact in the main class using their defined forcefield parameters. Used specially for simulating coarse-grained alpha-carbon systems.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>addGaussianContactForces()</strong></p></td>
+<tr class="row-even"><td><p><strong>addGaussianContactForces()</strong></p></td>
 <td><p>Creates a gaussian single and double basin bond potential for each native contact in the main class using their defined forcefield parameters. The contacts are recognized according two the number of parameters given as values in the attribute system. 3-parameters for single-basin potential and 4-paramters for dual-basin potentials.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>addLJRepulsionForces()</strong></p></td>
+<tr class="row-odd"><td><p><strong>addLJRepulsionForces()</strong></p></td>
 <td><p>Creates a repulsive-only 12 Lennard-Jones non-bonded potential specifying a exclusion list for bond, angle, torsion, and native contact terms.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>groupTorsionsbyBBAndSC()</strong></p></td>
+<tr class="row-even"><td><p><strong>groupTorsionsbyBBAndSC()</strong></p></td>
 <td><p>Groups proper torsions by backbone and sidechain torsions. Used exclusively for simulating all-atom SBM.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>getAATorsionParameters()</strong></p></td>
+<tr class="row-odd"><td><p><strong>getAATorsionParameters()</strong></p></td>
 <td><p>Generates default periodic torsion forcefield parameters, for proper torsions, using pre-defined assignment schemes. Used exclusively for simulating all-atom SBM.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>getAANativeContactParameters()</strong></p></td>
+<tr class="row-even"><td><p><strong>getAANativeContactParameters()</strong></p></td>
 <td><p>Generates default bonded contact forcefield parameters, for native contacts, using pre-defined assignment schemes. Used exclusively for simulating all-atom SBM.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>createSystemObject()</strong></p></td>
+<tr class="row-odd"><td><p><strong>createSystemObject()</strong></p></td>
 <td><p>Creates OpenMM system object adding particles, masses and forces. It also groups the added forces into Force-Groups for the sbmReporter class.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>addParticles()</strong></p></td>
+<tr class="row-even"><td><p><strong>addParticles()</strong></p></td>
 <td><p>Add particles to the system OpenMM class instance.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>addSystemForces()</strong></p></td>
+<tr class="row-odd"><td><p><strong>addSystemForces()</strong></p></td>
 <td><p>Add forces to the system OpenMM class instance. It also save names for the added forces to include them in the reporter class.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>dumpPdb()</strong></p></td>
+<tr class="row-even"><td><p><strong>dumpPdb()</strong></p></td>
 <td><p>Writes a PDB file of the system in its current state.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>dumpForceFieldData()</strong></p></td>
+<tr class="row-odd"><td><p><strong>dumpForceFieldData()</strong></p></td>
 <td><p>Writes to a file the parameters of the SBM forcefield.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>loadForcefieldFromFile()</strong></p></td>
+<tr class="row-even"><td><p><strong>loadForcefieldFromFile()</strong></p></td>
 <td><p>Loads forcefield parameters from a sbmOpenMM force field file written with the dumpForceFieldData() method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>setCAMassPerResidueType()</strong></p></td>
+<td><p>Sets alpha carbon atoms to their average residue mass. Used specially for modifying alpha-carbon (CA) corse-grained models.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>setCARadiusPerResidueType()</strong></p></td>
+<td><p>Sets alpha carbon atoms to their average residue mass. Used specially for modifying alpha-carbon (CA) corse-grained models.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1074,7 +1085,7 @@ second -&gt; epsilon (float)</p>
 
 <dl class="method">
 <dt id="core.system.addLJRepulsionForces">
-<code class="sig-name descname">addLJRepulsionForces</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">epsilon=None</em>, <em class="sig-param">sigma=None</em>, <em class="sig-param">cutoff=None</em>, <em class="sig-param">bonded_exclusions_index=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJRepulsionForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJRepulsionForces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addLJRepulsionForces</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">cutoff=None</em>, <em class="sig-param">bonded_exclusions_index=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.addLJRepulsionForces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.addLJRepulsionForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an openmm.CustomNonbondedForce() object with the parameters 
 sigma and epsilon given to this method. The custom non-bonded force
 is initilized with the formula:</p>
@@ -1614,6 +1625,26 @@ of its amino acid residue.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="core.system.setCARadiusPerResidueType">
+<code class="sig-name descname">setCARadiusPerResidueType</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setCARadiusPerResidueType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setCARadiusPerResidueType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the excluded volume radii of the alpha carbon atoms 
+to characteristic radii of their corresponding amino acid 
+residue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>None</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="core.system.setImproperParameters">
 <code class="sig-name descname">setImproperParameters</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">improper_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setImproperParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setImproperParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the harmonic torsion constant force parameters for impropers. 
@@ -1662,13 +1693,34 @@ native contacts.</p>
 <dl class="method">
 <dt id="core.system.setParticlesMasses">
 <code class="sig-name descname">setParticlesMasses</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">particles_mass</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setParticlesMasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setParticlesMasses" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the mass of the particles in the system. The input can be a 
+<dd><p>Set the masses of the particles in the system. The input can be a 
 float, to set the same mass for all particles, or a list, to define 
 a unique mass for each particle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>particles_mass</strong><span class="classifier">float or list</span></dt><dd><p>Mass(es) values to add for the particles in the sbmOpenMM system class.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.system.setParticlesRadii">
+<code class="sig-name descname">setParticlesRadii</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">particles_radii</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/system.html#system.setParticlesRadii"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.system.setParticlesRadii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the radii of the particles in the system. The input can be a 
+float, to set the same radius for all particles, or a list, to define 
+a unique radius for each particle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>particles_radii</strong><span class="classifier">float or list</span></dt><dd><p>Radii values to add for the particles in the sbmOpenMM system class.</p>
 </dd>
 </dl>
 </dd>

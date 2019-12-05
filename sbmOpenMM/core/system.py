@@ -4,20 +4,6 @@
 # In[ ]:
 
 
-from simtk.openmm.app import *
-from simtk.openmm import *
-from simtk import unit
-
-from collections import OrderedDict
-import numpy as np
-import re
-
-from .geometry import geometry
-
-
-# In[ ]:
-
-
 class system:
     """
     A class containing methods and parameters for generating Structure Based
@@ -223,6 +209,8 @@ class system:
         Change the forcefield parameters for native contact terms.
     setParticlesMasses()
         Change the mass parameter for each atom in the system.
+    setParticlesRadii()
+        Change the excluded volume radius parameter for each atom in the system.
     addHarmonicBondForces()
         Creates an harmonic bonded force term for each bond in the main
         class using their defined forcefield parameters.
@@ -287,7 +275,12 @@ class system:
     loadForcefieldFromFile()
         Loads forcefield parameters from a sbmOpenMM force field file written with
         the dumpForceFieldData() method.
-    
+    setCAMassPerResidueType()
+        Sets alpha carbon atoms to their average residue mass. Used specially for 
+        modifying alpha-carbon (CA) corse-grained models.
+    setCARadiusPerResidueType()
+        Sets alpha carbon atoms to their average residue mass. Used specially for 
+        modifying alpha-carbon (CA) corse-grained models.
     """
     
     def __init__(self, pdb_path, particles_mass=1.0):
@@ -991,7 +984,7 @@ class system:
         
     def setParticlesMasses(self, particles_mass):
         """
-        Set the mass of the particles in the system. The input can be a 
+        Set the masses of the particles in the system. The input can be a 
         float, to set the same mass for all particles, or a list, to define 
         a unique mass for each particle.
         
@@ -1006,6 +999,24 @@ class system:
         """
         
         self.particles_mass = particles_mass
+        
+    def setParticlesRadii(self, particles_radii):
+        """
+        Set the radii of the particles in the system. The input can be a 
+        float, to set the same radius for all particles, or a list, to define 
+        a unique radius for each particle.
+        
+        Parameters
+        ----------
+        particles_radii : float or list
+            Radii values to add for the particles in the sbmOpenMM system class.
+            
+        Returns
+        -------
+        None
+        """
+        
+        self.rf_sigma = particles_radii
     
     ## Functions for creating force objects with defined parameters ##
     
@@ -1453,7 +1464,7 @@ class system:
                                                             self.contacts[contact][3]))
 
             
-    def addLJRepulsionForces(self, epsilon=None, sigma=None, cutoff=None, bonded_exclusions_index=3):
+    def addLJRepulsionForces(self, cutoff=None, bonded_exclusions_index=3):
         """
         Creates an openmm.CustomNonbondedForce() object with the parameters 
         sigma and epsilon given to this method. The custom non-bonded force
@@ -1483,19 +1494,7 @@ class system:
         None
         """
         
-        self.rf_epsilon = epsilon
-        self.rf_sigma = sigma
         self.rf_cutoff = cutoff
-        
-        if not isinstance(epsilon, float):
-            self.rf_epsilon = float(epsilon)
-            
-        if not isinstance(sigma, float) and not isinstance(sigma, list):
-            try:
-                self.rf_sigma = float(sigma)
-            except:
-                self.rf_sigma = list(sigma)
-                
         if not isinstance(cutoff, float):
             self.rf_cutoff = float(cutoff)
         
@@ -1927,7 +1926,7 @@ class system:
             ff.write('\n')
             if self.atoms != OrderedDict():
                 ff.write('[atoms]\n')
-                ff.write('# %2s %3s %9s \t %14s\n' % ('atom', 'mass', 'ex_radius', 'atom_name'))
+                ff.write('# %2s %3s %9s \t %14s\n' % ('atom', 'mass', 'exc_radius', 'atom_name'))
                 
                 for i,atom in enumerate(self.atoms):
                     
@@ -1941,7 +1940,7 @@ class system:
                         sigma = self.rf_sigma
                     res = atom.residue
                     
-                    ff.write('%4s %5s %9s\t# %12s\n' % (atom.index+1,
+                    ff.write('%4s %5s %9.3f\t# %12s\n' % (atom.index+1,
                                                      mass,
                                                          sigma,
                                                          atom.name+'_'+res.name+'_'+str(res.index+1)))
@@ -2317,8 +2316,44 @@ class system:
         for r in self.topology.residues():
             if r.name in aa_masses:
                 masses.append(aa_masses[r.name])
-                
+            else:
+                raise ValueError('Residue '+r.name+' not found in masses dictionary.')
+                                 
         self.setParticlesMasses(masses)
+        
+    def setCARadiusPerResidueType(self):
+        """
+        Sets the excluded volume radii of the alpha carbon atoms 
+        to characteristic radii of their corresponding amino acid 
+        residue.
+        
+        Parameters
+        ----------
+        None
+            
+        Returns
+        -------
+        None
+        """
+        
+        aa_radii = {'ALA': 0.335, 'ARG': 0.395, 'ASN': 0.365,
+                    'ASP': 0.350, 'CYS': 0.370, 'GLU': 0.365,
+                    'GLN': 0.390, 'GLY': 0.315, 'HIS': 0.400,
+                    'ILE': 0.450, 'LEU': 0.460, 'LYS': 0.365,
+                    'MET': 0.450, 'PHE': 0.460, 'PRO': 0.370, 
+                    'SER': 0.330, 'THR': 0.360, 'TRP': 0.470, 
+                    'TYR': 0.450, 'VAL': 0.400}
+        
+        radii = []
+        
+        for r in self.topology.residues():
+            if r.name in aa_radii:
+                radii.append(aa_radii[r.name])
+            else:
+                raise ValueError('Residue '+r.name+' not found in radii dictionary.')
+                                 
+        self.setParticlesRadii(radii)
+        
         
 #TODO:     def setMassPerAtomType(self):
         
@@ -2383,4 +2418,18 @@ class system:
                 return '2column'
             else:
                 return False
+
+
+# In[ ]:
+
+
+from simtk.openmm.app import *
+from simtk.openmm import *
+from simtk import unit
+
+from collections import OrderedDict
+import numpy as np
+import re
+
+from .geometry import geometry
 
