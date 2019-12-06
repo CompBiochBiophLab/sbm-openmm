@@ -23,24 +23,24 @@ class models:
 
     Methods
     -------
-    getAllAtomModel(pdb_file, contact_file, kwarg**)
+    getAllAtomModel(structure_file, contact_file, kwarg**)
         Creates an all atom SBM system class object with default initialized
         parameters.
-    getCAModel(pdb_file, contact_file, kwarg**)
+    getCAModel(structure_file, contact_file, kwarg**)
         Creates an alpha-carbon only sbmOpenMM system class object with default 
         initialized parameters.
     getMultiBasinModel(main_model, alternate_configuration, kwarg**)
         Creates a multi basin model from two sbmOpenMM.system class instances.
     """
     
-    def getAllAtomModel(pdb_file, contact_file, 
+    def getAllAtomModel(structure_file, contact_file, 
                         default_parameters=True, 
                         default_forces=True, 
                         group_by_bb_and_sc=True,
                         create_system=True,
                         minimise=False):
         """
-        Initialises a default full-heavy-atom sbmOpenMM system class from a PDB file and a contact
+        Initialises a default full-heavy-atom sbmOpenMM system class from a structure and a contact
         file defining the native contacts for the model. The system creation steps are:
         
         1) Add the geometrical parameters for the model.
@@ -61,8 +61,8 @@ class models:
         
         Parameters
         ----------
-        pdb_file : string
-            Path to the input PDB file.
+        structure_file : string
+            Path to the input structure file.
         contact_file : string
             Path to the input native contact file. The file can be an output 
             from the SMOG program (4 column contact file) or a two column file 
@@ -90,14 +90,14 @@ class models:
             defining an All Atom SBM force field.
         """
         
-        print('Generating AA SBM for PDB file '+pdb_file)
+        print('Generating AA SBM for structure file '+structure_file)
         print('')
         
         #Set up geometric parameters of the model
         print('Setting up geometrical parameters:')
         print('_________________________________')
         
-        sbm = system(pdb_file)
+        sbm = system(structure_file)
         print('Removing hydrogens from topology')
         sbm.removeHydrogens()
         sbm.getAtoms()
@@ -140,6 +140,9 @@ class models:
             print('Adding default contact parameters:')
             contact_parameters = sbm.getAANativeContactParameters()
             sbm.setNativeContactParameters(contact_parameters)
+            print('Adding default excluded volume parameters:')
+            sbm.setParticlesRadii(0.25)
+            sbm.rf_epsilon = 0.1
             print('')
 
         #Create default system force objects
@@ -159,7 +162,7 @@ class models:
             print('Adding Lennard Jones 12-6 Forces to native contacts')
             sbm.addLJ12_6ContactForces()
             print('Adding Lennard Jones 12 non-bonded Forces')
-            sbm.addLJRepulsionForces(sigma=0.25, epsilon=0.1, cutoff=1.5)
+            sbm.addLJRepulsionForces(cutoff=1.5)
             print('')
 
         #Generate the system object and add previously generated forces
@@ -171,7 +174,7 @@ class models:
 
         return sbm
 
-    def getCAModel(pdb_file, contact_file, 
+    def getCAModel(structure_file, contact_file, 
                    default_parameters=True, 
                    default_forces=True, 
                    create_system=True,
@@ -181,7 +184,7 @@ class models:
                    residue_radii=False):
         """
         Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
-        from a PDB file and a contact file defining the native contacts for the 
+        from a structure and a contact file defining the native contacts for the 
         coarse grained model.
         
         The system creation steps are:
@@ -204,8 +207,8 @@ class models:
         
         Parameters
         ----------
-        pdb_file : string
-            Path to the input PDB file.
+        structure_file : string
+            Path to the input structure file.
         contact_file : string
             Path to the input native contact file. The file can be an output 
             from the SMOG program (4 column contact file) or a two column file 
@@ -230,12 +233,12 @@ class models:
             a coarse-grained CA SBM force field.
         """
         
-        print('Generating CA SBM for PDB file '+pdb_file)
+        print('Generating CA SBM for structure file '+structure_file)
         print('')
         #Set up geometric parameters of the model
         print('Setting up geometrical parameters:')
         print('_________________________________')
-        sbm = system(pdb_file)
+        sbm = system(structure_file)
         print('Keeping only alpha carbon atoms in topology')
         sbm.getCAlphaOnly()
         sbm.getAtoms()

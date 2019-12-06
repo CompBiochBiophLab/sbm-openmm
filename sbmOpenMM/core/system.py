@@ -4,6 +4,20 @@
 # In[ ]:
 
 
+from simtk.openmm.app import *
+from simtk.openmm import *
+from simtk import unit
+
+from collections import OrderedDict
+import numpy as np
+import re
+
+from .geometry import geometry
+
+
+# In[ ]:
+
+
 class system:
     """
     A class containing methods and parameters for generating Structure Based
@@ -13,10 +27,10 @@ class system:
 
     Attributes
     ----------
-    pdb_path : string
-        Path to the pdb input file
-    pdb : openmm.app.pdbfile.PDBFile
-        Object that holds the information of OpenMM PDB parsing method.
+    structure_path : string
+        Path to the pdb or cif input file
+    structure : openmm.app.pdbfile.PDBFile or openmm.app.pdbxfile.PDBxFile
+        Object that holds the information of OpenMM PDB or CIF parsing methods.
     topology : openmm.app.topology.Topology
         OpenMM topology of the model.
     positions : unit.quantity.Quantity
@@ -160,10 +174,10 @@ class system:
     Methods
     -------
     removeHydrogens()
-        Remove hydrogens from the input pdb by using a regexpression pattern.
+        Remove hydrogens from the input structure by using a regexpression pattern.
         Used specially for creating all atom (AA) models.
     getCAlphaOnly()
-        Filter in only alpha carbon atoms from the input pdb and updates 
+        Filter in only alpha carbon atoms from the input structure and updates 
         the topology object to add new bonds between them. Used specially for 
         creating alpha-carbon (CA) corse-grained models.
     getAtoms()
@@ -268,8 +282,8 @@ class system:
     addSystemForces()
         Add forces to the system OpenMM class instance. It also save
         names for the added forces to include them in the reporter class.
-    dumpPdb()
-        Writes a PDB file of the system in its current state.
+    dumpStructure()
+        Writes a structure file of the system in its current state.
     dumpForceFieldData()
         Writes to a file the parameters of the SBM forcefield.
     loadForcefieldFromFile()
@@ -283,14 +297,14 @@ class system:
         modifying alpha-carbon (CA) corse-grained models.
     """
     
-    def __init__(self, pdb_path, particles_mass=1.0):
+    def __init__(self, structure_path, particles_mass=1.0):
         """
         Initialises the SBM OpenMM system class.
         
         Parameters
         ----------
-        pdb_path : string
-            Name of the input PDB file
+        structure_path : string
+            Name of the input PDB or CIF file
         particles_mass : float or list
             mass of all the particles in the system.
             
@@ -300,10 +314,16 @@ class system:
         """
         
         #Define structure object attributes
-        self.pdb_path = pdb_path
-        self.pdb = PDBFile(pdb_path)
-        self.topology = self.pdb.topology
-        self.positions = self.pdb.positions
+        self.structure_path = structure_path
+        # Recognize format of input structure file
+        if structure_path.endswith('.pdb'):
+            self.structure = PDBFile(structure_path)
+        elif structure_path.endswith('.cif'):
+            self.structure = pdbxfile.PDBxFile(structure_path)
+        else:
+            raise ValueError('Structure file extension not recognized.                             It must end with .pdb or .cif accordingly.')
+        self.topology = self.structure.topology
+        self.positions = self.structure.positions
         self.particles_mass = particles_mass
         self.model_type = None
         
@@ -1889,7 +1909,7 @@ class system:
             self.system.addForce(self.ljRepulsionForce)
             self.forceGroups['LJ 12 Repulsion Energy'] = self.ljRepulsionForce
     
-    def dumpPdb(self, output_file):
+    def dumpStructure(self, output_file):
         """
         Writes a PDB file containing the currently defined abmOpenMM system atoms.
         
@@ -1903,7 +1923,7 @@ class system:
         None
         """
         
-        self.pdb.writeFile(self.topology, self.positions, file=open(output_file, 'w'))
+        self.structure.writeFile(self.topology, self.positions, file=open(output_file, 'w'))
         
     def dumpForceFieldData(self, output_file):
         """
@@ -2418,18 +2438,4 @@ class system:
                 return '2column'
             else:
                 return False
-
-
-# In[ ]:
-
-
-from simtk.openmm.app import *
-from simtk.openmm import *
-from simtk import unit
-
-from collections import OrderedDict
-import numpy as np
-import re
-
-from .geometry import geometry
 
