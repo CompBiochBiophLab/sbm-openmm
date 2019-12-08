@@ -28,3 +28,4 @@ from .core import system
 from .core import models
 
 from .reporter import sbmReporter
+from .parameters import oplsaa_parameters

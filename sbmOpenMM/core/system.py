@@ -11,8 +11,10 @@ from simtk import unit
 from collections import OrderedDict
 import numpy as np
 import re
+import json
 
 from .geometry import geometry
+from ..parameters import oplsaa_parameters
 
 
 # In[ ]:
@@ -295,6 +297,10 @@ class system:
     setCARadiusPerResidueType()
         Sets alpha carbon atoms to their average residue mass. Used specially for 
         modifying alpha-carbon (CA) corse-grained models.
+    setAAMassPerAtomType()
+        Sets every atom mass to its element mass. Used specially for all-atom models.
+    setAARadiusPerAtomType()
+        Sets every atom radius to its element mass. Used specially for all-atom models.
     """
     
     def __init__(self, structure_path, particles_mass=1.0):
@@ -2341,6 +2347,28 @@ class system:
                                  
         self.setParticlesMasses(masses)
         
+        
+    def setAAMassPerAtomType(self):
+        """
+        Sets the masses of the atoms to the mass its corresponding element.
+        
+        Parameters
+        ----------
+        None
+            
+        Returns
+        -------
+        None
+        """
+        
+        masses = []
+        
+        for a in self.topology.atoms():
+            masses.append(a.element.mass._value)
+                                 
+        self.setParticlesMasses(masses)
+        
+        
     def setCARadiusPerResidueType(self):
         """
         Sets the excluded volume radii of the alpha carbon atoms 
@@ -2374,9 +2402,42 @@ class system:
                                  
         self.setParticlesRadii(radii)
         
+    
+    def setAARadiusPerAtomType(self):
+        """
+        Sets the excluded volume radii of the atoms to the sigma
+        value of the oplsaa forcefield.
         
-#TODO:     def setMassPerAtomType(self):
+        Parameters
+        ----------
+        None
+            
+        Returns
+        -------
+        None
+        """
         
+        oplsaa_sigmas = oplsaa_parameters.oplsaa_sigmas
+        oplsaa_residues = oplsaa_parameters.oplsaa_residues
+        
+        atoms_radii = []
+        
+        for r in self.topology.residues():
+            if r.name in oplsaa_sigmas:
+                for a in r.atoms():
+                    # Match atom name to oplsaa name
+                    if a.name in oplsaa_sigmas[r.name]:
+                        atom_name = a.name
+                    elif a.name in oplsaa_residues[r.name]:
+                        atom_name = oplsaa_residues[r.name][a.name]
+                    else:
+                        raise ValueError('Atom '+a.name+' of residue '+r.name+' not found in radii dictionary.')
+                    atoms_radii.append(oplsaa_sigmas[r.name][atom_name])
+            else:
+                raise ValueError('Residue '+r.name+' not found in radii dictionary.')
+                                 
+        self.setParticlesRadii(atoms_radii)
+
     ## User-hidden functions ##
     
     def _setParameters(term, parameters):

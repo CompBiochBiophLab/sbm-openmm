@@ -38,7 +38,9 @@ class models:
                         default_forces=True, 
                         group_by_bb_and_sc=True,
                         create_system=True,
-                        minimise=False):
+                        minimise=False,
+                        masses_per_element=False,
+                        radii_per_atom_type=False):
         """
         Initialises a default full-heavy-atom sbmOpenMM system class from a structure and a contact
         file defining the native contacts for the model. The system creation steps are:
@@ -82,7 +84,10 @@ class models:
         minimise : boolean (False)
             Whether to minimise the system (with default options) if large
             forces are found.
-        
+        masses_per_element : boolean (False)
+            Assign mass of the atoms according to their element.
+        radii_per_atom_type : boolean (False)
+            Assing radii per oplsaa atom type.
         Returns
         -------
         sbm : sbmOpenMM.system
@@ -102,6 +107,9 @@ class models:
         sbm.removeHydrogens()
         sbm.getAtoms()
         print('Added '+str(sbm.n_atoms)+' atoms')
+        if masses_per_element:
+            print("Setting atoms masses to their element mass")
+            sbm.setAAMassPerAtomType()
         sbm.getBonds()
         print('Added '+str(sbm.n_bonds)+' bonds')
         sbm.getAngles()
@@ -141,7 +149,11 @@ class models:
             contact_parameters = sbm.getAANativeContactParameters()
             sbm.setNativeContactParameters(contact_parameters)
             print('Adding default excluded volume parameters:')
-            sbm.setParticlesRadii(0.25)
+            if radii_per_atom_type:
+                print("Setting atoms radii to their oplsaa atom-type sigma values")
+                sbm.setAARadiusPerAtomType()
+            else:
+                sbm.setParticlesRadii(0.25)
             sbm.rf_epsilon = 0.1
             print('')
 
