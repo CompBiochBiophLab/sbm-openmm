@@ -33,14 +33,15 @@ class models:
         Creates a multi basin model from two sbmOpenMM.system class instances.
     """
     
-    def getAllAtomModel(structure_file, contact_file, 
-                        default_parameters=True, 
+    def getAllAtomModel(structure_file, contact_file,
+                        default_parameters=True,
                         default_forces=True, 
                         group_by_bb_and_sc=True,
                         create_system=True,
                         minimise=False,
                         masses_per_element=False,
-                        radii_per_atom_type=False):
+                        radii_per_atom_type=False,
+                        forcefield_file=None):
         """
         Initialises a default full-heavy-atom sbmOpenMM system class from a structure and a contact
         file defining the native contacts for the model. The system creation steps are:
@@ -59,7 +60,11 @@ class models:
         setting default_forces to False. This allows to load the default forcefield parameters 
         and to modified them before creating the OpenMM force objects.
         
-        Finally, the method can be stopped before creating the OpenMM system class using create_system=False.
+        The method can also be stopped before creating the OpenMM system class using create_system=False.
+        
+        Finally, a forcefield file can be given in order to read the forcefield parameters from it. You can give 
+        None to the contact file argument if you provide a forcefield file. Contacts definitions will be extracted from this 
+        file even if you give a path to a contact file.
         
         Parameters
         ----------
@@ -88,6 +93,9 @@ class models:
             Assign mass of the atoms according to their element.
         radii_per_atom_type : boolean (False)
             Assing radii per oplsaa atom type.
+        forcefield_file : string
+            Path to the input forcefield file.
+        
         Returns
         -------
         sbm : sbmOpenMM.system
@@ -107,27 +115,32 @@ class models:
         sbm.removeHydrogens()
         sbm.getAtoms()
         print('Added '+str(sbm.n_atoms)+' atoms')
-        if masses_per_element:
-            print("Setting atoms masses to their element mass")
-            sbm.setAAMassPerAtomType()
-        sbm.getBonds()
-        print('Added '+str(sbm.n_bonds)+' bonds')
-        sbm.getAngles()
-        print('Added '+str(sbm.n_angles)+' angles')
-        sbm.getProperTorsions()
-        print('Added '+str(sbm.n_torsions)+' torsions')
-        sbm.getImpropers()
-        print('Added '+str(sbm.n_impropers)+' impropers')
-        sbm.getPlanars()
-        print('Added '+str(sbm.n_planars)+' planars')
-        if contact_file != None:
-            print('Reading contacts from contact file: '+contact_file)
-            sbm.readContactFile(contact_file)
-        print('Added '+str(sbm.n_contacts)+' native contacts')
+        
+        if forcefield_file == None:
+            if masses_per_element:
+                print("Setting atoms masses to their element mass")
+                sbm.setAAMassPerAtomType()
+            sbm.getBonds()
+            print('Added '+str(sbm.n_bonds)+' bonds')
+            sbm.getAngles()
+            print('Added '+str(sbm.n_angles)+' angles')
+            sbm.getProperTorsions()
+            print('Added '+str(sbm.n_torsions)+' torsions')
+            sbm.getImpropers()
+            print('Added '+str(sbm.n_impropers)+' impropers')
+            sbm.getPlanars()
+            print('Added '+str(sbm.n_planars)+' planars')
+            if contact_file != None:
+                print('Reading contacts from contact file: '+contact_file)
+                sbm.readContactFile(contact_file)   
+                print('Added '+str(sbm.n_contacts)+' native contacts')
+        elif forcefield_file != None:
+            print('Forcefield file given. Bonds, angles, torsions, impropers, planars and native contacts definitions will be read from it!')
+                
         print('')
         
         #Add default parameters to each interaction term
-        if default_parameters:
+        if default_parameters and forcefield_file == None:
             print('Setting up default forcefield parameters:')
             print('________________________________________')
             print('Adding default bond parameters:')
@@ -150,12 +163,16 @@ class models:
             sbm.setNativeContactParameters(contact_parameters)
             print('Adding default excluded volume parameters:')
             if radii_per_atom_type:
-                print("Setting atoms radii to their oplsaa atom-type sigma values")
+                print("Setting atoms radii to their oplsaa-atom type sigma values")
                 sbm.setAARadiusPerAtomType()
             else:
                 sbm.setParticlesRadii(0.25)
             sbm.rf_epsilon = 0.1
             print('')
+            
+        elif forcefield_file != None:
+            sbm.rf_epsilon = 0.1
+            sbm.loadForcefieldFromFile(forcefield_file)
 
         #Create default system force objects
         if default_parameters and default_forces:
@@ -193,7 +210,8 @@ class models:
                    contact_force='12-10',
                    minimise=False,
                    residue_masses=False,
-                   residue_radii=False):
+                   residue_radii=False,
+                   forcefield_file=None):
         """
         Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
         from a structure and a contact file defining the native contacts for the 
@@ -215,7 +233,11 @@ class models:
         setting default_forces to False. This allows to load the default forcefield parameters 
         and to modified them before creating the OpenMM force objects.
         
-        Finally, the method can be stopped before creating the OpenMM system class using create_system=False.
+        The method can also be stopped before creating the OpenMM system class using create_system=False.
+        
+        Finally, a forcefield file can be given in order to read the forcefield parameters from it. You can give 
+        None to the contact file argument if you provide a forcefield file. Contacts definitions will be extracted from this 
+        file even if you give a path to a contact file.
         
         Parameters
         ----------
@@ -238,6 +260,9 @@ class models:
             Set each alpha carbon atom mass to its average aminoacid residue mass. 
         residue_radii : boolean (False)
             Set each alpha carbon atom radius to its statistical aminoacid residue radius.
+        forcefield_file : string
+            Path to the input forcefield file.
+            
         Returns
         -------
         sbm : sbmOpenMM.system
@@ -255,23 +280,28 @@ class models:
         sbm.getCAlphaOnly()
         sbm.getAtoms()
         print('Added '+str(sbm.n_atoms)+' CA atoms')
-        if residue_masses:
-            print("Setting alpha-carbon masses to their average residue mass.")
-            sbm.setCAMassPerResidueType()
-        sbm.getBonds()
-        print('Added '+str(sbm.n_bonds)+' bonds')
-        sbm.getAngles()
-        print('Added '+str(sbm.n_angles)+' angles')
-        sbm.getProperTorsions()
-        print('Added '+str(sbm.n_torsions)+' torsions')
-        if contact_file != None:
-            print('Reading contacts from contact file: '+contact_file)
-            sbm.readContactFile(contact_file)
-        print('Added '+str(sbm.n_contacts)+' native contacts')
+        if forcefield_file == None:
+            if residue_masses:
+                print("Setting alpha-carbon masses to their average residue mass.")
+                sbm.setCAMassPerResidueType()
+            sbm.getBonds()
+            print('Added '+str(sbm.n_bonds)+' bonds')
+            sbm.getAngles()
+            print('Added '+str(sbm.n_angles)+' angles')
+            sbm.getProperTorsions()
+            print('Added '+str(sbm.n_torsions)+' torsions')
+
+            if contact_file != None:
+                print('Reading contacts from contact file: '+contact_file)
+                sbm.readContactFile(contact_file)
+                print('Added '+str(sbm.n_contacts)+' native contacts')
+                
+        elif forcefield_file != None:
+            print('Forcefield file given. Bonds, angles, torsions and native contacts definitions will be read from it!')
         print('')
         
         #Add default parameters to each interaction term
-        if default_parameters:
+        if default_parameters and forcefield_file == None:
             print('Setting up default forcefield parameters:')
             print('________________________________________')
             print('Adding default bond parameters:')
@@ -290,6 +320,10 @@ class models:
                 sbm.setParticlesRadii(0.4)
             sbm.rf_epsilon = 0.1
             print('')
+            
+        elif forcefield_file != None:
+            sbm.rf_epsilon = 0.1
+            sbm.loadForcefieldFromFile(forcefield_file)
             
         #Create default system force objects
         if default_parameters and default_forces:

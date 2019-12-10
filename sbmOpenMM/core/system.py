@@ -2189,10 +2189,9 @@ class system:
                         
                         #Reading [atoms] section
                         if atoms == True:
-                            
                             if not isinstance(self.particles_mass, list):
                                 self.particles_mass = [1.0 for m in range(self.n_atoms)]
-                            if not isinstance(self.particles_mass, list):
+                            if not isinstance(self.rf_sigma, list):
                                 self.rf_sigma = [ 0 for s in range(self.n_atoms)]
                             if len(ls) > 3:
                                 raise ValueError('More than three parameters given in [atoms] section at line '+str(i)+':\n'+line)
@@ -2202,10 +2201,9 @@ class system:
                             # Check if ff atom index is the same as openmm atom index
                             assert int(ls[0])-1 == self.atoms[int(ls[0])-1].index
                             
-                            mass = self.atoms[float(ls[1])]
-                            sigma = self.atoms[float(ls[1])]
-                            self.particles_mass[i] = mass
-                            self.rf_sigma[i] = sigma
+                            #Save mass and sigma values into list
+                            self.particles_mass[int(ls[0])-1] = float(ls[1])
+                            self.rf_sigma[int(ls[0])-1] = float(ls[2])
                             
                         #Reading [bonds] section
                         if bonds == True:
@@ -2287,7 +2285,11 @@ class system:
                             self.contacts[(at1,at2)] = (contact_length, k)
                             
                     #Select which section is being reading by changing its boolean to 1
-                    if line.startswith('[bonds]'):
+                    if line.startswith('[atoms]'):
+                        print('Reading atom parameters')
+                        self.bonds = OrderedDict()
+                        atoms = True
+                    elif line.startswith('[bonds]'):
                         print('Reading bond parameters')
                         self.bonds = OrderedDict()
                         bonds = True
