@@ -614,9 +614,7 @@ class models:
         
         #Add repulsion forces
         print('Adding repulsion Lennard Jones 12 potential for non native contacts')
-        multi_basin_model.addLJRepulsionForces(sigma=multi_basin_model.rf_sigma,
-                                               epsilon=multi_basin_model.rf_epsilon,
-                                               cutoff=multi_basin_model.rf_cutoff)
+        multi_basin_model.addLJRepulsionForces(cutoff=multi_basin_model.rf_cutoff)
         print('')
         print('Creating System Object:')
         print('______________________')
