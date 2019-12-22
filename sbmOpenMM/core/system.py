@@ -671,22 +671,29 @@ class system:
                                           torsion[2].index,
                                           torsion[3].index))
             
-    def getImpropers(self):
+    def getImpropers(self, chains=None):
         """
         Adds improper torsions to the sbmOpenMM system class to maintain backbone 
         chiralities.
         
         Parameters
         ----------
-        None
+        chains : list (None)
+            If this parameter is given, only add impropers if the chain id is in this list
             
         Returns
         -------
         None
         """
         
-        #Iterate by every chain in topology to add backbone impropers
-        chains = [c for c in self.topology.chains()]
+        
+        if chains == None:
+            #Iterate by every chain in topology to add backbone impropers (default)
+            chains = [c for c in self.topology.chains()]
+        else:
+            #Iterate only chains with the given ids to add backbone impropers
+            chains = [c for c in self.topology.chains() if c.id in chains]
+            
         for chain in chains:
             #Iterate by every residue in chain to add backbone impropers
             residues = [r for r in chain.residues()]
@@ -715,22 +722,28 @@ class system:
                                                improper[2].index,
                                                improper[3].index))
             
-    def getPlanars(self):
+    def getPlanars(self, chains=None):
         """
         Adds planar torsions to the sbmOpenMM system class to mantain side chain and 
         backbone planar arrangements.
         
         Parameters
         ----------
-        None
+        chains : list (None)
+            If this parameter is given, only add planars if the chain id is in this list
             
         Returns
         -------
         None
         """
         
-        #Iterate by every chain in topology to add specific planar restraints
-        chains = [c for c in self.topology.chains()]
+        if chains == None:
+            #Iterate by every chain in topology to add backbone impropers (default)
+            chains = [c for c in self.topology.chains()]
+        else:
+            #Iterate only chains with the given ids to add backbone impropers
+            chains = [c for c in self.topology.chains() if c.id in chains]
+            
         for chain in chains:
             #Iterate by every residue in chain to add specific planar restraints
             residues = [r for r in chain.residues()]
@@ -2325,7 +2338,7 @@ class system:
         Parameters
         ----------
         None
-            
+        
         Returns
         -------
         None
@@ -2341,12 +2354,13 @@ class system:
         
         masses = []
         
+
         for r in self.topology.residues():
             if r.name in aa_masses:
                 masses.append(aa_masses[r.name])
             else:
                 raise ValueError('Residue '+r.name+' not found in masses dictionary.')
-                                 
+
         self.setParticlesMasses(masses)
         
         
@@ -2501,4 +2515,6 @@ class system:
                 return '2column'
             else:
                 return False
+            
+        return chain_ids
 
