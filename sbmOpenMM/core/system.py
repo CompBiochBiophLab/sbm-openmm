@@ -14,6 +14,7 @@ import re
 import json
 
 from .geometry import geometry
+from ..parameters import ca_parameters
 from ..parameters import oplsaa_parameters
 
 
@@ -2343,18 +2344,11 @@ class system:
         -------
         None
         """
-        
-        aa_masses = {'ALA':  71.0, 'ARG': 157.0, 'ASN': 114.0,
-                     'ASP': 114.0, 'CYS': 103.0, 'GLU': 128.0,
-                     'GLN': 128.0, 'GLY':  57.0, 'HIS': 138.0,
-                     'ILE': 113.0, 'LEU': 113.0, 'LYS': 128.0,
-                     'MET': 131.0, 'PHE': 147.0, 'PRO':  97.0, 
-                     'SER':  87.0, 'THR': 101.0, 'TRP': 186.0, 
-                     'TYR': 163.0, 'VAL':  99.0}
+        # Load mass parameters from parameters package
+        aa_masses = ca_parameters.aa_masses
         
         masses = []
         
-
         for r in self.topology.residues():
             if r.name in aa_masses:
                 masses.append(aa_masses[r.name])
@@ -2400,13 +2394,8 @@ class system:
         None
         """
         
-        aa_radii = {'ALA': 0.335, 'ARG': 0.395, 'ASN': 0.365,
-                    'ASP': 0.350, 'CYS': 0.370, 'GLU': 0.365,
-                    'GLN': 0.390, 'GLY': 0.315, 'HIS': 0.400,
-                    'ILE': 0.450, 'LEU': 0.460, 'LYS': 0.365,
-                    'MET': 0.450, 'PHE': 0.460, 'PRO': 0.370, 
-                    'SER': 0.330, 'THR': 0.360, 'TRP': 0.470, 
-                    'TYR': 0.450, 'VAL': 0.400}
+        # Load radii from parameters package
+        aa_radii = ca_parameters.aa_radii
         
         radii = []
         
@@ -2517,4 +2506,10 @@ class system:
                 return False
             
         return chain_ids
+
+
+# In[ ]:
+
+
+
 
