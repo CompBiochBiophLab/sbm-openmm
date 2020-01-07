@@ -208,6 +208,8 @@ class models:
                    default_forces=True, 
                    create_system=True,
                    contact_force='12-10',
+                   torsion_energy=1.0,
+                   contact_energy=1.0,
                    minimise=False,
                    residue_masses=False,
                    residue_radii=False,
@@ -309,9 +311,9 @@ class models:
             print('Adding default angle parameters:')
             sbm.setAngleParameters(40.0)
             print('Adding default torsion parameters:')
-            sbm.setProperTorsionParameters(1.0)
+            sbm.setProperTorsionParameters(torsion_energy)
             print('Adding default contact parameters:')
-            sbm.setNativeContactParameters(1.0)
+            sbm.setNativeContactParameters(contact_energy)
             print('Adding default excluded volume parameters:')
             if residue_radii:
                 print("Setting alpha-carbon atoms radii to their statistical residue radius.")
