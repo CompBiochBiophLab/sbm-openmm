@@ -1504,7 +1504,7 @@ class system:
                                                             self.contacts[contact][3]))
 
             
-    def addLJRepulsionForces(self, cutoff=None, bonded_exclusions_index=3):
+    def addLJRepulsionForces(self, cutoff=None, bonded_exclusions_index=3, exclusions=None):
         """
         Creates an openmm.CustomNonbondedForce() object with the parameters 
         sigma and epsilon given to this method. The custom non-bonded force
@@ -1559,19 +1559,34 @@ class system:
         for i in range(self.ljRepulsionForce.getNumExclusions()):
             pair = self.ljRepulsionForce.getExclusionParticles(i)
             self.exclusions.append(pair)
-            
+
         #Add contacts exclusions
-        contact_exclusions = [(i[0].index, i[1].index) for i in self.contacts]
-        #Remove already excluded pairs (from bonded exclusions)
-        #to avoid 'Multiple exclusions are specified' error
-        contact_exclusions = [pair for pair in contact_exclusions if pair in self.exclusions]
-        self.ljRepulsionForce.createExclusionsFromBonds(contact_exclusions, 1)
-        
-        #Add all exclusion pairs
+        contact_exclusions = [[i[0].index, i[1].index] for i in self.contacts]
+        for pair in contact_exclusions:
+            #Remove already excluded pairs (from bonded exclusions) to avoid 'Multiple exclusions are specified' error
+            if pair in self.exclusions or pair[::-1] in self.exclusions:
+                continue
+            self.ljRepulsionForce.addExclusion(pair[0], pair[1])
+
+        #Update all exclusion pairs
         self.exclusions = []
         for i in range(self.ljRepulsionForce.getNumExclusions()):
             pair = self.ljRepulsionForce.getExclusionParticles(i)
             self.exclusions.append(pair)
+
+        # Add user given exclusions
+        if exclusions != None:
+            for pair in exclusions:
+                if list(pair) in self.exclusions or list(pair[::-1]) in self.exclusions:
+                    continue
+                self.ljRepulsionForce.addExclusion(pair[0], pair[1])
+
+        #Update all exclusion pairs
+        self.exclusions = []
+        for i in range(self.ljRepulsionForce.getNumExclusions()):
+            pair = self.ljRepulsionForce.getExclusionParticles(i)
+            self.exclusions.append(pair)
+    
         
         self.ljRepulsionForce.setCutoffDistance(self.rf_cutoff)
         
