@@ -38,17 +38,17 @@
 <span class="c1"># In[ ]:</span>
 
 
-<span class="kn">from</span> <span class="nn">simtk.openmm.app</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">simtk.openmm</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">simtk</span> <span class="k">import</span> <span class="n">unit</span>
+<span class="kn">from</span> <span class="nn">simtk.openmm.app</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">simtk.openmm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">simtk</span> <span class="kn">import</span> <span class="n">unit</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">.system</span> <span class="k">import</span> <span class="n">system</span>
+<span class="kn">from</span> <span class="nn">.system</span> <span class="kn">import</span> <span class="n">system</span>
 
 
-<span class="c1"># In[ ]:</span>
+<span class="c1"># In[1]:</span>
 
 
 <div class="viewcode-block" id="models"><a class="viewcode-back" href="../../index.html#core.models">[docs]</a><span class="k">class</span> <span class="nc">models</span><span class="p">:</span>
@@ -57,24 +57,28 @@
 
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
-<span class="sd">    getAllAtomModel(pdb_file, contact_file, kwarg**)</span>
+<span class="sd">    getAllAtomModel(structure_file, contact_file, kwarg**)</span>
 <span class="sd">        Creates an all atom SBM system class object with default initialized</span>
 <span class="sd">        parameters.</span>
-<span class="sd">    getCAModel(pdb_file, contact_file, kwarg**)</span>
+<span class="sd">    getCAModel(structure_file, contact_file, kwarg**)</span>
 <span class="sd">        Creates an alpha-carbon only sbmOpenMM system class object with default </span>
 <span class="sd">        initialized parameters.</span>
 <span class="sd">    getMultiBasinModel(main_model, alternate_configuration, kwarg**)</span>
 <span class="sd">        Creates a multi basin model from two sbmOpenMM.system class instances.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-<div class="viewcode-block" id="models.getAllAtomModel"><a class="viewcode-back" href="../../index.html#core.models.getAllAtomModel">[docs]</a>    <span class="k">def</span> <span class="nf">getAllAtomModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
-                        <span class="n">default_parameters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+<div class="viewcode-block" id="models.getAllAtomModel"><a class="viewcode-back" href="../../index.html#core.models.getAllAtomModel">[docs]</a>    <span class="k">def</span> <span class="nf">getAllAtomModel</span><span class="p">(</span><span class="n">structure_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span>
+                        <span class="n">default_parameters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                         <span class="n">default_forces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                         <span class="n">group_by_bb_and_sc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                         <span class="n">create_system</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                        <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                        <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">masses_per_element</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">radii_per_atom_type</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">ff_radii</span><span class="o">=</span><span class="s1">&#39;amber&#39;</span><span class="p">,</span>
+                        <span class="n">forcefield_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialises a default full-heavy-atom sbmOpenMM system class from a PDB file and a contact</span>
+<span class="sd">        Initialises a default full-heavy-atom sbmOpenMM system class from a structure and a contact</span>
 <span class="sd">        file defining the native contacts for the model. The system creation steps are:</span>
 <span class="sd">        </span>
 <span class="sd">        1) Add the geometrical parameters for the model.</span>
@@ -91,12 +95,16 @@
 <span class="sd">        setting default_forces to False. This allows to load the default forcefield parameters </span>
 <span class="sd">        and to modified them before creating the OpenMM force objects.</span>
 <span class="sd">        </span>
-<span class="sd">        Finally, the method can be stopped before creating the OpenMM system class using create_system=False.</span>
+<span class="sd">        The method can also be stopped before creating the OpenMM system class using create_system=False.</span>
+<span class="sd">        </span>
+<span class="sd">        Finally, a forcefield file can be given in order to read the forcefield parameters from it. You can give </span>
+<span class="sd">        None to the contact file argument if you provide a forcefield file. Contacts definitions will be extracted from this </span>
+<span class="sd">        file even if you give a path to a contact file.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pdb_file : string</span>
-<span class="sd">            Path to the input PDB file.</span>
+<span class="sd">        structure_file : string</span>
+<span class="sd">            Path to the input structure file.</span>
 <span class="sd">        contact_file : string</span>
 <span class="sd">            Path to the input native contact file. The file can be an output </span>
 <span class="sd">            from the SMOG program (4 column contact file) or a two column file </span>
@@ -116,6 +124,15 @@
 <span class="sd">        minimise : boolean (False)</span>
 <span class="sd">            Whether to minimise the system (with default options) if large</span>
 <span class="sd">            forces are found.</span>
+<span class="sd">        masses_per_element : boolean (False)</span>
+<span class="sd">            Assign mass of the atoms according to their element.</span>
+<span class="sd">        radii_per_atom_type : boolean (False)</span>
+<span class="sd">            Assing radii per oplsaa atom type.</span>
+<span class="sd">        ff_radii : str (amber)</span>
+<span class="sd">            Which forcefield parameters to use to assign atom radii (amber or opslaa). </span>
+<span class="sd">            Use together with radii_per_atom_type=True option.</span>
+<span class="sd">        forcefield_file : string</span>
+<span class="sd">            Path to the input forcefield file.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -124,36 +141,44 @@
 <span class="sd">            defining an All Atom SBM force field.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Generating AA SBM for PDB file &#39;</span><span class="o">+</span><span class="n">pdb_file</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Generating AA SBM for structure file &#39;</span><span class="o">+</span><span class="n">structure_file</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         
         <span class="c1">#Set up geometric parameters of the model</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting up geometrical parameters:&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;_________________________________&#39;</span><span class="p">)</span>
         
-        <span class="n">sbm</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">)</span>
+        <span class="n">sbm</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="n">structure_file</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Removing hydrogens from topology&#39;</span><span class="p">)</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">removeHydrogens</span><span class="p">()</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">getAtoms</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_atoms</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; atoms&#39;</span><span class="p">)</span>
-        <span class="n">sbm</span><span class="o">.</span><span class="n">getBonds</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_bonds</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; bonds&#39;</span><span class="p">)</span>
-        <span class="n">sbm</span><span class="o">.</span><span class="n">getAngles</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_angles</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; angles&#39;</span><span class="p">)</span>
-        <span class="n">sbm</span><span class="o">.</span><span class="n">getProperTorsions</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_torsions</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; torsions&#39;</span><span class="p">)</span>
-        <span class="n">sbm</span><span class="o">.</span><span class="n">getImpropers</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_impropers</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; impropers&#39;</span><span class="p">)</span>
-        <span class="n">sbm</span><span class="o">.</span><span class="n">getPlanars</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_planars</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; planars&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">contact_file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reading contacts from contact file: &#39;</span><span class="o">+</span><span class="n">contact_file</span><span class="p">)</span>
-            <span class="n">sbm</span><span class="o">.</span><span class="n">readContactFile</span><span class="p">(</span><span class="n">contact_file</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_contacts</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; native contacts&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">forcefield_file</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">masses_per_element</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting atoms masses to their element mass&quot;</span><span class="p">)</span>
+                <span class="n">sbm</span><span class="o">.</span><span class="n">setAAMassPerAtomType</span><span class="p">()</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">getBonds</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_bonds</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; bonds&#39;</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">getAngles</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_angles</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; angles&#39;</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">getProperTorsions</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_torsions</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; torsions&#39;</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">getImpropers</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_impropers</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; impropers&#39;</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">getPlanars</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_planars</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; planars&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">contact_file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reading contacts from contact file: &#39;</span><span class="o">+</span><span class="n">contact_file</span><span class="p">)</span>
+                <span class="n">sbm</span><span class="o">.</span><span class="n">readContactFile</span><span class="p">(</span><span class="n">contact_file</span><span class="p">)</span>   
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_contacts</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; native contacts&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">forcefield_file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Forcefield file given. Bonds, angles, torsions, impropers, planars and native contacts definitions will be read from it!&#39;</span><span class="p">)</span>
+                
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         
         <span class="c1">#Add default parameters to each interaction term</span>
-        <span class="k">if</span> <span class="n">default_parameters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">default_parameters</span> <span class="ow">and</span> <span class="n">forcefield_file</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting up default forcefield parameters:&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;________________________________________&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default bond parameters:&#39;</span><span class="p">)</span>
@@ -174,7 +199,18 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default contact parameters:&#39;</span><span class="p">)</span>
             <span class="n">contact_parameters</span> <span class="o">=</span> <span class="n">sbm</span><span class="o">.</span><span class="n">getAANativeContactParameters</span><span class="p">()</span>
             <span class="n">sbm</span><span class="o">.</span><span class="n">setNativeContactParameters</span><span class="p">(</span><span class="n">contact_parameters</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default excluded volume parameters:&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">radii_per_atom_type</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting atoms radii to their &#39;</span><span class="o">+</span><span class="n">ff_radii</span><span class="o">+</span><span class="s1">&#39;-atom type sigma values&#39;</span><span class="p">)</span>
+                <span class="n">sbm</span><span class="o">.</span><span class="n">setAARadiusPerAtomType</span><span class="p">(</span><span class="n">ff_radii</span><span class="o">=</span><span class="n">ff_radii</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sbm</span><span class="o">.</span><span class="n">setParticlesRadii</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">rf_epsilon</span> <span class="o">=</span> <span class="mf">0.1</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            
+        <span class="k">elif</span> <span class="n">forcefield_file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">rf_epsilon</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">loadForcefieldFromFile</span><span class="p">(</span><span class="n">forcefield_file</span><span class="p">)</span>
 
         <span class="c1">#Create default system force objects</span>
         <span class="k">if</span> <span class="n">default_parameters</span> <span class="ow">and</span> <span class="n">default_forces</span><span class="p">:</span>
@@ -193,7 +229,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding Lennard Jones 12-6 Forces to native contacts&#39;</span><span class="p">)</span>
             <span class="n">sbm</span><span class="o">.</span><span class="n">addLJ12_6ContactForces</span><span class="p">()</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding Lennard Jones 12 non-bonded Forces&#39;</span><span class="p">)</span>
-            <span class="n">sbm</span><span class="o">.</span><span class="n">addLJRepulsionForces</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">addLJRepulsionForces</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
         <span class="c1">#Generate the system object and add previously generated forces</span>
@@ -205,17 +241,20 @@
 
         <span class="k">return</span> <span class="n">sbm</span></div>
 
-<div class="viewcode-block" id="models.getCAModel"><a class="viewcode-back" href="../../index.html#core.models.getCAModel">[docs]</a>    <span class="k">def</span> <span class="nf">getCAModel</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
+<div class="viewcode-block" id="models.getCAModel"><a class="viewcode-back" href="../../index.html#core.models.getCAModel">[docs]</a>    <span class="k">def</span> <span class="nf">getCAModel</span><span class="p">(</span><span class="n">structure_file</span><span class="p">,</span> <span class="n">contact_file</span><span class="p">,</span> 
                    <span class="n">default_parameters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                    <span class="n">default_forces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                    <span class="n">create_system</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                    <span class="n">contact_force</span><span class="o">=</span><span class="s1">&#39;12-10&#39;</span><span class="p">,</span>
+                   <span class="n">torsion_energy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                   <span class="n">contact_energy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                    <span class="n">minimise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                    <span class="n">residue_masses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                   <span class="n">residue_radii</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                   <span class="n">residue_radii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">forcefield_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class </span>
-<span class="sd">        from a PDB file and a contact file defining the native contacts for the </span>
+<span class="sd">        from a structure and a contact file defining the native contacts for the </span>
 <span class="sd">        coarse grained model.</span>
 <span class="sd">        </span>
 <span class="sd">        The system creation steps are:</span>
@@ -234,12 +273,16 @@
 <span class="sd">        setting default_forces to False. This allows to load the default forcefield parameters </span>
 <span class="sd">        and to modified them before creating the OpenMM force objects.</span>
 <span class="sd">        </span>
-<span class="sd">        Finally, the method can be stopped before creating the OpenMM system class using create_system=False.</span>
+<span class="sd">        The method can also be stopped before creating the OpenMM system class using create_system=False.</span>
+<span class="sd">        </span>
+<span class="sd">        Finally, a forcefield file can be given in order to read the forcefield parameters from it. You can give </span>
+<span class="sd">        None to the contact file argument if you provide a forcefield file. Contacts definitions will be extracted from this </span>
+<span class="sd">        file even if you give a path to a contact file.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pdb_file : string</span>
-<span class="sd">            Path to the input PDB file.</span>
+<span class="sd">        structure_file : string</span>
+<span class="sd">            Path to the input structure file.</span>
 <span class="sd">        contact_file : string</span>
 <span class="sd">            Path to the input native contact file. The file can be an output </span>
 <span class="sd">            from the SMOG program (4 column contact file) or a two column file </span>
@@ -257,6 +300,9 @@
 <span class="sd">            Set each alpha carbon atom mass to its average aminoacid residue mass. </span>
 <span class="sd">        residue_radii : boolean (False)</span>
 <span class="sd">            Set each alpha carbon atom radius to its statistical aminoacid residue radius.</span>
+<span class="sd">        forcefield_file : string</span>
+<span class="sd">            Path to the input forcefield file.</span>
+<span class="sd">            </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        sbm : sbmOpenMM.system</span>
@@ -264,33 +310,38 @@
 <span class="sd">            a coarse-grained CA SBM force field.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Generating CA SBM for PDB file &#39;</span><span class="o">+</span><span class="n">pdb_file</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Generating CA SBM for structure file &#39;</span><span class="o">+</span><span class="n">structure_file</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         <span class="c1">#Set up geometric parameters of the model</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting up geometrical parameters:&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;_________________________________&#39;</span><span class="p">)</span>
-        <span class="n">sbm</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">)</span>
+        <span class="n">sbm</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="n">structure_file</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Keeping only alpha carbon atoms in topology&#39;</span><span class="p">)</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">getCAlphaOnly</span><span class="p">()</span>
         <span class="n">sbm</span><span class="o">.</span><span class="n">getAtoms</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_atoms</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; CA atoms&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">residue_masses</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting alpha-carbon masses to their average residue mass.&quot;</span><span class="p">)</span>
-            <span class="n">sbm</span><span class="o">.</span><span class="n">setCAMassPerResidueType</span><span class="p">()</span>
-        <span class="n">sbm</span><span class="o">.</span><span class="n">getBonds</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_bonds</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; bonds&#39;</span><span class="p">)</span>
-        <span class="n">sbm</span><span class="o">.</span><span class="n">getAngles</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_angles</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; angles&#39;</span><span class="p">)</span>
-        <span class="n">sbm</span><span class="o">.</span><span class="n">getProperTorsions</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_torsions</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; torsions&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">contact_file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reading contacts from contact file: &#39;</span><span class="o">+</span><span class="n">contact_file</span><span class="p">)</span>
-            <span class="n">sbm</span><span class="o">.</span><span class="n">readContactFile</span><span class="p">(</span><span class="n">contact_file</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_contacts</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; native contacts&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">forcefield_file</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">residue_masses</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting alpha-carbon masses to their average residue mass.&quot;</span><span class="p">)</span>
+                <span class="n">sbm</span><span class="o">.</span><span class="n">setCAMassPerResidueType</span><span class="p">()</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">getBonds</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_bonds</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; bonds&#39;</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">getAngles</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_angles</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; angles&#39;</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">getProperTorsions</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_torsions</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; torsions&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">contact_file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reading contacts from contact file: &#39;</span><span class="o">+</span><span class="n">contact_file</span><span class="p">)</span>
+                <span class="n">sbm</span><span class="o">.</span><span class="n">readContactFile</span><span class="p">(</span><span class="n">contact_file</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Added &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sbm</span><span class="o">.</span><span class="n">n_contacts</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; native contacts&#39;</span><span class="p">)</span>
+                
+        <span class="k">elif</span> <span class="n">forcefield_file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Forcefield file given. Bonds, angles, torsions and native contacts definitions will be read from it!&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         
         <span class="c1">#Add default parameters to each interaction term</span>
-        <span class="k">if</span> <span class="n">default_parameters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">default_parameters</span> <span class="ow">and</span> <span class="n">forcefield_file</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting up default forcefield parameters:&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;________________________________________&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default bond parameters:&#39;</span><span class="p">)</span>
@@ -298,9 +349,9 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default angle parameters:&#39;</span><span class="p">)</span>
             <span class="n">sbm</span><span class="o">.</span><span class="n">setAngleParameters</span><span class="p">(</span><span class="mf">40.0</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default torsion parameters:&#39;</span><span class="p">)</span>
-            <span class="n">sbm</span><span class="o">.</span><span class="n">setProperTorsionParameters</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">setProperTorsionParameters</span><span class="p">(</span><span class="n">torsion_energy</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default contact parameters:&#39;</span><span class="p">)</span>
-            <span class="n">sbm</span><span class="o">.</span><span class="n">setNativeContactParameters</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">setNativeContactParameters</span><span class="p">(</span><span class="n">contact_energy</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding default excluded volume parameters:&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">residue_radii</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting alpha-carbon atoms radii to their statistical residue radius.&quot;</span><span class="p">)</span>
@@ -309,6 +360,10 @@
                 <span class="n">sbm</span><span class="o">.</span><span class="n">setParticlesRadii</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span>
             <span class="n">sbm</span><span class="o">.</span><span class="n">rf_epsilon</span> <span class="o">=</span> <span class="mf">0.1</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            
+        <span class="k">elif</span> <span class="n">forcefield_file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">rf_epsilon</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="n">sbm</span><span class="o">.</span><span class="n">loadForcefieldFromFile</span><span class="p">(</span><span class="n">forcefield_file</span><span class="p">)</span>
             
         <span class="c1">#Create default system force objects</span>
         <span class="k">if</span> <span class="n">default_parameters</span> <span class="ow">and</span> <span class="n">default_forces</span><span class="p">:</span>
@@ -599,9 +654,7 @@
         
         <span class="c1">#Add repulsion forces</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding repulsion Lennard Jones 12 potential for non native contacts&#39;</span><span class="p">)</span>
-        <span class="n">multi_basin_model</span><span class="o">.</span><span class="n">addLJRepulsionForces</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="n">multi_basin_model</span><span class="o">.</span><span class="n">rf_sigma</span><span class="p">,</span>
-                                               <span class="n">epsilon</span><span class="o">=</span><span class="n">multi_basin_model</span><span class="o">.</span><span class="n">rf_epsilon</span><span class="p">,</span>
-                                               <span class="n">cutoff</span><span class="o">=</span><span class="n">multi_basin_model</span><span class="o">.</span><span class="n">rf_cutoff</span><span class="p">)</span>
+        <span class="n">multi_basin_model</span><span class="o">.</span><span class="n">addLJRepulsionForces</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="n">multi_basin_model</span><span class="o">.</span><span class="n">rf_cutoff</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Creating System Object:&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;______________________&#39;</span><span class="p">)</span>
@@ -620,6 +673,12 @@
             <span class="n">multi_basin_model</span><span class="o">.</span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;CA-MB&#39;</span>
         
         <span class="k">return</span> <span class="n">multi_basin_model</span></div></div>
+
+
+<span class="c1"># In[ ]:</span>
+
+
+
 
 </pre></div>
 
@@ -647,7 +706,7 @@
       &copy;2019, "Martin Floor, Kengjie Li".
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
