@@ -15,7 +15,8 @@ import json
 
 from .geometry import geometry
 from ..parameters import ca_parameters
-from ..parameters import oplsaa_parameters
+from ..parameters import oplsaa
+from ..parameters import amber
 
 
 # In[ ]:
@@ -2423,10 +2424,10 @@ class system:
         self.setParticlesRadii(radii)
         
     
-    def setAARadiusPerAtomType(self):
+    def setAARadiusPerAtomType(self, ff_radii='amber'):
         """
         Sets the excluded volume radii of the atoms to the sigma
-        value of the oplsaa forcefield.
+        value of the oplsaa or amber (default) forcefield.
         
         Parameters
         ----------
@@ -2437,24 +2438,32 @@ class system:
         None
         """
         
-        oplsaa_sigmas = oplsaa_parameters.oplsaa_sigmas
-        oplsaa_residues = oplsaa_parameters.oplsaa_residues
-        
+        if ff_radii not in ['oplsaa', 'amber']:
+            raise ValueError('Implemented radii include only: oplsaa and amber')
+            
+        if ff_radii == 'oplsaa':
+            sigmas = oplsaa.protein_parameters
+        elif ff_radii == 'amber':
+            sigmas = amber.protein_parameters
+            
         atoms_radii = []
-        
         for r in self.topology.residues():
-            if r.name in oplsaa_sigmas:
-                for a in r.atoms():
-                    # Match atom name to oplsaa name
-                    if a.name in oplsaa_sigmas[r.name]:
-                        atom_name = a.name
-                    elif a.name in oplsaa_residues[r.name]:
-                        atom_name = oplsaa_residues[r.name][a.name]
-                    else:
-                        raise ValueError('Atom '+a.name+' of residue '+r.name+' not found in radii dictionary.')
-                    atoms_radii.append(oplsaa_sigmas[r.name][atom_name])
+            if ff_radii == 'amber':
+                if 'OXT' in [atom.name for atom in r.atoms()]:
+                    residue_name = 'C'+r.name
+                else:
+                    residue_name = r.name
             else:
-                raise ValueError('Residue '+r.name+' not found in radii dictionary.')
+                residue_name = r.name    
+            if residue_name in sigmas:
+                for a in r.atoms():
+                    if a.name in sigmas[residue_name]:
+                        atom_name = a.name
+                    else:
+                        raise ValueError('Atom '+a.name+' of residue '+residue_name+' not found in '+ff_radii+' radii dictionary.')
+                    atoms_radii.append(sigmas[residue_name][atom_name]['sigma'])
+            else:
+                raise ValueError('Residue '+residue_name+' not found in '+ff_radii+' radii dictionary.')
                                  
         self.setParticlesRadii(atoms_radii)
 

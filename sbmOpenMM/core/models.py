@@ -41,6 +41,7 @@ class models:
                         minimise=False,
                         masses_per_element=False,
                         radii_per_atom_type=False,
+                        ff_radii='amber',
                         forcefield_file=None):
         """
         Initialises a default full-heavy-atom sbmOpenMM system class from a structure and a contact
@@ -93,6 +94,9 @@ class models:
             Assign mass of the atoms according to their element.
         radii_per_atom_type : boolean (False)
             Assing radii per oplsaa atom type.
+        ff_radii : str (amber)
+            Which forcefield parameters to use to assign atom radii (amber or opslaa). 
+            Use together with radii_per_atom_type=True option.
         forcefield_file : string
             Path to the input forcefield file.
         
@@ -163,8 +167,8 @@ class models:
             sbm.setNativeContactParameters(contact_parameters)
             print('Adding default excluded volume parameters:')
             if radii_per_atom_type:
-                print("Setting atoms radii to their oplsaa-atom type sigma values")
-                sbm.setAARadiusPerAtomType()
+                print('Setting atoms radii to their '+ff_radii+'-atom type sigma values')
+                sbm.setAARadiusPerAtomType(ff_radii=ff_radii)
             else:
                 sbm.setParticlesRadii(0.25)
             sbm.rf_epsilon = 0.1
