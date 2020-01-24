@@ -3,7 +3,6 @@
 
 # In[ ]:
 
-
 from simtk.openmm.app import *
 from simtk.openmm import *
 from simtk import unit
@@ -98,7 +97,7 @@ class system:
         bond atoms as values.
     torsions_type : dict
         A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
-        present in the model as keys and, a string representing wheter the torsion 
+        present in the model as keys and, a string representing whether the torsion 
         is classified as 'backbone' or 'sidechain' as values.
     energy_constant : dict
         A dict that holds the value for the different energy terms parameters
@@ -1069,10 +1068,12 @@ class system:
         
         The force parameters must be contained in self.bonds as follows:
         self.bonds is a dictionary:
+
             - The keys are 2-tuples for two atom items in self.topology.atoms attribute.
             - The values are a 2-tuple of parameters in the following order:
-                first  -> bond0 (quantity)
-                second -> k (float)
+
+                - first  -> bond0 (quantity)
+                - second -> k (float)
         
         Parameters
         ----------
@@ -1098,10 +1099,12 @@ class system:
         
         The force parameters must be contained in self.angles as follows:
         self.angles is dictionary:
+
             - The keys are 3-tuples for three atoms in self.topology.atoms attribute.
             - The values are a 2-tuple of parameters in the following order:
-                first  -> angle0 (quantity)
-                second -> k (float)
+
+                - first  -> angle0 (quantity)
+                - second -> k (float)
         
         Parameters
         ----------
@@ -1132,10 +1135,12 @@ class system:
         
         The force parameters must be contained in self.torsions as follows:
         self.torsions is a dictionary:
+
             - The keys are tuples for four atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> theta0 (quantity)
-                second -> k (float)
+
+                - first  -> theta0 (quantity)
+                - second -> k (float)
         
         Parameters
         ----------
@@ -1170,12 +1175,14 @@ class system:
         
         The force parameters must be contained in self.torsions as follows:
         self.torsions is a dictionary:
+
             - The keys are tuples for four atoms in self.topology.atoms attribute.
             - The values are a list with the parameters as items:
-              Each item is a tuple containing:
-                first  -> theta0 (quantity)
-                second -> k (float)
-                third -> n (int)
+            - Each item is a tuple containing:
+
+                - first  -> theta0 (quantity)
+                - second -> k (float)
+                - third -> n (int)
         
         Parameters
         ----------
@@ -1218,10 +1225,12 @@ class system:
         
         The force parameters must be contained in self.torsions as follows:
         self.torsions is a dictionary:
+
             - The keys are tuples for four atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> theta0 (quantity)
-                second -> k (float)
+
+                - first  -> theta0 (quantity)
+                - second -> k (float)
         
         Parameters
         ----------
@@ -1263,10 +1272,12 @@ class system:
         
         The force parameters must be contained in self.torsions as follows:
         self.torsions is a dictionary:
+
             - The keys are tuples for four atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> theta0 (quantity)
-                second -> k (float)
+
+                - first  -> theta0 (quantity)
+                - second -> k (float)
         
         Parameters
         ----------
@@ -1305,10 +1316,12 @@ class system:
         
         The force parameters must be contained in self.contacts as follows:
         self.contacts is a dictionary:
+
             - The keys are tuples for two atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> sigma (quantity)
-                second -> epsilon (float)
+
+                - first  -> sigma (quantity)
+                - second -> epsilon (float)
         
         Parameters
         ----------
@@ -1347,10 +1360,12 @@ class system:
         
         The force parameters must be contained in self.contacts as follows:
         self.contacts is a dictionary:
+
             - The keys are tuples for two atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> sigma (quantity)
-                second -> epsilon (float)
+
+                - first  -> sigma (quantity)
+                - second -> epsilon (float)
         
         Parameters
         ----------
@@ -1389,10 +1404,12 @@ class system:
         
         The force parameters must be contained in self.contacts as follows:
         self.contacts is an ordered dictionary:
+
             - The keys are tuples for two atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> sigma (quantity)
-                second -> epsilon (float)
+
+                - first  -> sigma (quantity)
+                - second -> epsilon (float)
         
         Parameters
         ----------
@@ -1434,28 +1451,32 @@ class system:
         
         The force parameters must be contained in self.contacts as follows:
         self.contacts is a dictionary:
+
             - The keys are tuples for tww atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> rex (float)
-                second -> r0 (quantity)
-                third -> epsilon (float)
+
+                - first  -> rex (float)
+                - second -> r0 (quantity)
+                - third -> epsilon (float)
         
         If four parameters are given the custom bond force is initilized 
         with the formula:
         
         energy = epsilon*((1+(r0/r)^12)*(1-exp(-25*log(2)*(r-r0)^2/(r0*r0)))*
-                (1-exp(-25*log(2)*(r-r1)^2/(r1*r1)))-1)
+                 (1-exp(-25*log(2)*(r-r1)^2/(r1*r1)))-1)
         
         The force object is stored at the "doubleGaussianContactForce" attribute.
         
         The force parameters must be contained in self.contacts as follows:
         self.contacts is a dictionary:
+
             - The keys are tuples for two atoms in self.topology.atoms attribute.
             - The values are a tuple of parameters in the following order:
-                first  -> rex (float)
-                second -> r0 (quantity)
-                second -> r1 (quantity)
-                third -> epsilon (float)
+
+                - first  -> rex (float)
+                - second -> r0 (quantity)
+                - second -> r1 (quantity)
+                - third -> epsilon (float)
         
         Parameters
         ----------
@@ -1655,7 +1676,7 @@ class system:
         Parameters
         ----------
         group_by_bb_and_sc : boolean
-            Wheter to partion the torsional energy in backbone and side-chain 
+            Whether to partion the torsional energy in backbone and side-chain 
             groups.
             
         Returns
@@ -1713,7 +1734,7 @@ class system:
     
     ## Functions for creating OpenMM system object ##
     
-    def createSystemObject(self, check_bond_distances=True, minimise=False, force_threshold=10, bond_threshold=0.25):
+    def createSystemObject(self, check_bond_distances=True, minimise=False, check_large_forces=True, force_threshold=10.0, bond_threshold=0.25):
         """
         Creates an openmm.System() object using the force field parameters
         given to the SBM 'system' class. It adds particles, forces and 
@@ -1723,13 +1744,15 @@ class system:
         
         Parameters
         ----------
-        minimise : boolean
-            Wheter to minimise the system if large forces are found.
-        check_bond_distances : boolean
-            Wheter to check for large bond distances.
-        force_threshold : float
+        minimise : boolean (False)
+            Whether to minimise the system if large forces are found.
+        check_bond_distances : boolean (True)
+            Whether to check for large bond distances.
+        check_large_forces : boolean (False)
+            Whether to print force summary of force groups
+        force_threshold : float (10.0)
             Treshold to check for large forces.
-        bond_threshold : float
+        bond_threshold : float (0.25)
             Treshold to check for large bond distances.
             
         Returns
@@ -1751,8 +1774,12 @@ class system:
         for i,name in enumerate(self.forceGroups):
             self.forceGroups[name].setForceGroup(i)
         
-        #Check for high forces in atoms and minimise the system if necessary
-        self.checkLargeForces(minimise=minimise, threshold=force_threshold)
+        if minimise:
+            check_large_forces = True
+
+        if check_large_forces:
+            #Check for high forces in atoms and minimise the system if necessary
+            self.checkLargeForces(minimise=minimise, threshold=force_threshold)
         
     def checkBondDistances(self, threshold=0.25):
         """
