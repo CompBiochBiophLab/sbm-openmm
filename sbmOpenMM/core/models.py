@@ -27,18 +27,18 @@ class models:
         Creates an all atom SBM system class object with default initialized
         parameters.
     getCAModel(structure_file, contact_file, kwarg**)
-        Creates an alpha-carbon only sbmOpenMM system class object with default 
+        Creates an alpha-carbon only sbmOpenMM system class object with default
         initialized parameters.
     getMultiBasinModel(main_model, alternate_configuration, kwarg**)
         Creates a multi basin model from two sbmOpenMM.system class instances.
     """
-    
+
     def getAllAtomModel(structure_file, contact_file,
                         default_parameters=True,
-                        default_forces=True, 
+                        default_forces=True,
                         group_by_bb_and_sc=True,
                         create_system=True,
-                        minimise=False,
+                        minimize=False,
                         masses_per_element=False,
                         radii_per_atom_type=False,
                         ff_radii='amber',
@@ -46,34 +46,34 @@ class models:
         """
         Initialises a default full-heavy-atom sbmOpenMM system class from a structure and a contact
         file defining the native contacts for the model. The system creation steps are:
-        
+
         1) Add the geometrical parameters for the model.
         2) Add the default force field parameters for the model.
         3) Create the default force objects.
         4) Create the OpenMM system class.
-        
-        The method can be used to generate an initialized sbmOpenMM system class, that only 
+
+        The method can be used to generate an initialized sbmOpenMM system class, that only
         contains the geometrical parameters, by passing the option default_parameters as False.
-        This is useful to store the geometrical values of bonds, angles, dihedrals, etc. in 
+        This is useful to store the geometrical values of bonds, angles, dihedrals, etc. in
         order to add custom parameters and forces.
-        
-        The method can also be created without the initialisation of the forces classes by 
-        setting default_forces to False. This allows to load the default forcefield parameters 
+
+        The method can also be created without the initialisation of the forces classes by
+        setting default_forces to False. This allows to load the default forcefield parameters
         and to modified them before creating the OpenMM force objects.
-        
+
         The method can also be stopped before creating the OpenMM system class using create_system=False.
-        
-        Finally, a forcefield file can be given in order to read the forcefield parameters from it. You can give 
-        None to the contact file argument if you provide a forcefield file. Contacts definitions will be extracted from this 
+
+        Finally, a forcefield file can be given in order to read the forcefield parameters from it. You can give
+        None to the contact file argument if you provide a forcefield file. Contacts definitions will be extracted from this
         file even if you give a path to a contact file.
-        
+
         Parameters
         ----------
         structure_file : string
             Path to the input structure file.
         contact_file : string
-            Path to the input native contact file. The file can be an output 
-            from the SMOG program (4 column contact file) or a two column file 
+            Path to the input native contact file. The file can be an output
+            from the SMOG program (4 column contact file) or a two column file
             defining the atoms to be paired.
         default_parameters : boolean (True)
             Whether to add default SBM All Atom forcefield parameters to the model.
@@ -81,45 +81,45 @@ class models:
             Whether to initilize default SBM All Atom force objects. Set to False if
             the parameters will be different from the default ones.
         group_by_bb_and_sc : boolean (True)
-            Wether to classify the torsions into backbone and side-chain to partition 
+            Wether to classify the torsions into backbone and side-chain to partition
             the torsional energy for each torsion in the system.
         create_system : boolean (True)
             If True the function will call the createSystemObject() method
-            to create an OpenMM system object. If modifications to the default 
+            to create an OpenMM system object. If modifications to the default
             forcefield are necessary this option should be given False.
-        minimise : boolean (False)
-            Whether to minimise the system (with default options) if large
+        minimize : boolean (False)
+            Whether to minimize the system (with default options) if large
             forces are found.
         masses_per_element : boolean (False)
             Assign mass of the atoms according to their element.
         radii_per_atom_type : boolean (False)
             Assing radii per oplsaa atom type.
         ff_radii : str (amber)
-            Which forcefield parameters to use to assign atom radii (amber or opslaa). 
+            Which forcefield parameters to use to assign atom radii (amber or opslaa).
             Use together with radii_per_atom_type=True option.
         forcefield_file : string
             Path to the input forcefield file.
-        
+
         Returns
         -------
         sbm : sbmOpenMM.system
-            Initializes a sbmOpenMM.system class with default options for 
+            Initializes a sbmOpenMM.system class with default options for
             defining an All Atom SBM force field.
         """
-        
+
         print('Generating AA SBM for structure file '+structure_file)
         print('')
-        
+
         #Set up geometric parameters of the model
         print('Setting up geometrical parameters:')
         print('_________________________________')
-        
+
         sbm = system(structure_file)
         print('Removing hydrogens from topology')
         sbm.removeHydrogens()
         sbm.getAtoms()
         print('Added '+str(sbm.n_atoms)+' atoms')
-        
+
         if forcefield_file == None:
             if masses_per_element:
                 print("Setting atoms masses to their element mass")
@@ -136,13 +136,13 @@ class models:
             print('Added '+str(sbm.n_planars)+' planars')
             if contact_file != None:
                 print('Reading contacts from contact file: '+contact_file)
-                sbm.readContactFile(contact_file)   
+                sbm.readContactFile(contact_file)
                 print('Added '+str(sbm.n_contacts)+' native contacts')
         elif forcefield_file != None:
             print('Forcefield file given. Bonds, angles, torsions, impropers, planars and native contacts definitions will be read from it!')
-                
+
         print('')
-        
+
         #Add default parameters to each interaction term
         if default_parameters and forcefield_file == None:
             print('Setting up default forcefield parameters:')
@@ -173,7 +173,7 @@ class models:
                 sbm.setParticlesRadii(0.25)
             sbm.rf_epsilon = 0.1
             print('')
-            
+
         elif forcefield_file != None:
             sbm.rf_epsilon = 0.1
             sbm.loadForcefieldFromFile(forcefield_file)
@@ -203,55 +203,55 @@ class models:
             print('Creating System Object:')
             print('______________________')
             print('')
-            sbm.createSystemObject(minimise=minimise)
+            sbm.createSystemObject(minimize=minimize)
 
         return sbm
 
-    def getCAModel(structure_file, contact_file, 
-                   default_parameters=True, 
-                   default_forces=True, 
+    def getCAModel(structure_file, contact_file,
+                   default_parameters=True,
+                   default_forces=True,
                    create_system=True,
                    contact_force='12-10',
                    torsion_energy=1.0,
                    contact_energy=1.0,
-                   minimise=False,
+                   minimize=False,
                    residue_masses=False,
                    residue_radii=False,
                    forcefield_file=None):
         """
-        Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class 
-        from a structure and a contact file defining the native contacts for the 
+        Initialises a coarse-grained, carbon alpha (CA), sbmOpenMM system class
+        from a structure and a contact file defining the native contacts for the
         coarse grained model.
-        
+
         The system creation steps are:
-        
+
         1) Add the geometrical parameters for the model.
         2) Add the default force field parameters for the model.
         3) Create the default force objects.
         4) Create the OpenMM system class.
-        
-        The method can be used to generate an initialized sbmOpenMM system class, that only 
+
+        The method can be used to generate an initialized sbmOpenMM system class, that only
         contains the geometrical parameters, by passing the option default_parameters as False.
-        This is useful to store the geometrical values of bonds, angles, dihedrals, etc. in 
+        This is useful to store the geometrical values of bonds, angles, dihedrals, etc. in
         order to add custom parameters and forces.
-        
-        The method can also be created without the initialisation of the forces classes by 
-        setting default_forces to False. This allows to load the default forcefield parameters 
+
+        The method can also be created without the initialisation of the forces classes by
+        setting default_forces to False. This allows to load the default forcefield parameters
         and to modified them before creating the OpenMM force objects.
-        
+
         The method can also be stopped before creating the OpenMM system class using create_system=False.
-        
-        Finally, a forcefield file can be given in order to read the forcefield parameters from it. You can give 
-        None to the contact file argument if you provide a forcefield file. Contacts definitions will be extracted from this 
+
+        Finally, a forcefield file can be given in order to read the forcefield parameters from it. You can give
+        None to the contact file argument if you provide a forcefield file. Contacts definitions will be extracted from this
         file even if you give a path to a contact file.
-        
+
         Parameters
         ----------
         structure_file : string
             Path to the input structure file.
         contact_file : string
-            Path to the input native contact file. The file can be an output 
-            from the SMOG program (4 column contact file) or a two column file 
+            Path to the input native contact file. The file can be an output
+            from the SMOG program (4 column contact file) or a two column file
             defining the atoms to be paired.
         default_parameters : boolean (True)
             Whether to add default SBM CA forcefield parameters to the model.
@@ -260,22 +260,22 @@ class models:
             the parameters will be different from the default ones.
         create_system : boolean (True)
             If True the function will call the createSystemObject() method
-            to create an OpenMM system object. If modifications to the default 
+            to create an OpenMM system object. If modifications to the default
             forcefield are necessary this option should be given False.
         residue_masses : boolean (False)
-            Set each alpha carbon atom mass to its average aminoacid residue mass. 
+            Set each alpha carbon atom mass to its average aminoacid residue mass.
         residue_radii : boolean (False)
             Set each alpha carbon atom radius to its statistical aminoacid residue radius.
         forcefield_file : string
             Path to the input forcefield file.
-            
+
         Returns
         -------
         sbm : sbmOpenMM.system
-            Initialized sbmOpenMM.system class with default options for defining 
+            Initialized sbmOpenMM.system class with default options for defining
             a coarse-grained CA SBM force field.
         """
-        
+
         print('Generating CA SBM for structure file '+structure_file)
         print('')
         #Set up geometric parameters of the model
@@ -301,11 +301,11 @@ class models:
                 print('Reading contacts from contact file: '+contact_file)
                 sbm.readContactFile(contact_file)
                 print('Added '+str(sbm.n_contacts)+' native contacts')
-                
+
         elif forcefield_file != None:
             print('Forcefield file given. Bonds, angles, torsions and native contacts definitions will be read from it!')
         print('')
-        
+
         #Add default parameters to each interaction term
         if default_parameters and forcefield_file == None:
             print('Setting up default forcefield parameters:')
@@ -326,11 +326,11 @@ class models:
                 sbm.setParticlesRadii(0.4)
             sbm.rf_epsilon = 0.1
             print('')
-            
+
         elif forcefield_file != None:
             sbm.rf_epsilon = 0.1
             sbm.loadForcefieldFromFile(forcefield_file)
-            
+
         #Create default system force objects
         if default_parameters and default_forces:
             print('Adding Forces:')
@@ -349,59 +349,59 @@ class models:
                 print('Added Lennard Jones 12-10-6 Forces to native contacts')
             else:
                 raise ValueError('Wrong contact_force option, valid options are "12-10" and "12-10-6"')
-                
+
             sbm.addLJRepulsionForces(cutoff=1.5)
             print('Added Lennard Jones 12 non-bonded Forces')
             print('')
-            
+
         #Generate the system object and add previously generated forces
         if default_parameters and default_forces and create_system:
             print('Creating System Object:')
             print('______________________')
-            sbm.createSystemObject(minimise=minimise, check_bond_distances=False)
+            sbm.createSystemObject(minimize=minimize, check_bond_distances=False)
             print('OpenMM system Object created')
             print('')
-            
+
         return sbm
-    
-    def getMultiBasinModel(main_model, alternate_configuration, 
-                                       double_minima_threshold=0.05, 
+
+    def getMultiBasinModel(main_model, alternate_configuration,
+                                       double_minima_threshold=0.05,
                                        excluded_volume_radius=None,
                                        use_lennard_jones=True,
                                        create_system=True):
         """
         Generate a multibasin model from two sbmOpenMM initialized system classes.
         It currently supports only two configurations.
-        
-        The two configurations (main and alternate) are compared at the level of 
+
+        The two configurations (main and alternate) are compared at the level of
         native contacts to define common and unique contacts. If any common contact
-        is defined to have equilibrium distances significantly different between the 
-        configurations, a multi basin Gaussian potential is added to explicitely consider 
-        both equilibrium distances in the non-bonded energy function. Unique contacts 
+        is defined to have equilibrium distances significantly different between the
+        configurations, a multi basin Gaussian potential is added to explicitely consider
+        both equilibrium distances in the non-bonded energy function. Unique contacts
         from the alternate configuration are added to the main configuration. All other
         bonded parameters are maintained from the main configuration.
-        
+
         Optionally, an excluded volume term can be given, with the excluded_volume_radius
         option, to control separately the sphere radius from the equilibrium contact distances.
-        
+
         The set of single-basin (or unique) contacts are added, by default, as Lennard-Jones
         potentials (use_lennard_jones=True) or can be added as Gaussian terms (use_lennard_jones=False)
         with separate control of the excluded volume term.
-        
+
         Finally, the method can be stopped before creating the OpenMM system class using
         create_system=False.
-        
+
         Attributes
         ----------
-        
+
         common_contacts : set
             Set containing the common contacts between configurations.
         dual_basin_contacts : set
             Set containing the subset of common contacts that have a dual basin potential
         unique_contacts : dict
-            Dictionary containing the sets of unique contacts for each configuration. The keys are 
-            integers, 0 for the main configuration, 1 for the alternate configuration. 
-        
+            Dictionary containing the sets of unique contacts for each configuration. The keys are
+            integers, 0 for the main configuration, 1 for the alternate configuration.
+
         Parameters
         ----------
         main_model : sbmOpenMM.system
@@ -410,9 +410,9 @@ class models:
             Second configuration to define as a new minima in the native contact force
             object.
         double_minima_threshold : float
-            The minimum equilibrium distance difference to consider a native contact having 
-            two different equilibrium distances. If shared contacts between the configurations 
-            have equilibrium distances that do not differ more than this value, only the main 
+            The minimum equilibrium distance difference to consider a native contact having
+            two different equilibrium distances. If shared contacts between the configurations
+            have equilibrium distances that do not differ more than this value, only the main
             configuration equilibrium distance will be  kept.
         excluded_volume_radius : float
             Radius of the excluded volume term in the Gaussian native-contact energy function.
@@ -422,42 +422,42 @@ class models:
         create_system : boolean (True)
             If True the function will call the createSystemObject() method
             to create an OpenMM system object.
-            
+
         Returns
         -------
         sbm : sbmOpenMM.system
             Initialized sbmOpenMM.system class with added multi basin contact potential.
         """
-           
+
         if not isinstance(main_model, system):
             raise ValueError('Multi basin contact potential only supports 2 configurations.'+
                             'The first, main_model, must be a sbmOpenMM system class \
                              containing the protein system.')
-            
+
         if not isinstance(alternate_configuration, system):
             raise ValueError('Multi basin contact potential only supports 2 configurations.'+
                             'The second, alternate_configuration, must be a sbmOpenMM system class \
                              containing the same protein system in a different conformation.')
-        
+
         assert len(main_model.atoms) == len(alternate_configuration.atoms)
-        
+
         print('Creating Multi Basin Potential')
         print('')
         print('Contact analysis:')
         print('________________')
-        
+
         #Create new sbm system object from main model object
         multi_basin_model = copy.copy(main_model)
-        
+
         #Set contact forcefield parameters to OrderedDict and None
         multi_basin_model.contacts = OrderedDict()
         multi_basin_model.n_contacts = None
-        
+
         #Create attributes to store unique and common contacts
         multi_basin_model.common_contacts = None
         multi_basin_model.dual_basin_contacts = None
         multi_basin_model.unique_contacts = OrderedDict()
-        
+
         #Reset forces and force groups
         multi_basin_model.harmonicBondForce = None
         multi_basin_model.harmonicAngleForce = None
@@ -472,61 +472,61 @@ class models:
         multi_basin_model.ljRepulsionForce = None
         multi_basin_model.exclusions = []
         multi_basin_model.forceGroups = OrderedDict()
-        
+
         #Initialise new system object
         multi_basin_model.system = openmm.System()
-        
+
         #Save contact sets with atom indexes only.
         contacts = OrderedDict()
         contact_atoms = OrderedDict()
         for i,m in enumerate([main_model]+[alternate_configuration]):
             contact_atoms[i] = {(c[0].index, c[1].index) : (c[0], c[1]) for c in m.contacts}
             contacts[i] = set([(c[0].index, c[1].index) for c in m.contacts ])
-            
+
         #Get sets of common and unique contacts.
         common_contacts = contacts[0].intersection(contacts[1])
         unique_contacts = OrderedDict()
         unique_contacts[0] = contacts[0] - common_contacts
         unique_contacts[1] = contacts[1] - common_contacts
-        
+
         print('Contacts in main configuration: '+str(len(contacts[0])))
         print('Contacts in alternate configuration: '+str(len(contacts[1])))
-        print('Common contacts between configurations: '+str(len(common_contacts)))  
-        
+        print('Common contacts between configurations: '+str(len(common_contacts)))
+
         #Set attribute to store common and unique contacts set
         multi_basin_model.common_contacts = common_contacts
         multi_basin_model.unique_contacts[0] = unique_contacts[0]
         multi_basin_model.unique_contacts[1] = unique_contacts[1]
-        
+
         #Check common contacts with large differences (larger than double_minima_threshold)
         #in equilibrium position.
         dm_contacts = set()
         for c in common_contacts:
-            
+
             #Get main an alterante contact distances
             atoms = contact_atoms[0][c]
             d0 = main_model.contacts[contact_atoms[0][c]][0]
             d1 = alternate_configuration.contacts[contact_atoms[1][c]][0]
-            
+
             #Set minimum an maximum distance
             r0 = min(d0,d1)
             r1 = max(d0,d1)
-            
+
             #If difference between equilibrium distances is larger than threshold add double minimum parameters.
             if np.absolute(r0 - r1) > double_minima_threshold:
-                
+
                 #If excluded_volume_radius not given treat lower wall as the minimum potential distance.
                 if excluded_volume_radius == None:
                     multi_basin_model.contacts[atoms] = (r0, r0, r1, main_model.contacts[atoms][-1])
-                    
+
                 #If excluded_volume_radius given add separate control of excluded volume.
                 else:
                     multi_basin_model.contacts[atoms] = (excluded_volume_radius*unit.nanometer, r0, r1, main_model.contacts[atoms][-1])
-                    
+
                 # Add double minima contacts
                 dm_contacts.add(c)
-            
-            #Otherwise just add single basin parameter 
+
+            #Otherwise just add single basin parameter
             else:
                 #If excluded_volume_radius not given treat lower wall as the minimum potential distance.
                 if excluded_volume_radius == None:
@@ -539,13 +539,13 @@ class models:
                 #If excluded_volume_radius given add separate control of excluded volume.
                 else:
                     multi_basin_model.contacts[atoms] = (excluded_volume_radius*unit.nanometer, d0, main_model.contacts[atoms][1])
-        
-        print('Common contacts with an equilibrium distance difference larger than %.2f nm: %s' % 
+
+        print('Common contacts with an equilibrium distance difference larger than %.2f nm: %s' %
              (double_minima_threshold, len(dm_contacts)))
-        
+
         #Set attribute to store common double minima contacts
         multi_basin_model.dual_basin_contacts = dm_contacts
-        
+
         #Add unique contacts in main configuration
         print('Unique contacts in main configuration: '+str(len(unique_contacts[0])))
         for c in unique_contacts[0]:
@@ -557,7 +557,7 @@ class models:
             #Add single minimum Gaussian : use_lennard_jones=False
             else:
                 multi_basin_model.contacts[atoms] = (d0, d0, main_model.contacts[atoms][1])
-                
+
         #Add unique contacts in alternate configuration
         print('Unique contacts in alternate configuration: '+str(len(unique_contacts[1])))
         for c in unique_contacts[1]:
@@ -570,15 +570,15 @@ class models:
             #Add single minimum Gaussian : use_lennard_jones=False
             else:
                 multi_basin_model.contacts[atoms] = (d1, d1, alternate_configuration.contacts[atoms][1])
-        
+
         multi_basin_model.n_contacts = len(multi_basin_model.contacts)
         print('Total contacts in multi basin potential: '+str(multi_basin_model.n_contacts))
         print('')
-        
+
         #Add forces to multi_basin_model
         print('Adding Forces:')
         print('_____________')
-        
+
         #Add prexisting forces
         if main_model.harmonicBondForce != None:
             print('Adding Harmonic Bond Forces')
@@ -595,11 +595,11 @@ class models:
         if main_model.harmonicPlanarForce != None:
             print('Adding Periodic Planar Forces')
             multi_basin_model.addHarmonicPlanarForces()
-        
+
         if main_model.model_type == 'AA':
             contact_parameters = multi_basin_model.getAANativeContactParameters()
             multi_basin_model.setNativeContactParameters(contact_parameters)
-        
+
         #Add contact forces
         if use_lennard_jones:
             #Add Lennard Jones contacts for AA model if main_model is AA.
@@ -613,36 +613,32 @@ class models:
                 multi_basin_model.addLJ12_10ContactForces()
         else:
             print('Adding Gaussian potential to single minimum contacts')
-            
+
         #Add gaussian potential
         print('Adding Gaussian potential to double minimum contacts')
         multi_basin_model.addGaussianContactForces()
-        
+
         #Add repulsion forces
         print('Adding repulsion Lennard Jones 12 potential for non native contacts')
         multi_basin_model.addLJRepulsionForces(cutoff=multi_basin_model.rf_cutoff)
         print('')
         print('Creating System Object:')
         print('______________________')
-        
+
         for i,a in enumerate(list(multi_basin_model.topology.atoms())):
             if a != multi_basin_model.atoms[i]:
-                print(i,a, multi_basin_model.atoms[i])        
-        
+                print(i,a, multi_basin_model.atoms[i])
+
         if create_system:
-            multi_basin_model.createSystemObject(minimise=False, check_bond_distances=False)
+            multi_basin_model.createSystemObject(minimize=False, check_bond_distances=False)
         print('')
-        
+
         if main_model.model_type == 'AA':
             multi_basin_model.model_type = 'AA-MB'
         elif main_model.model_type == 'CA':
             multi_basin_model.model_type = 'CA-MB'
-        
+
         return multi_basin_model
 
 
 # In[ ]:
-
-
-
-
