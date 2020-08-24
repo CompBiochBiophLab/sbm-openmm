@@ -304,6 +304,7 @@ class models:
 
         elif forcefield_file != None:
             print('Forcefield file given. Bonds, angles, torsions and native contacts definitions will be read from it!')
+
         print('')
 
         #Add default parameters to each interaction term

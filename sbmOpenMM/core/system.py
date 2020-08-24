@@ -401,7 +401,6 @@ class system:
 
         #save all hydrogen atoms
         atomsToRemove = []
-        _hydrogen = re.compile("[123 ]*H.*")
         for a in self.topology.atoms():
             if except_chains != None:
                 if a.residue.chain.id not in except_chains:
@@ -1768,7 +1767,7 @@ class system:
 
     ## Functions for creating OpenMM system object ##
 
-    def createSystemObject(self, check_bond_distances=True, minimize=False, check_large_forces=True, force_threshold=10.0, bond_threshold=0.25):
+    def createSystemObject(self, check_bond_distances=True, minimize=False, check_large_forces=True, force_threshold=10.0, bond_threshold=0.26):
         """
         Creates an openmm.System() object using the force field parameters
         given to the SBM 'system' class. It adds particles, forces and
@@ -1815,7 +1814,7 @@ class system:
             #Check for high forces in atoms and minimize the system if necessary
             self.checkLargeForces(minimize=minimize, threshold=force_threshold)
 
-    def checkBondDistances(self, threshold=0.25):
+    def checkBondDistances(self, threshold=0.26):
         """
         Searches for large bond distances for the atom pairs defined in
         the 'bonds' attribute. It raises an error when large bonds are found.
@@ -1874,8 +1873,8 @@ class system:
         print('')
 
         if minimize:
-            #Find if there is an acting force larger than thresshold
-            #minimize the system until forces have converged
+            # Find if there is an acting force larger than thresshold
+            # minimize the system until forces have converged
             forces = [np.linalg.norm([f[0]._value,f[1]._value,f[2]._value]) for f in  state.getForces()]
             prev_force = None
             tolerance = 10
