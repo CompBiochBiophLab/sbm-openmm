@@ -396,18 +396,18 @@ class system:
         -------
         None
         """
-        if isinstance (except_chains, str):
+        if isinstance(except_chains, str):
             except_chains = list(except_chains)
 
         #save all hydrogen atoms
         atomsToRemove = []
+        _hydrogen = re.compile("[123 ]*H.*")
         for a in self.topology.atoms():
             if except_chains != None:
                 if a.residue.chain.id not in except_chains:
                     if _hydrogen.match(a.name):
                         atomsToRemove.append(a)
             else:
-
                 if _hydrogen.match(a.name):
                     atomsToRemove.append(a)
 
