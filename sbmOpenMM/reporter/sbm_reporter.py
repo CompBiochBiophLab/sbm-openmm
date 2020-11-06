@@ -79,9 +79,29 @@ class sbmReporter(StateDataReporter):
         """
 
         values = super()._constructReportValues(simulation, state)
-        
+
         if isinstance(self._sbmObject, system):
             for i,n in enumerate(self._sbmObject.forceGroups):
                 values.append(simulation.context.getState(getEnergy=True, groups={i}).getPotentialEnergy().value_in_unit(unit.kilojoules_per_mole))
 
         return values
+
+def readOpenMMReporterFile(reporter_file):
+    """
+    Creates a dictionary containing all the entries in the reported data reporter_file
+
+    Parameters
+    ----------
+    reporter_file : str
+        Path to the reporter output file
+
+    """
+    with open(reporter_file, 'r') as ef:
+        lines = ef.readlines()
+        data = {}
+        for r in lines[0].split(','):
+            data[r.replace('#','').replace('"','').strip()] = []
+        for i,r in enumerate(data):
+            for line in lines[1:]:
+                data[r].append(float(line.strip().split(',')[i]))
+    return data
