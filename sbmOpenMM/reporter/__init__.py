@@ -8,3 +8,4 @@ accepts a sbmobject to print the SBM forcefield energies.
 """
 
 from .sbm_reporter import sbmReporter
+from .sbm_reporter import readOpenMMReporterFile
