@@ -1,4 +1,4 @@
-# sbmOpenMM
+# SBMOpenMM
 
 ## Description
 
