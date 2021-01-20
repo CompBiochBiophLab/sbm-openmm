@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="sbmOpenMM", 
-    version="0.0.1",
+    version="1.0.0",
     author="Martin Floor, Kengjie Li",
     author_email="martinfloor@gmail.com",
     description="An OpenMM package for simulating protein Structure Based Models.",
