@@ -58,3 +58,7 @@ Tutorials are available for learning how to set up SBM simulations using SBMOpen
 [04 - Estimating free energy profiles](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/basic/04-FreeEnergySurface/freeEnergyProfile.ipynb)
 
 [05 - Setting up a multi-basin SBM](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/basic/05-MultiBasin/multiBasinModel.ipynb)
+
+### Applied tutorials
+
+[01 - Protein Folding](https://github.com/CompBiochBiophLab/sbm-openmm/blob/master/tutorials/folding/01-FoxP1_equilibrium_folding/02-Analysis.ipynb)
