@@ -31,3 +31,5 @@ from .reporter import sbmReporter
 from .parameters import oplsaa
 from .parameters import amber
 from .parameters import ca_parameters
+
+from . import datasets
