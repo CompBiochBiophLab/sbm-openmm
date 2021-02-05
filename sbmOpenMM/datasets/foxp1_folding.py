@@ -1,8 +1,6 @@
 import os
-import time
-import sys
-import urllib
 import shutil
+from .downloader import get_file_from_url
 
 def download_dataset(output_dir, dcd_only=False, data_only=False, overwrite=False):
     """
@@ -45,17 +43,17 @@ def download_dataset(output_dir, dcd_only=False, data_only=False, overwrite=Fals
     if data:
         data_paths = pathsToDATAfiles()
         for p in data_paths:
-            if not os.path.exists(output_dir+'/'+p):
-                print('Downloading file: %s' % output_dir+'/'+p)
-                urllib.request.urlretrieve(data_paths[p], output_dir+'/'+p, progress_bar)
-                print('\n')
+            # if not os.path.exists(output_dir+'/'+p):
+            print('Downloading file: %s' % output_dir+'/'+p)
+            get_file_from_url(data_paths[p], output_dir+'/'+p)
+            # print('\n')
 
     if dcd:
         dcd_paths = pathsToDCDfiles()
         for p in dcd_paths:
             if not os.path.exists(output_dir+'/'+p):
                 print('Downloading file: %s' % output_dir+'/'+p)
-                urllib.request.urlretrieve(dcd_paths[p], output_dir+'/'+p, progress_bar)
+                get_file_from_url(dcd_paths[p], output_dir+'/'+p)
                 print('\n')
 
 def pathsToDCDfiles():
@@ -81,16 +79,3 @@ def pathsToDATAfiles():
                    '07':'28','08':'20','09':'4','10':'7','11':'26','12':'1',
                    '13':'8','14':'14','15':'23'}
     return {p+data_suffix:doi+data_paths[p] for p in data_paths}
-
-def progress_bar(count, block_size, total_size):
-    global start_time
-    if count == 0:
-        start_time = time.time()
-        return
-    duration = time.time() - start_time
-    progress_size = int(count * block_size)
-    speed = int(progress_size / (1024 * duration))
-    percent = int(count * block_size * 100 / total_size)
-    sys.stdout.write("\r...%d%%, %d MB, %d KB/s, %d seconds passed" %
-                    (percent, progress_size / (1024 * 1024), speed, duration))
-    sys.stdout.flush()
