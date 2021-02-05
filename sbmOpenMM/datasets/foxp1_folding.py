@@ -43,18 +43,12 @@ def download_dataset(output_dir, dcd_only=False, data_only=False, overwrite=Fals
     if data:
         data_paths = pathsToDATAfiles()
         for p in data_paths:
-            # if not os.path.exists(output_dir+'/'+p):
-            print('Downloading file: %s' % output_dir+'/'+p)
             get_file_from_url(data_paths[p], output_dir+'/'+p)
-            # print('\n')
 
     if dcd:
         dcd_paths = pathsToDCDfiles()
         for p in dcd_paths:
-            if not os.path.exists(output_dir+'/'+p):
-                print('Downloading file: %s' % output_dir+'/'+p)
-                get_file_from_url(dcd_paths[p], output_dir+'/'+p)
-                print('\n')
+            get_file_from_url(dcd_paths[p], output_dir+'/'+p)
 
 def pathsToDCDfiles():
     """
