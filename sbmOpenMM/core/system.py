@@ -17,9 +17,7 @@ from ..parameters import ca_parameters
 from ..parameters import oplsaa
 from ..parameters import amber
 
-
 # In[ ]:
-
 
 class system:
     """
@@ -1834,8 +1832,15 @@ class system:
 
         for b in self.bonds:
             if self.bonds[b][0] >= threshold:
-                raise ValueError('The bond distance between atoms '+                str(b[0].index+1)+' and '+str(b[1].index+1)+' is larger '+
-                'than '+str(threshold)+' nanometers. Please check your input structure.')
+                print('Problem with distance between atoms: '+b[0].name+' and '+b[1].name)
+                r1 = b[0].residue.name+'_'+str(b[0].residue.id)
+                if b[0].residue == b[1].residue:
+                    print('of residue: '+r1)
+                else:
+                    r2 = b[1].residue.name+'_'+str(b[1].residue.id)
+                    print('of residues: '+r1+' and '+r2+', respectively.')
+                raise ValueError('The bond distance between them '+str(self.bonds[b][0])+
+                'nm is larger than '+str(threshold)+' nm. Please check your input structure.')
 
     def checkLargeForces(self, threshold=1, minimize=False):
         """
@@ -2364,15 +2369,24 @@ class system:
 
                         #Reading [contacts] section
                         elif contacts == True:
-                            if len(ls) > 4:
-                                raise ValueError('More than four parameters given in [contacts] section at line '+str(i)+':\n'+line)
-                            if len(ls) < 4:
-                                raise ValueError('Less than four parameters given in [contacts] section at line '+str(i)+':\n'+line)
-                            at1 = self.atoms[int(ls[0])-1]
-                            at2 = self.atoms[int(ls[1])-1]
-                            contact_length = float(ls[2])*unit.nanometer
-                            k = float(ls[3])
-                            self.contacts[(at1,at2)] = (contact_length, k)
+                            if len(ls) == 4:
+                                # Read standard lennard jones contact parameters
+                                at1 = self.atoms[int(ls[0])-1] # atom 1
+                                at2 = self.atoms[int(ls[1])-1] # atom 2
+                                contact_length = float(ls[2])*unit.nanometer # contact distance
+                                k = float(ls[3]) # epsilon
+                                self.contacts[(at1,at2)] = (contact_length, k) # Compile contact parameters
+                            elif len(ls) == 6:
+                                # Read dual basin contact parameters
+                                at1 = self.atoms[int(ls[0])-1] # atom 1
+                                at2 = self.atoms[int(ls[1])-1] # atom 2
+                                excvol = float(ls[2])*unit.nanometer # excluded volume
+                                contact_length_1 = float(ls[3])*unit.nanometer # contact distance 1
+                                contact_length_2 = float(ls[4])*unit.nanometer # contact distance 2
+                                k = float(ls[5]) # epsilon
+                                self.contacts[(at1,at2)] = (excvol, contact_length_1, contact_length_2, k) # Compile contact parameters
+                            else:
+                                raise ValueError('Incorrect number of parameters given in [contacts] section at line '+str(i)+':\n'+line)
 
                     #Select which section is being reading by changing its boolean to 1
                     if line.startswith('[atoms]'):
