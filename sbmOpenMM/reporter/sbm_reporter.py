@@ -1,16 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
-from simtk.openmm.app.statedatareporter import StateDataReporter
+from simtk.openmm.app import statedatareporter
+StateDataReporter = statedatareporter.StateDataReporter
 from simtk import unit
 from sbmOpenMM.core import system
-
-
-# In[ ]:
-
 
 class sbmReporter(StateDataReporter):
     """
