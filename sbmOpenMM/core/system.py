@@ -379,6 +379,9 @@ class system:
 
         self.forceGroups = OrderedDict()
 
+        # Other Attributes
+        self.smog_chain_mapping = {}
+
         #Initialise an OpenMM system class instance
         self.system = openmm.System()
 
@@ -460,6 +463,7 @@ class system:
     def getAtoms(self):
         """
         Adds atoms in the OpenMM topology instance to the sbmOpenMM system class.
+        It also initialises a smog contact file mapping for multiple chain systems.
 
         Parameters
         ----------
@@ -480,9 +484,23 @@ class system:
 
         #Add atoms to sbm object
         self.n_atoms = 0
+        current_chain = None
         for atom in atoms:
+
+            # Reinitilise chain atom index count if chain changes
+            chain = atom.residue.chain.index
+            if current_chain != chain:
+                current_chain = chain
+                chain_atom_index = 0
             self.atoms.append(atom)
             self.n_atoms += 1
+
+            # Add chain and atoms to smog mapping
+            if chain not in self.smog_chain_mapping:
+                self.smog_chain_mapping[chain] = {}
+
+            self.smog_chain_mapping[chain][chain_atom_index] = atom.index
+            chain_atom_index += 1
 
     def getBonds(self, except_chains=None):
         """
@@ -898,24 +916,29 @@ class system:
 
         topology_chain_ids = [c.id for c in self.topology.chains()]
 
-        #Detect which format of contact file is being used (new formats can be added if useful)
+        # Detect which format of contact file is being used (new formats can be added if useful)
         file_type = system._checkContactFileType(contact_file)
-        if file_type == 'smog':
-            i = 1
-            j = 3
-        elif file_type == '2column':
-            i = 0
-            j = 1
-        else:
+        if file_type not in ['smog', '2column']:
             raise ValueError('Incorrect contact file format! Please check carefully your contact file')
 
         #Read contact file and add contacts to sbm object
         self.n_contacts = 0
-        with open(contact_file,'r') as cf:
+        with open(contact_file, 'r') as cf:
             for line in cf:
                 if not line.startswith('#'):
-                    c1 = self.atoms[int(line.split()[i])-shift]
-                    c2 = self.atoms[int(line.split()[j])-shift]
+                    if file_type == 'smog':
+                        chain1 = int(line.split()[0])-1
+                        chain2 = int(line.split()[2])-1
+                        index1 = int(line.split()[1])-1
+                        index2 = int(line.split()[3])-1
+                        atom1_index = self.smog_chain_mapping[chain1][index1]
+                        atom2_index = self.smog_chain_mapping[chain2][index2]
+                    elif file_type == '2column':
+                        atom1_index = int(line.split()[0])-shift
+                        atom2_index = int(line.split()[1])-shift
+
+                    c1 = self.atoms[atom1_index]
+                    c2 = self.atoms[atom2_index]
                     if except_chains != None:
                         if c1.residue.chain.id not in except_chains:
                             if c2.residue.chain.id not in except_chains:
