@@ -3,9 +3,9 @@
 
 # In[ ]:
 
-from simtk.openmm.app import *
-from simtk.openmm import *
-from simtk import unit
+from openmm.app import *
+from openmm import *
+from openmm import unit
 
 from collections import OrderedDict
 import numpy as np
@@ -43,58 +43,58 @@ class system:
         String representing the model type: All-atom (AA), alpha-carbon (CA)
         or multi-basin variants (AA-MB, CA-MB).
     atoms : list
-        A list of the current atoms in the model. The items are simtk.openmm.app.topology.Atom
+        A list of the current atoms in the model. The items are openmm.app.topology.Atom
         initialised classes.
     n_atoms : int
         Total numer of atoms in the model.
     bonds : collections.OrderedDict
-        A dict that uses bonds (2-tuple of simtk.openmm.app.topology.Atom objects)
+        A dict that uses bonds (2-tuple of openmm.app.topology.Atom objects)
         present in the model as keys and their forcefield properties as values.
     bonds_indexes : list
         A list containing the zero-based indexes of the atoms defining the bonds in the model.
     n_bonds : int
         Total numer of bonds in the model.
     angles : collections.OrderedDict
-        A dict that uses angles (3-tuple of simtk.openmm.app.topology.Atom objects)
+        A dict that uses angles (3-tuple of openmm.app.topology.Atom objects)
         present in the model as keys and their forcefield properties as values.
     angles_indexes : list
         A list containing the zero-based indexes of the atoms defining the angles in the model.
     n_angles : int
         Total numer of angles in the model.
     torsions : collections.OrderedDict
-        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+        A dict that uses proper torsions (4-tuple of openmm.app.topology.Atom objects)
         present in the model as keys and their forcefield properties as values.
     torions_indexes : list
         A list containing the zero-based indexes of the atoms defining the torsions in the model.
     n_torsions : int
         Total numer of proper torsions in the model.
     impropers : collections.OrderedDict
-        A dict that uses improper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+        A dict that uses improper torsions (4-tuple of openmm.app.topology.Atom objects)
         present in the model as keys and their forcefield properties as values.
     impropers_indexes : list
         A list containing the zero-based indexes of the atoms defining the imporpers in the model.
     n_impropers : int
         Total numer of improper torsions in the model.
     planars : collections.OrderedDict
-        A dict that uses planar torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+        A dict that uses planar torsions (4-tuple of openmm.app.topology.Atom objects)
         present in the model as keys and their forcefield properties as values.
     planars_indexes : list
         A list containing the zero-based indexes of the atoms defining the planars in the model.
     n_planars : int
         Total numer of planar torsions in the model.
     contacts : collections.OrderedDict
-        A dict that uses native contacts (2-tuple of simtk.openmm.app.topology.Atom objects
+        A dict that uses native contacts (2-tuple of openmm.app.topology.Atom objects
         present in the model as keys and their forcefield properties as values.
     contacts_indexes : list
         A list containing the zero-based indexes of the atoms defining the contacts in the model.
     n_contacts : int
         Total numer of native contacts in the model.
     torsions_group : dict
-        A dict that uses proper torsions two central atoms (2-tuple of simtk.openmm.app.topology.Atom objects)
+        A dict that uses proper torsions two central atoms (2-tuple of openmm.app.topology.Atom objects)
         present in the model's topology as keys and the number of torsions (int) that share these same middle
         bond atoms as values.
     torsions_type : dict
-        A dict that uses proper torsions (4-tuple of simtk.openmm.app.topology.Atom objects)
+        A dict that uses proper torsions (4-tuple of openmm.app.topology.Atom objects)
         present in the model as keys and, a string representing whether the torsion
         is classified as 'backbone' or 'sidechain' as values.
     energy_constant : dict

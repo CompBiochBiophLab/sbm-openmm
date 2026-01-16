@@ -4,9 +4,9 @@
 # In[ ]:
 
 
-from simtk.openmm.app import *
-from simtk.openmm import *
-from simtk import unit
+from openmm.app import *
+from openmm import *
+from openmm import unit
 
 from collections import OrderedDict
 import numpy as np

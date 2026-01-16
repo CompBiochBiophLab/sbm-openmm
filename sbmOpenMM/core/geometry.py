@@ -4,7 +4,7 @@
 # In[ ]:
 
 
-from simtk import unit
+from openmm import unit
 import numpy as np
 
 class geometry:
@@ -18,10 +18,10 @@ class geometry:
 
         Parameters
         ----------
-        position : simtk.unit.quantity.Quantity
+        position : openmm.unit.quantity.Quantity
             Array containing quantity objects [e.g. (x,y,z) array returned
             from positions].
-        output_unit : simtk.unit.unit.Unit
+        output_unit : openmm.unit.unit.Unit
             Unit in which to return the items of the array.
 
         Returns
@@ -37,14 +37,14 @@ class geometry:
 
         Parameters
         ----------
-        coord1 : simtk.unit.quantity.Quantity array
+        coord1 : openmm.unit.quantity.Quantity array
             Vector for the first coordinate.
-        coord2 : simtk.unit.quantity.Quantity array
+        coord2 : openmm.unit.quantity.Quantity array
             Vector for the second coordinate.
 
         Returns
         -------
-        simtk.unit.quantity.Quantity
+        openmm.unit.quantity.Quantity
             Quantity (value and unit) of the distance length in nanometers.
         """
 
@@ -61,16 +61,16 @@ class geometry:
 
         Parameters
         ----------
-        coord1 : simtk.unit.quantity.Quantity array
+        coord1 : openmm.unit.quantity.Quantity array
             Vector for the first coordinate.
-        coord2 : simtk.unit.quantity.Quantity array
+        coord2 : openmm.unit.quantity.Quantity array
             Vector for the second coordinate.
-        coord3 : simtk.unit.quantity.Quantity array
+        coord3 : openmm.unit.quantity.Quantity array
             Vector for the third coordinate.
 
         Returns
         -------
-        simtk.unit.quantity.Quantity
+        openmm.unit.quantity.Quantity
             Quantity (value and unit) of the angle length in radians.
         """
 
@@ -91,18 +91,18 @@ class geometry:
 
         Parameters
         ----------
-        coord1 : simtk.unit.quantity.Quantity array
+        coord1 : openmm.unit.quantity.Quantity array
             Vector for the first coordinate.
-        coord2 : simtk.unit.quantity.Quantity array
+        coord2 : openmm.unit.quantity.Quantity array
             Vector for the second coordinate.
-        coord3 : simtk.unit.quantity.Quantity array
+        coord3 : openmm.unit.quantity.Quantity array
             Vector for the third coordinate.
-        coord4 : simtk.unit.quantity.Quantity array
+        coord4 : openmm.unit.quantity.Quantity array
             Vector for the fourth coordinate.
 
         Returns
         -------
-        simtk.unit.quantity.Quantity
+        openmm.unit.quantity.Quantity
             Quantity (value and unit) of the torsion length in radians.
         """
 
@@ -123,4 +123,3 @@ class geometry:
         p2 = (c1 * c2).sum(-1)
 
         return np.arctan2(p1, p2) * unit.radian
-
